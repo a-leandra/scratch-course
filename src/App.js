@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import GroupList from "./components/Groups/GroupList";
+import StudentList from "./components/Students/StudentList";
+import GroupListContextProvider from "./contexts/GroupListContext";
+import StudentListContextProvider from "./contexts/StudentListContext";
+import NavigationBar from "./components/NavigationBar";
+import Footer from "./components/Footer";
+import "./index.css";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavigationBar />
+      <div
+        className="ui raised very padded text container segment"
+        style={{ minWidth: "1200px", minHeight: "600px" }}
+      >
+        <div className="mainContainer">
+          <StudentListContextProvider>
+            <GroupListContextProvider>
+              <GroupList />
+              <StudentList />
+            </GroupListContextProvider>
+          </StudentListContextProvider>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
-}
+};
 
 export default App;

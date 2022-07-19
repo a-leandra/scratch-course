@@ -7,9 +7,3 @@
         monospace;
     font-size: medium;
 }
-
-.mainContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-}

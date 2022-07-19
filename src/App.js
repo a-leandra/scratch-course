@@ -1,30 +1,32 @@
 import React from "react";
-import GroupList from "./components/Groups/GroupList";
-import StudentList from "./components/Students/StudentList";
-import GroupListContextProvider from "./contexts/GroupListContext";
-import StudentListContextProvider from "./contexts/StudentListContext";
 import NavigationBar from "./components/NavigationBar";
 import Footer from "./components/Footer";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import TeacherPanel from "./pages/NavigationBar/TeacherPanel";
+import LevelMap from "./pages/NavigationBar/LevelMap";
+import Profile from "./pages/NavigationBar/Profile";
+import About from "./pages/Footer/About";
+import Contact from "./pages/Footer/Contact";
+import Privacy from "./pages/Footer/Privacy";
+import { createMemoryHistory } from "history";
 import "./index.css";
 
 const App = () => {
+  const history = createMemoryHistory();
   return (
     <div className="App">
-      <NavigationBar />
-      <div
-        className="ui raised very padded text container segment"
-        style={{ minWidth: "1200px", minHeight: "600px" }}
-      >
-        <div className="mainContainer">
-          <StudentListContextProvider>
-            <GroupListContextProvider>
-              <GroupList />
-              <StudentList />
-            </GroupListContextProvider>
-          </StudentListContextProvider>
-        </div>
-      </div>
-      <Footer />
+      <BrowserRouter location={history.location} navigator={history}>
+        <NavigationBar />
+        <Routes>
+          <Route path="/panel-nauczyciela" element={<TeacherPanel />} />
+          <Route path="/mapa-poziomow" element={<LevelMap />} />
+          <Route path="/profil" element={<Profile />} />
+          <Route path="/o-nas" element={<About />} />
+          <Route path="/kontakt" element={<Contact />} />
+          <Route path="/polityka-prywatnosci" element={<Privacy />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 };

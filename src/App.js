@@ -1,6 +1,4 @@
 import Navbar from "./components/Navbar";
-import Navbar2 from "./components/Navbar2";
-import Navbar3 from "./components/Navbar3";
 import Map from "./pages/Map";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
@@ -14,15 +12,7 @@ function App() {
   return (
     <>
       <Navbar/>
-      <div className="container text-center">Menu dla niezalogowanego użytkownika</div>
-      <br/>
-      <Navbar2/>
-      <div className="container text-center">Menu dla zalogowanego użytkownika (nauczyciel)</div>
-      <br/>
-      <Navbar3/>
-      <div className="container text-center">Menu dla zalogowanego użytkownika (uczeń)</div>
-      <br/>
-      <div className="container text-center">
+      <div className="container">
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/map" element={<Map/>}/>

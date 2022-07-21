@@ -1,4 +1,4 @@
-// Navigation Bar with react-router-dom with bootstrap for an unauthorized user
+// Navigation Bar with react-router-dom with bootstrap for an authorized user (teacher)
 
 import { NavLink, Link, useMatch, useResolvedPath } from "react-router-dom"
 import {Nav} from 'react-bootstrap'
@@ -16,15 +16,18 @@ export default function Navbar() {
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav text-center">
       <li class="nav-item">
+        <Nav.Link as={NavLink} class="nav-link" to="/classroom"><FontAwesomeIcon icon={faSchool}> </FontAwesomeIcon> Panel nauczyciela</Nav.Link>
+      </li>
+      <li class="nav-item">
         <Nav.Link as={NavLink} class="nav-link" to="/map"><FontAwesomeIcon icon={faMap}> </FontAwesomeIcon> Mapa poziomów</Nav.Link>
+      </li>
+      <li class="nav-item">
+        <Nav.Link as={NavLink} class="nav-link " to="/profile"><FontAwesomeIcon icon={faUser}> </FontAwesomeIcon> Profil</Nav.Link>
       </li>
     </ul>
     <ul class="navbar-nav ms-auto text-center">
       <li class="nav-item">
-        <Nav.Link as={NavLink} class="nav-link" to="/login">Zaloguj</Nav.Link>
-      </li>
-      <li class="nav-item">
-        <Link class="btn btn-primary" to="/register">Zarejestruj</Link>
+        <Link class="btn btn-danger" to="/logout">Wyloguj</Link>
       </li>
     </ul>
   </div>

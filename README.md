@@ -8,4 +8,7 @@
 ## Problemy
 
 - na pewno należy dodać zabezpieczenie przed tym, żeby niezalogowani użytkownicy nie mieli dostępu do takich stron jak "Profil"
-- możnaby nadać role użytkownikom, żeby można było im generować odpowiednie menu - role: użytkownik niezalogowany, użytkownik zalogowany (nauczyciel), użytkownik zalogowany (uczeń)
+- dodanie funkcjonalności, że niektóre pola, takie jak imię, nazwisko, już będą miały wpisane dane zalogowanego użytkownika
+- dodanie łączenia z bazą i aktualizowania danych użytkowników
+- wyświetlanie odpowiednich ostrzeżeń/informacji - np. przy pomyślnym zaktualizowaniu danych lub przy wyborze nieodpowiedniego formatu danych
+- po prawej stronie okna możnaby wyświetlić zdjęcie profilowe użytkownika

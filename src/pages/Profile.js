@@ -5,7 +5,7 @@ const Profile = ({user}) => {
         <div className="page">
         {
           <>
-            <h1 className="heading">Zauktualizuj swoje informacje</h1>
+            <h1 className="heading">Zaktualizuj swoje informacje</h1>
             <hr />
           </>
         }

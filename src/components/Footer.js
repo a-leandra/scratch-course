@@ -1,8 +1,10 @@
-import React from "react";
-import logo from "../statics/logo.png";
+import React, { useState } from "react";
+import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import pages from "../data/pages.json";
 
 const Footer = () => {
+  const [footerPages] = useState(pages.footerPages);
   return (
     <div className="ui center aligned container">
       <div className="ui inverted section divider" />
@@ -15,17 +17,20 @@ const Footer = () => {
           marginTop: "1em",
         }}
       >
-        <Link className="item" to="/o-nas">
-          O nas
-        </Link>
-        <p style={{ color: "rgba(34,36,38,.15)" }}>|</p>
-        <Link className="item" to="/kontakt">
-          Kontakt
-        </Link>
-        <p style={{ color: "rgba(34,36,38,.15)" }}>|</p>
-        <Link className="item" to="/polityka-prywatnosci">
-          Polityka prywatności
-        </Link>
+        {footerPages.map((page) => {
+          return (
+            <React.Fragment key={page.id}>
+              <Link className="item" to={page.bookMark}>
+                {page.name}
+              </Link>
+              {page !== footerPages.at(-1) ? (
+                <p style={{ color: "rgba(34,36,38,.15)" }}>|</p>
+              ) : (
+                []
+              )}
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
   );

@@ -13,7 +13,8 @@ test("group submition without repeat", async () => {
     "c5b"
   );
   userEvent.click(screen.getByText("Dodaj"));
-  expect(await screen.findByText("C5B")).toBeTruthy();
+  let newGroup = await screen.findByText("C5B");
+  expect(newGroup).toBeTruthy();
 });
 
 test("group search with match", () => {

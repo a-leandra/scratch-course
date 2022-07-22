@@ -3,7 +3,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-        monospace;
-    font-size: medium;
+}
+
+div#default {
+    min-width: 1200px;
+    min-height: 600px;
+    display: flex;
+    gap: "10px";
 }

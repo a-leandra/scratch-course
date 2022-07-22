@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 
-const AddNewGroup = ({ addNewGroup }) => {
-  const [groupName, setGroupName] = useState("");
+const AddNewGroup = ({ add }) => {
+  const [name, setName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (groupName.length > 0) {
-      addNewGroup(groupName);
-      setGroupName("");
-    }
+    add(name);
+    setName("");
   };
 
   return (
@@ -24,9 +22,9 @@ const AddNewGroup = ({ addNewGroup }) => {
         <label htmlFor="group">Nazwa grupy: </label>
         <input
           type="text"
-          value={groupName}
+          value={name}
           id="group"
-          onChange={(e) => setGroupName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           placeholder="Wpisz nazwę nowej grupy..."
         />
         <button className="ui button" type="submit">

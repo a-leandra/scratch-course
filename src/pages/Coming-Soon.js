@@ -1,19 +1,16 @@
 import React from "react";
-import soonToCome from "../statics/coming-soon.gif";
+import soonToCome from "../assets/coming-soon.gif";
 
 const ComingSoon = () => {
   return (
     <div
       className="ui raised very padded text container segment"
       style={{
-        minWidth: "1200px",
-        minHeight: "600px",
-        display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: "10px",
         background: "#c8c8c8",
       }}
+      id="default"
     >
       <img
         src={soonToCome}

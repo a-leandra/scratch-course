@@ -1,28 +1,25 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import pages from "../data/pages.json";
 
 const NavigationBar = () => {
-  const [navItems] = useState([
-    { bookMark: "panel-nauczyciela", name: "Panel nauczyciela", id: 0 },
-    { bookMark: "mapa-poziomow", name: "Mapa poziomów", id: 1 },
-    { bookMark: "profil", name: "Profil", id: 2 },
-  ]);
+  const [navPages] = useState(pages.navBarPages);
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <div className="ui three item menu">
-      {navItems.map((item) => {
+      {navPages.map((page) => {
         return (
           <Link
-            key={item.id}
-            className={item.id === activeIndex ? "active item" : "item"}
-            to={item.bookMark}
+            key={page.id}
+            className={page.id === activeIndex ? "active item" : "item"}
+            to={page.bookMark}
             style={{
-              background: item.id === activeIndex ? "#1374bf" : "#2992e3",
+              background: page.id === activeIndex ? "#1374bf" : "#2992e3",
               color: "white",
             }}
-            onClick={() => setActiveIndex(item.id)}
+            onClick={() => setActiveIndex(page.id)}
           >
-            {item.name}
+            {page.name}
           </Link>
         );
       })}

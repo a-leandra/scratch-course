@@ -1,72 +1,16 @@
 import React, { createContext, useState, useEffect } from "react";
+import students from "../data/students.json";
 
-export const StudentListContext = createContext();
+export const StudentContext = createContext();
 
-const StudentListContextProvider = ({ children }) => {
+const StudentContextProvider = ({ children }) => {
   const [allStudents, setAllStudents] = useState([]);
   const [groupStudents, setGroupStudents] = useState([]);
   const [overallProgress, setOverallProgress] = useState(0);
   const [reverseSort, setReverseSort] = useState(true);
 
   useEffect(() => {
-    setAllStudents([
-      {
-        name: "Alicja",
-        surname: "Bobkowska",
-        progress: 34,
-        avatarSrc: "",
-        groupCode: 123,
-        id: 0,
-      },
-      {
-        name: "Bogdan",
-        surname: "Kawka",
-        progress: 78,
-        avatarSrc: "",
-        groupCode: 123,
-        id: 1,
-      },
-      {
-        name: "Marta",
-        surname: "Kijek",
-        progress: 24,
-        avatarSrc: "",
-        groupCode: 123,
-        id: 2,
-      },
-      {
-        name: "Irena",
-        surname: "Turek",
-        progress: 100,
-        avatarSrc: "",
-        groupCode: 987,
-        id: 3,
-      },
-      {
-        name: "Krzysztof",
-        surname: "Kowalski",
-        progress: 50,
-        avatarSrc: "",
-        groupCode: 987,
-        id: 4,
-      },
-      {
-        name: "Filemon",
-        surname: "Mruczek",
-        progress: 0,
-        avatarSrc: "",
-        groupCode: 987,
-        id: 5,
-      },
-      {
-        name: "Anna",
-        surname: "Wasilewska",
-        progress: 49,
-        avatarSrc: "",
-        groupCode: 987,
-        id: 6,
-      },
-    ]);
+    setAllStudents(students.students);
   }, []);
 
   const countOverallProgress = (students) => {
@@ -74,9 +18,8 @@ const StudentListContextProvider = ({ children }) => {
       return 0;
     }
     let studentProgress = students.map((student) => student.progress);
-    return Math.round(
-      studentProgress.reduce((a, b) => a + b, 0) / students.length
-    );
+    let sumProgress = studentProgress.reduce((a, b) => a + b, 0);
+    return Math.round(sumProgress / students.length);
   };
 
   const updateGroupData = (code) => {
@@ -107,7 +50,7 @@ const StudentListContextProvider = ({ children }) => {
   };
 
   return (
-    <StudentListContext.Provider
+    <StudentContext.Provider
       value={{
         groupStudents,
         overallProgress,
@@ -117,8 +60,8 @@ const StudentListContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </StudentListContext.Provider>
+    </StudentContext.Provider>
   );
 };
 
-export default StudentListContextProvider;
+export default StudentContextProvider;

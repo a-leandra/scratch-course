@@ -1,14 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import { GroupListContext } from "../../contexts/GroupListContext";
-import { StudentListContext } from "../../contexts/StudentListContext";
+import { GroupContext } from "../../contexts/GroupContext";
+import { StudentContext } from "../../contexts/StudentContext";
 import AddNewGroup from "./AddNewGroup";
 import SearchBar from "../SearchBar";
 import Group from "./Group";
 
 const GroupList = () => {
-  const { allGroups, chosenGroup, chooseGroup, addGroup, sortGroups } =
-    useContext(GroupListContext);
-  const { updateGroupData } = useContext(StudentListContext);
+  const {
+    allGroups,
+    chosenGroup,
+    chooseGroup,
+    addGroup,
+    sortGroups,
+  } = useContext(GroupContext);
+  const { updateGroupData } = useContext(StudentContext);
 
   const [keyword, setKeyword] = useState("");
 
@@ -16,15 +21,7 @@ const GroupList = () => {
     updateGroupData(chosenGroup);
   }, []);
 
-  const addNewGroup = (name) => {
-    let group = {
-      name: name.toUpperCase(),
-      code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
-    };
-    addGroup(group);
-  };
-
-  const showGroupStudents = (e, param) => {
+  const handleUserChoice = (e, param) => {
     chooseGroup(param);
     updateGroupData(param.code);
   };
@@ -41,7 +38,7 @@ const GroupList = () => {
       className="ui container center aligned"
       style={{ marginTop: "1em", flex: 1 }}
     >
-      <AddNewGroup addNewGroup={addNewGroup} />
+      <AddNewGroup add={addGroup} />
       <SearchBar keyword={keyword} setKeyword={setKeyword} sort={sortGroups} />
       <div
         className="ui middle aligned selection list"
@@ -52,7 +49,7 @@ const GroupList = () => {
             <Group
               key={group.name}
               group={group}
-              handleClick={showGroupStudents}
+              handleClick={handleUserChoice}
             />
           );
         })}

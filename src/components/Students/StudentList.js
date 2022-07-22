@@ -1,15 +1,19 @@
 import React, { useContext, useState } from "react";
-import { GroupListContext } from "../../contexts/GroupListContext";
-import { StudentListContext } from "../../contexts/StudentListContext";
+import { GroupContext } from "../../contexts/GroupContext";
+import { StudentContext } from "../../contexts/StudentContext";
 import StudentListHeader from "./StudentListHeader";
-import noAvatar from "./../../statics/no-avatar.png";
+import noAvatar from "./../../assets/no-avatar.png";
 import SearchBar from "../SearchBar";
 import Student from "./Student";
 
 const StudentList = () => {
-  const { groupStudents, overallProgress, removeStudent, sortStudents } =
-    useContext(StudentListContext);
-  const { chosenGroup } = useContext(GroupListContext);
+  const {
+    groupStudents,
+    overallProgress,
+    removeStudent,
+    sortStudents,
+  } = useContext(StudentContext);
+  const { chosenGroup } = useContext(GroupContext);
 
   const [keyword, setKeyword] = useState("");
 

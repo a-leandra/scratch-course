@@ -24,6 +24,9 @@ export default function Navbar() {
       <li class="nav-item">
         <Nav.Link as={NavLink} class="nav-link " to="/profil"><FontAwesomeIcon icon={faUser}> </FontAwesomeIcon> Profil</Nav.Link>
       </li>
+      <li class="nav-item">
+        <Nav.Link as={NavLink} class="nav-link " to="/zaloguj"><FontAwesomeIcon icon={faUser}> </FontAwesomeIcon>Zaloguj</Nav.Link>
+      </li>
     </ul>
     <ul class="navbar-nav ms-auto text-center">
       <li class="nav-item">

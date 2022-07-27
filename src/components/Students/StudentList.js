@@ -3,16 +3,12 @@ import { GroupContext } from "../../contexts/GroupContext";
 import { StudentContext } from "../../contexts/StudentContext";
 import StudentListHeader from "./StudentListHeader";
 import noAvatar from "./../../assets/no-avatar.png";
-import SearchBar from "../SearchBar";
+import SearchBar from "../Layouts/SearchBar";
 import Student from "./Student";
 
 const StudentList = () => {
-  const {
-    groupStudents,
-    overallProgress,
-    removeStudent,
-    sortStudents,
-  } = useContext(StudentContext);
+  const { groupStudents, overallProgress, removeStudent, sortStudents } =
+    useContext(StudentContext);
   const { chosenGroup } = useContext(GroupContext);
 
   const [keyword, setKeyword] = useState("");

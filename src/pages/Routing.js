@@ -1,10 +1,10 @@
 import React from "react";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
+import NavigationBar from "../components/Layouts/NavigationBar";
+import Footer from "../components/Layouts/Footer";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import TeacherPanel from "./Utilities/TeacherPanel";
-import LevelMap from "./Utilities/LevelMap";
-import Profile from "./Utilities/Profile";
+import TeacherPanel from "./Features/TeacherPanel";
+import LevelMap from "./Features/LevelMap";
+import Profile from "./Features/Profile";
 import About from "./Information/About";
 import Contact from "./Information/Contact";
 import Privacy from "./Information/Privacy";

@@ -2,17 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { GroupContext } from "../../contexts/GroupContext";
 import { StudentContext } from "../../contexts/StudentContext";
 import AddNewGroup from "./AddNewGroup";
-import SearchBar from "../SearchBar";
+import SearchBar from "../Layouts/SearchBar";
 import Group from "./Group";
 
 const GroupList = () => {
-  const {
-    allGroups,
-    chosenGroup,
-    chooseGroup,
-    addGroup,
-    sortGroups,
-  } = useContext(GroupContext);
+  const { allGroups, chosenGroup, chooseGroup, addGroup, sortGroups } =
+    useContext(GroupContext);
   const { updateGroupData } = useContext(StudentContext);
 
   const [keyword, setKeyword] = useState("");

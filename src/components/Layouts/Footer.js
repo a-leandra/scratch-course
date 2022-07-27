@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
-import pages from "../data/pages.json";
+import pages from "../../data/pages.json";
 
 const Footer = () => {
   const [footerPages] = useState(pages.footerPages);

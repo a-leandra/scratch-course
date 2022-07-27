@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import pages from "../data/pages.json";
+import pages from "../../data/pages.json";
 
 const NavigationBar = () => {
   const [navPages] = useState(pages.navBarPages);

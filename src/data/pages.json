@@ -1,0 +1,12 @@
+{
+    "navBarPages": [
+        { "bookMark": "panel-nauczyciela", "name": "Panel nauczyciela", "id": 0 },
+        { "bookMark": "mapa-poziomow", "name": "Mapa poziomów", "id": 1 },
+        { "bookMark": "profil", "name": "Profil", "id": 2 }
+    ],
+    "footerPages": [
+        { "bookMark": "o-nas", "name": "O nas", "id": 3 },
+        { "bookMark": "kontakt", "name": "Kontakt", "id": 4 },
+        { "bookMark": "polityka-prywatnosci", "name": "Polityka prywatności", "id": 5 }
+    ]
+}

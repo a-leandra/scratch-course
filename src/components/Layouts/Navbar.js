@@ -16,13 +16,13 @@ export default function Navbar() {
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav text-center">
       <li class="nav-item">
-        <Nav.Link as={NavLink} class="nav-link" to="/classroom"><FontAwesomeIcon icon={faSchool}> </FontAwesomeIcon> Panel nauczyciela</Nav.Link>
+        <Nav.Link as={NavLink} class="nav-link" to="/panel-nauczyciela"><FontAwesomeIcon icon={faSchool}> </FontAwesomeIcon> Panel nauczyciela</Nav.Link>
       </li>
       <li class="nav-item">
-        <Nav.Link as={NavLink} class="nav-link" to="/map"><FontAwesomeIcon icon={faMap}> </FontAwesomeIcon> Mapa poziomów</Nav.Link>
+        <Nav.Link as={NavLink} class="nav-link" to="/mapa-poziomow"><FontAwesomeIcon icon={faMap}> </FontAwesomeIcon> Mapa poziomów</Nav.Link>
       </li>
       <li class="nav-item">
-        <Nav.Link as={NavLink} class="nav-link " to="/profile"><FontAwesomeIcon icon={faUser}> </FontAwesomeIcon> Profil</Nav.Link>
+        <Nav.Link as={NavLink} class="nav-link " to="/profil"><FontAwesomeIcon icon={faUser}> </FontAwesomeIcon> Profil</Nav.Link>
       </li>
     </ul>
     <ul class="navbar-nav ms-auto text-center">

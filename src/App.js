@@ -1,14 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-import MapComponent from './MapComponent';
+import React from "react";
+import Routing from "./pages/Routing";
+import "./index.css";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-    <MapComponent/>
-      
-    </div>
-  );
+
+    <>
+      <div className="App">
+        <Routing />
+      </div>
+    </>    
+  )
 }
 
-export default App;
+export default App

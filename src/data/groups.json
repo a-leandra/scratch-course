@@ -1,0 +1,6 @@
+{
+    "groups": [
+        { "name": "A", "code": 123 },
+        { "name": "B", "code": 987 }
+    ]
+}

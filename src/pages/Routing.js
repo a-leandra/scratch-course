@@ -9,6 +9,7 @@ import About from "./Information/About";
 import Contact from "./Information/Contact";
 import Privacy from "./Information/Privacy";
 import { createMemoryHistory } from "history";
+import UserManagement from "../contexts/UserManagement";
 
 const Routing = () => {
   const history = createMemoryHistory();
@@ -23,6 +24,7 @@ const Routing = () => {
         <Route path="/o-nas" element={<About />} />
         <Route path="/kontakt" element={<Contact />} />
         <Route path="/polityka-prywatnosci" element={<Privacy />} />
+        <Route path="/zaloguj" element={<UserManagement />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -1,7 +1,7 @@
 import React from 'react'
-import field from './assets/field.png'
-import fieldCurrent from './assets/fieldCurrent.png'
-import fieldActive from './assets/fieldActive.png'
+import field from '../../assets/field.png'
+import fieldCurrent from '../../assets/fieldCurrent.png'
+import fieldActive from '../../assets/fieldActive.png'
 import './map_style.css'
 
 export default function MapFields({coordinates}) {

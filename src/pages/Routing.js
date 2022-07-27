@@ -1,5 +1,5 @@
 import React from "react";
-import NavigationBar from "../components/Layouts/NavigationBar";
+import Navbar from "../components/Layouts/Navbar";
 import Footer from "../components/Layouts/Footer";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import TeacherPanel from "./Features/TeacherPanel";
@@ -14,7 +14,7 @@ const Routing = () => {
   const history = createMemoryHistory();
   return (
     <BrowserRouter location={history.location} navigator={history}>
-      <NavigationBar />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Navigate to="/panel-nauczyciela" />} />
         <Route path="/panel-nauczyciela" element={<TeacherPanel />} />

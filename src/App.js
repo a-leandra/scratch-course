@@ -4,10 +4,12 @@ import "./index.css";
 
 const App = () => {
   return (
-    <div className="App">
-      <Routing />
-    </div>
-  );
-};
+    <>
+      <div className="App">
+        <Routing />
+      </div>
+    </>    
+  )
+}
 
-export default App;
+export default App

@@ -1,130 +1,17 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: montserrat, sans-serif ;
-
-}
-input, button{
-  appearance: none;
-  background: none;
-  border: none;
-  outline: none;
+.App {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 
-.App{
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ffffff;
+div#default {
+    min-width: 1200px;
+    min-height: 600px;
+    display: flex;
+    gap: "10px";
 }
 
-form{
-  display: block;
-  position: relative;
-}
-
-form:after{
-  content:'';
-  display: block;
-  position: absolute;
-  top : -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  z-index: 1;
-  background-color: #2dc2f0;
-  /*background-image: linear-gradient(to bottom right, #55d3fa, #fe4880);*/
-}
-
-form .form-inner{
-  position: relative;
-  display: block;
-  background-color: rgb(223, 221, 221);
-  padding: 30px;
-  z-index: 2;
-}
-
-
-form .form-inner h2{
-  color: #2dc2f0;;
-  font-size: 28px;
-  font-weight: 500;
-  margin-bottom: 30px;
-  
-}
-
-
-form .form-inner .form-group{
-  display: block;
-  color: #666;
-  width: 340px;
-  margin-bottom: 15px;
-  text-align: left;
-
-}
-
-.form-inner .form-group label{
-  color: #666;
-  font-size: 12px;
-}
-
-
-
-form .form-inner .form-group input {
-  display: block;
+nav {
   width: 100%;
-  padding: 10px 15px;
-  background-color: #f8f8f8;
-  border-radius: 8px;
-
 }
-
-form .form-inner .form-group input:focus {
-  box-shadow: 0px 0px 3px rgba(0,0,0,0.2);
-}
-
-
-form .form-inner input[type = "submit"], input[type = "register"], input[type = "loginView"], input[type = "teacherRegisterView"]
-{
-  display: inline-block;
-  padding: 15px 20px;
-  border-radius: 8px;
-  background-image: linear-gradient(to bottom right, #55d3fa, #fe4880);
-  font-weight: 450;
-  cursor: pointer;
-  width: 180px;
-  text-align: center;
-}
-
-
-form .form-inner input[type = "submit"]:hover, .welcome button:hover{
-  background-position: 100% 0%;
-}
-
-
-.welcome h2{
-  color: gray;
-  font-size: 28px;
-  font-weight: 500;
-}
-
-
-.welcome span{
-  color: #fe4880;
-  font-weight: 700;
-}
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */

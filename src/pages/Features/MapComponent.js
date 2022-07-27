@@ -1,7 +1,8 @@
 import React from 'react';
-import '../../index.css';
+import ReactDOM from 'react-dom/client';
+import './index.css';
 import MapFields from './MapFields';
-import mapa_poziomy from '../../assets/mapa_poziomy.png'
+import mapa_poziomy from './assets/mapa_poziomy.png'
 
 export default function MapComponent() {
     const coordinates = [

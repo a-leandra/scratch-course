@@ -112,7 +112,10 @@ function UserManagement() {
   );
 
   return (
-    <div className="ui raised very padded text container segment">
+    <div className="ui raised very padded text container segment"
+      style={{
+        minWidth:'30%',
+      }}>
       {(user.email != "") ? (
         <div className="welcome">
           <h1>Welcome, <span>{user.name}</span> </h1>

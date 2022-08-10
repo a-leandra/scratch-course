@@ -15,4 +15,9 @@ div#default {
 
 nav {
   width: 100%;
+  z-index: 100;
+}
+
+.profileContainer {
+  width: fit-content;
 }

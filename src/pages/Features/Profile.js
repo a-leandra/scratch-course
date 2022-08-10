@@ -2,15 +2,18 @@ import { Container, Row, Col, Button, Form } from "react-bootstrap"
 
 const Profile = ({user}) => {
     return (
-        <div className="page">
-        {
-          <>
+        <div
+            className="ui raised very padded text container segment"
+            style={{
+                flexDirection: "column",
+                minWidth:'80%',
+                minHeight:'80%'
+            }}
+            id="default"
+        >
             <h1 className="heading">Zaktualizuj swoje informacje</h1>
             <hr />
-          </>
-        }
             <div>
-                <Container>
                     <Row className="profileContainer">
                         <Col md={6}>
                             <Form className="mb-3" /*onSubmit={submitHandler}*/>
@@ -21,6 +24,9 @@ const Profile = ({user}) => {
                                         placeholder="Wprowadź imię"
                                         //value={name}
                                         //onChange={(e) => setName(e.target.value)}
+                                        style={{
+                                            minWidth:'30vw'
+                                        }}
                                     ></Form.Control>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="surname">
@@ -30,6 +36,9 @@ const Profile = ({user}) => {
                                         placeholder="Wprowadź nazwisko"
                                         //value={name}
                                         //onChange={(e) => setName(e.target.value)}
+                                        style={{
+                                            minWidth:'30vw'
+                                        }}
                                     ></Form.Control>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="email">
@@ -39,6 +48,9 @@ const Profile = ({user}) => {
                                         placeholder="Wprowadź e-mail"
                                         //value={email}
                                         //onChange={(e) => setEmail(e.target.value)}
+                                        style={{
+                                            minWidth:'30vw'
+                                        }}
                                     ></Form.Control>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="password">
@@ -48,6 +60,9 @@ const Profile = ({user}) => {
                                         placeholder="Wprowadź hasło"
                                         //value={password}
                                         //onChange={(e) => setPassword(e.target.value)}
+                                        style={{
+                                            minWidth:'30vw'
+                                        }}
                                     ></Form.Control>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="confirmPassword">
@@ -57,6 +72,9 @@ const Profile = ({user}) => {
                                         placeholder="Powtórz hasło"
                                         //value={confirmPassword}
                                         //onChange={(e) => setPassword(e.target.value)}
+                                        style={{
+                                            minWidth:'30vw'
+                                        }}
                                     ></Form.Control>
                                 </Form.Group>{" "}
                                 {/*{picMessage && (
@@ -93,7 +111,6 @@ const Profile = ({user}) => {
                                 />
                         </Col>
                     </Row>
-                </Container>
             </div>
         </div>
     )

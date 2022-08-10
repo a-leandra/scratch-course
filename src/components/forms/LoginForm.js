@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { Form } from "react-bootstrap"
 
 function LoginForm({ Login, error, addError, changeView}){
     const [details, setDetails] = useState({name: "", email: "", password: ""});
@@ -24,20 +25,52 @@ function LoginForm({ Login, error, addError, changeView}){
     return (
         <form onSubmit={submitHandler} >
             <div className="form-inner">
-                <h2>Zaloguj się</h2>
+                <h1 className="heading">Zaloguj się</h1>
                 {(error!="" )? (<div className="error">{error}</div>) : ""}
-                <div className="form-group">
-                    <label htmlFor="name">Name: </label>
-                    <input type="text" name="name" id="name" onChange={e => setDetails({...details, name: e.target.value})} value={details.name}/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">E-mail: </label>
-                    <input type="email" name="email" id="email" onChange={e => setDetails({...details, email: e.target.value})} value={details.email}/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password: </label>
-                    <input type="password" name="password" id="password" onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
-                </div>
+                <Form className="mb-3" /*onSubmit={submitHandler}*/>
+                    <Form.Group className="mb-3 form-group" controlId="name">
+                        <Form.Label htmlFor="name">Login</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder="Wprowadź login..."
+                            onChange={e => setDetails({...details, name: e.target.value})}
+                            value={details.name}
+                            style={{
+                                minWidth:'30vw'
+                            }}
+                        ></Form.Control>
+                    </Form.Group>
+                    <Form.Group className="mb-3 form-group" controlId="name">
+                        <Form.Label htmlFor="name">E-mail</Form.Label>
+                        <Form.Control
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Wprowadź email..."
+                            onChange={e => setDetails({...details, email: e.target.value})}
+                            value={details.email}
+                            style={{
+                                minWidth:'30vw'
+                            }}
+                        ></Form.Control>
+                    </Form.Group>
+                    <Form.Group className="mb-3 form-group" controlId="name">
+                        <Form.Label htmlFor="name">Hasło</Form.Label>
+                        <Form.Control
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Wprowadź hasło..."
+                            onChange={e => setDetails({...details, password: e.target.value})}
+                            value={details.password}
+                            style={{
+                                minWidth:'30vw'
+                            }}
+                        ></Form.Control>
+                    </Form.Group>
+                </Form>
                 <input type="submit" value="Zaloguj się" />
                 <input type="register" value="Zarejestruj się" onClick={registerHandler}/>
             </div>

@@ -10,6 +10,7 @@ import Contact from "./Information/Contact";
 import Privacy from "./Information/Privacy";
 import { createMemoryHistory } from "history";
 import UserManagement from "../contexts/UserManagement";
+import MainPage from "./MainPage";
 
 const Routing = () => {
   const history = createMemoryHistory();
@@ -25,6 +26,7 @@ const Routing = () => {
         <Route path="/kontakt" element={<Contact />} />
         <Route path="/polityka-prywatnosci" element={<Privacy />} />
         <Route path="/zaloguj" element={<UserManagement />} />
+        <Route path="/glowna" element={<MainPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

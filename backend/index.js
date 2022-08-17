@@ -1,18 +1,10 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const connectDB = require("./config/db");
+const Server = require("./server.js").Server;
+const { databaseUri } = require("./config/globalVariables");
 
-dotenv.config({ path: "./config/config.env" });
-connectDB();
+const server = new Server(databaseUri.development);
+server.prepareServer();
+server.run();
 
-const app = express();
+console.log("Server is running: " + server.getServerUrl() + ".");
 
-const PORT = process.env.PORT || 8000;
-
-const exampleRouter = require("./routes/example.routes");
-const teacherPanelRouter = require("./routes/teacher.panel.routes");
-app.use(express.json());
-app.use("/example", exampleRouter);
-app.use("/panel-nauczyciela", teacherPanelRouter);
-
-app.listen(PORT, console.log("Server running on port: " + PORT + "."));
+//server.stop();

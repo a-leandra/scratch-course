@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import students from "../data/students.json";
+const axios = require("axios");
 
 export const StudentContext = createContext();
 
@@ -10,7 +11,14 @@ const StudentContextProvider = ({ children }) => {
   const [reverseSort, setReverseSort] = useState(true);
 
   useEffect(() => {
-    setAllStudents(students.students);
+    const fetchData = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/panel-nauczyciela/groups/group"
+      );
+      setAllStudents(response.data);
+    };
+
+    fetchData();
   }, []);
 
   const countOverallProgress = (students) => {

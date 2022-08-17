@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import groups from "../data/groups.json";
+const axios = require("axios");
 
 export const GroupContext = createContext();
 
@@ -9,7 +10,14 @@ const GroupContextProvider = ({ children }) => {
   const [reverseSort, setReverseSort] = useState(true);
 
   useEffect(() => {
-    setAllGroups(groups.groups);
+    const fetchData = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/panel-nauczyciela/groups/teacher"
+      );
+      setAllGroups(response.data);
+    };
+
+    fetchData();
   }, []);
 
   const chooseGroup = (group) => {

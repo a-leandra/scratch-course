@@ -12,7 +12,7 @@ const Group = ({ group, handleClick }) => {
         style={{ display: "flex", justifyContent: "center", gap: "10px" }}
       >
         <div className="header">{group.name}</div>
-        <div>#{group.code}</div>
+        <div>#{group._id}</div>
       </div>
     </div>
   );

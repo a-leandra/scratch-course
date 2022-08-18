@@ -13,7 +13,7 @@ const StudentContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:5000/panel-nauczyciela/groups/group"
+        "http://localhost:5000/panel-nauczyciela/students/marekKafka"
       );
       setAllStudents(response.data);
     };
@@ -32,7 +32,7 @@ const StudentContextProvider = ({ children }) => {
 
   const updateGroupData = (code) => {
     let chosenGroupStudents = allStudents.filter(
-      (students) => students.groupCode === code
+      (students) => students.group === code
     );
     setGroupStudents(chosenGroupStudents);
     let progress = countOverallProgress(chosenGroupStudents);

@@ -18,7 +18,7 @@ const GroupList = () => {
 
   const handleUserChoice = (e, param) => {
     chooseGroup(param);
-    updateGroupData(param.code);
+    updateGroupData(param._id);
   };
 
   const filterByKeyword = (group) => {

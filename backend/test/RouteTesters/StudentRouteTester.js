@@ -10,9 +10,9 @@ class StudentRouteTester extends RouteTester {
         assert(response.status === 200);
         const savedDataSetNames = response.data.map((val) => val.name);
         const orgDataSetNames = orgDataSet.map((val) => val.name);
-        //assert(
-        //  orgDataSetNames.toString().includes(savedDataSetNames.toString())
-        //);
+        assert(
+          orgDataSetNames.toString().includes(savedDataSetNames.toString())
+        );
       })
       .catch(function (error) {
         console.log("Error message: '" + error.response.data.message + "'.");

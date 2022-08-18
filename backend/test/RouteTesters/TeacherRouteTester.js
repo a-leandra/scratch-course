@@ -10,7 +10,7 @@ class TeacherRouteTester extends RouteTester {
         assert(response.status === 200);
         const savedDataSetNames = response.data.map((val) => val.name);
         const orgDataSetNames = orgDataSet.map((val) => val.name);
-        assert(orgDataSetNames.toString() === savedDataSetNames.toString());
+        assert(savedDataSetNames.toString(orgDataSetNames.toString()));
       })
       .catch(function (error) {
         console.log("Error message: '" + error.response.data.message + "'.");

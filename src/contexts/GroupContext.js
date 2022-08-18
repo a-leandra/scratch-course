@@ -12,7 +12,7 @@ const GroupContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:5000/panel-nauczyciela/groups/teacher"
+        "http://localhost:5000/panel-nauczyciela/groups/marekKafka"
       );
       setAllGroups(response.data);
     };

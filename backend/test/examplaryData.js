@@ -1,6 +1,6 @@
 const examplaryTeachers = [
   {
-    login: "marekKafka",
+    login: "kafka",
     password: "Kif389^",
     telephoneNumber: "605-567-482",
     name: "testMarek",

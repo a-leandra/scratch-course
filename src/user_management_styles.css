@@ -4,13 +4,7 @@
     box-sizing: border-box;
     font-family: montserrat, sans-serif ;
   
-  }
-  input, button{
-    appearance: none;
-    background: none;
-    border: none;
-    outline: none;
-  }
+}
   
   .UserManagement{
     height: 100vh;
@@ -67,39 +61,9 @@
     font-size: 12px;
   }
   
-  
-  
-  form .form-inner .form-group input {
-    display: block;
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 8px;
-    border-color: #666;
-  }
-  
   form .form-inner .form-group input:focus {
     box-shadow: 0px 0px 3px rgba(0,0,0,0.2);
   }
-  
-  
-  form .form-inner input[type = "submit"], input[type = "register"], input[type = "loginView"], input[type = "teacherRegisterView"]
-  {
-    border-color: #666;
-    display: inline-block;
-    padding: 15px 20px;
-    border-radius: 8px;
-    background-image: linear-gradient(to bottom right, #55d3fa, #fe4880);
-    font-weight: 450;
-    cursor: pointer;
-    width: 180px;
-    text-align: center;
-  }
-  
-  
-  form .form-inner input[type = "submit"]:hover, .welcome button:hover{
-    background-position: 100% 0%;
-  }
-  
   
   .welcome h2{
     color: gray;

@@ -18,7 +18,7 @@ const Routing = () => {
     <BrowserRouter location={history.location} navigator={history}>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Navigate to="/panel-nauczyciela" />} />
+        <Route path="/" element={<Navigate to="/mapa-poziomow" />} />
         <Route path="/panel-nauczyciela" element={<TeacherPanel />} />
         <Route path="/mapa-poziomow" element={<LevelMap />} />
         <Route path="/profil" element={<Profile />} />

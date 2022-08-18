@@ -21,3 +21,8 @@ nav {
 .profileContainer {
   width: fit-content;
 }
+
+.form-input-div {
+  display: flex;
+  
+}

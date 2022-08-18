@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import { Form } from "react-bootstrap"
+import { useSelector } from 'react-redux'
+import { Button } from "react-bootstrap"
+
 
 function LoginForm({ Login, error, addError, changeView}){
     const [details, setDetails] = useState({name: "", email: "", password: ""});
-
 
     const submitHandler = e => {
         e.preventDefault();
@@ -18,17 +20,15 @@ function LoginForm({ Login, error, addError, changeView}){
     
     const registerHandler = e => {
         addError("");
-        e.preventDefault();
         changeView("register");
     }
 
     return (
-        <form onSubmit={submitHandler} >
+        <Form onSubmit={submitHandler} >
             <div className="form-inner">
                 <h1 className="heading">Zaloguj się</h1>
                 {(error!="" )? (<div className="error">{error}</div>) : ""}
-                <Form className="mb-3" /*onSubmit={submitHandler}*/>
-                    <Form.Group className="mb-3 form-group" controlId="name">
+                <div className="form-group">
                         <Form.Label htmlFor="name">Login</Form.Label>
                         <Form.Control
                             type="text"
@@ -41,9 +41,9 @@ function LoginForm({ Login, error, addError, changeView}){
                                 minWidth:'30vw'
                             }}
                         ></Form.Control>
-                    </Form.Group>
-                    <Form.Group className="mb-3 form-group" controlId="name">
-                        <Form.Label htmlFor="name">E-mail</Form.Label>
+                    </div>
+                    <div className="form-group">
+                        <Form.Label htmlFor="email">E-mail</Form.Label>
                         <Form.Control
                             type="email"
                             name="email"
@@ -54,10 +54,10 @@ function LoginForm({ Login, error, addError, changeView}){
                             style={{
                                 minWidth:'30vw'
                             }}
-                        ></Form.Control>
-                    </Form.Group>
-                    <Form.Group className="mb-3 form-group" controlId="name">
-                        <Form.Label htmlFor="name">Hasło</Form.Label>
+                        />
+                    </div>
+                    <div className="form-group">
+                        <Form.Label htmlFor="password">Hasło</Form.Label>
                         <Form.Control
                             type="password"
                             name="password"
@@ -69,14 +69,19 @@ function LoginForm({ Login, error, addError, changeView}){
                                 minWidth:'30vw'
                             }}
                         ></Form.Control>
-                    </Form.Group>
-                </Form>
-                <input type="submit" value="Zaloguj się" />
-                <input type="register" value="Zarejestruj się" onClick={registerHandler}/>
+                    </div>
+                {/* <input type="submit" value="Zaloguj się" />
+                <input type="register" value="Zarejestruj się" onClick={registerHandler}/> */}
+                <Button type="submit" variant="primary">
+                                        Zaloguj się
+                </Button>
+                <Button onClick={() => registerHandler()} type="register" variant="dark" style={{marginLeft:"20px"}}>
+                                        Zarejestruj się
+                </Button>
             </div>
             
 
-        </form>
+        </Form>
     )
 }
 

@@ -1,8 +1,10 @@
-import React, { userState, useState } from 'react';
+import React, { pageState, useState } from 'react';
 import LoginForm from '../components/forms/LoginForm';
 import RegisterForm from '../components/forms/RegisterForm';
 import TeacherRegisterForm from '../components/forms/TeacherRegisterForm';
 import '../user_management_styles.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoggedIn } from "../store/userState.js";
 
 function UserManagement() {
   const adminUser ={   // retreive from database
@@ -24,6 +26,10 @@ function UserManagement() {
           email: details.email,
           password: details.password
         });
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const dispatch = useDispatch();
+      dispatch(setLoggedIn());
     }else{
       console.log("Details do not match");
       setError("Email or password do not match ");

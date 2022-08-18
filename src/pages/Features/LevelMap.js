@@ -5,15 +5,15 @@ import mapa_poziomy from '../../assets/mapa_poziomy.png'
 
 export default function MapComponent() {
     const coordinates = [
-        {x:15, y:52.5, active: true, current: false}, 
-        {x:35, y:48, active: false, current: true},
-        {x:50, y:58, active: false, current: false},
-        {x:70, y:59, active: false, current: false},
-        {x:90, y:58, active: false, current: false},
-        {x:80, y:34, active: false, current: false},
-        {x:60, y:36, active: false, current: false},
-        {x:37, y:29.5, active: false, current: false},
-        {x:17, y:10, active: false, current: false},
+        {x:15, y:55.5, active: true, current: false}, 
+        {x:35, y:51.5, active: false, current: true},
+        {x:50, y:61.5, active: false, current: false},
+        {x:70, y:62, active: false, current: false},
+        {x:90, y:60, active: false, current: false},
+        {x:80, y:36, active: false, current: false},
+        {x:60, y:38, active: false, current: false},
+        {x:37, y:31.5, active: false, current: false},
+        {x:17, y:12.5, active: false, current: false},
     ]
     return (
     <div>

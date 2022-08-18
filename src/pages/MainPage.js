@@ -1,18 +1,14 @@
 import React from 'react';
 import './main_page_style.css';
 import video from '../assets/Scratch.mp4';
+import { useDispatch } from 'react-redux';
+import { setNavbarOff } from '../store/pageState';
 
-export default class MainPage extends React.Component {
+export default function MainPage()  {
+        
+        const dispatch = useDispatch();
+        dispatch(setNavbarOff());
 
-    constructor(props) {
-        super(props);
-        this.state = {x:5, y:5};
-    }
-    onMouseMove = (e) => {
-        this.setState({ x: 5, y: 5});
-        console.log(this.state);
-    }
-    render() {
         return (
         <div>
             <video 
@@ -29,8 +25,7 @@ export default class MainPage extends React.Component {
                     <source src={video}
                         type='video/mp4'/>
                 </video>
-                <div 
-                    onMouseMove={this.onMouseMove}
+                <div
                     style = {{
                         position:'absolute',
                         left:0+'vw',
@@ -42,7 +37,7 @@ export default class MainPage extends React.Component {
                 <header> 
                         <h2
                         style={{
-                            textShadow: `${this.state.x}px ${this.state.y}px 1px #7aff8ad0, ${-this.state.x}px ${-this.state.y}px 1px #7a8affd0, ${this.state.x}px ${-this.state.y}px 1px #be7ac0d0, ${-this.state.x}px ${this.state.y}px 1px #eeca60d0`
+                            textShadow: `5px 5px 1px #7aff8ad0, -5px -5px 1px #7a8affd0, 5px -5px 1px #be7ac0d0, -5px 5px 1px #eeca60d0`
                         }}>
                             Kurs Scratcha
                         </h2>
@@ -55,9 +50,9 @@ export default class MainPage extends React.Component {
                             </h4>
                         </div>
                         
-                        <a href='./zaloguj' className='startBtn'>ZACZYNAMY</a>
+                        <a href='./zaloguj' className='startBtn' >ZACZYNAMY</a>
                     </header>
             </div>
         )
-    }
+
 }

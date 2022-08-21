@@ -1,22 +1,22 @@
-const axios = require("axios");
+const sampleNamePrefix = "Sample";
 
 const sampleTeachers = [
   {
     login: "marekKafka",
     password: "Kif389^",
     telephoneNumber: "605567482",
-    name: "Marek",
+    name: "Marek" + sampleNamePrefix,
     surname: "Kafka",
   },
 ];
 
 const sampleGroups = [
   {
-    name: "Abis",
+    name: "A" + sampleNamePrefix,
     teacherLogin: sampleTeachers[0].login,
   },
   {
-    name: "BJunior",
+    name: "B" + sampleNamePrefix,
     teacherLogin: sampleTeachers[0].login,
   },
 ];
@@ -25,71 +25,82 @@ const sampleStudents = [
   {
     login: "czerw",
     password: "oas894*",
-    name: "Alicja",
+    name: "Alicja" + sampleNamePrefix,
     surname: "Czerwińska",
     groupName: sampleGroups[0].name,
   },
   {
     login: "majówka",
     password: "okkas894*",
-    name: "Adam",
+    name: "Adam" + sampleNamePrefix,
     surname: "Maj",
     groupName: sampleGroups[0].name,
   },
   {
     login: "kaszmir",
     password: "oas894*",
-    name: "Błażej",
+    name: "Błażej" + sampleNamePrefix,
     surname: "Karczewski",
     groupName: sampleGroups[1].name,
   },
   {
     login: "pomidor",
     password: "09^qqE",
-    name: "Patrycja",
+    name: "Patrycja" + sampleNamePrefix,
     surname: "Olsińska",
     groupName: sampleGroups[1].name,
   },
   {
     login: "kaczka",
     password: "kaskader)9w",
-    name: "Piotr",
+    name: "Piotr" + sampleNamePrefix,
     surname: "Paczka",
     groupName: sampleGroups[1].name,
   },
   {
     login: "kaskaderka",
     password: "T3^rIK",
-    name: "Maja",
+    name: "Maja" + sampleNamePrefix,
     surname: "Torba",
     groupName: sampleGroups[1].name,
   },
 ];
 
-const url =
-  require("../config/globalVariables").defaultServerUrl + "/panel-nauczyciela";
+const sampleTasks = [
+  { number: 1 },
+  { number: 2 },
+  { number: 3 },
+  { number: 4 },
+  { number: 5 },
+  { number: 6 },
+  { number: 7 },
+  { number: 8 },
+  { number: 9 },
+  { number: 10 },
+];
 
-function populateDB() {
-  sampleTeachers.forEach(async (teacher) => {
-    await postRequest(url + "/teachers", teacher);
-  });
-  sampleGroups.forEach((group) => {
-    postRequest(url + "/groups", group);
-  });
-  sampleStudents.forEach((student) => {
-    postRequest(url + "/students", student);
-  });
-}
+const sampleDataSets = [
+  {
+    data: sampleTeachers,
+    url: "/teachers",
+  },
+  {
+    data: sampleGroups,
+    url: "/groups",
+  },
+  {
+    data: sampleStudents,
+    url: "/students",
+  },
+  {
+    data: sampleTasks,
+    url: "/tasks",
+  },
+];
 
-const postRequest = async (url, body) => {
-  await axios
-    .post(url, body)
-    .then(function (response) {
-      console.log(response.status);
-    })
-    .catch(function (error) {
-      console.log("Error message: '" + error + "'.");
-    });
+module.exports = {
+  sampleTasks,
+  sampleStudents,
+  sampleDataSets,
+  sampleNamePrefix,
 };
-
-module.exports = { populateDB };

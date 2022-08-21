@@ -13,7 +13,7 @@ const StudentContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:5000/panel-nauczyciela/students/marekKafka"
+        "http://localhost:5000/panel-nauczyciela/marekKafka"
       );
       setAllStudents(response.data);
     };
@@ -40,11 +40,7 @@ const StudentContextProvider = ({ children }) => {
   };
 
   const removeStudent = (id) => {
-    let updatedGroup = groupStudents.filter((student) => student.id !== id);
-    setGroupStudents(updatedGroup);
-    let progress = countOverallProgress(updatedGroup);
-    setOverallProgress(progress);
-    setAllStudents(allStudents.filter((student) => student.id !== id));
+    // TODO
   };
 
   const sortStudents = () => {

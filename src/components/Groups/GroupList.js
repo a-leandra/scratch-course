@@ -6,7 +6,7 @@ import SearchBar from "../Layouts/SearchBar";
 import Group from "./Group";
 
 const GroupList = () => {
-  const { allGroups, chosenGroup, chooseGroup, addGroup, sortGroups } =
+  const { allGroups, chosenGroup, chooseGroup, sortGroups } =
     useContext(GroupContext);
   const { updateGroupData } = useContext(StudentContext);
 
@@ -33,7 +33,7 @@ const GroupList = () => {
       className="ui container center aligned"
       style={{ marginTop: "1em", flex: 1 }}
     >
-      <AddNewGroup add={addGroup} />
+      <AddNewGroup />
       <SearchBar keyword={keyword} setKeyword={setKeyword} sort={sortGroups} />
       <div
         className="ui middle aligned selection list"

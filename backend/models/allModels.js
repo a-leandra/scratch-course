@@ -12,6 +12,6 @@ const allModels = [
   teacherModel,
 ];
 
-const teachersPanelModels = [groupModel, studentModel, teacherModel];
+const teacherGroupStudentModels = [groupModel, studentModel, teacherModel];
 
-module.exports = { allModels, teachersPanelModels };
+module.exports = { allModels, teacherGroupStudentModels };

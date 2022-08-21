@@ -1,5 +1,5 @@
 const express = require("express");
-const DBConnection = require("./config/dbConnection");
+const DBConnection = require("./db/dbConnection");
 const { port } = require("./config/globalVariables");
 const bodyParser = require("body-parser");
 const allRoutes = require("./routes/allRoutes");
@@ -8,7 +8,7 @@ class Server {
   #inUseDatabaseUri;
   #app;
   #httpServer;
-  _dbConnection;
+  #dbConnection;
 
   constructor(databaseUri) {
     this.#inUseDatabaseUri = databaseUri;
@@ -21,7 +21,7 @@ class Server {
 
   stop() {
     this.#httpServer.close();
-    this._dbConnection.disconnect();
+    this.#dbConnection.disconnect();
   }
 
   getInUseDatabaseUri() {
@@ -39,14 +39,14 @@ class Server {
   }
 
   #setRouting() {
-    for (const [path, route] of Object.entries(allRoutes)) {
-      this.#app.use(path, route);
+    for (const route of allRoutes) {
+      this.#app.use("", route.router);
     }
   }
 
   async #connectWithDatabase() {
-    this._dbConnection = new DBConnection(this.#inUseDatabaseUri);
-    await this._dbConnection.connect();
+    this.#dbConnection = new DBConnection(this.#inUseDatabaseUri);
+    await this.#dbConnection.connect();
   }
 
   #mountMiddleware() {
@@ -55,10 +55,4 @@ class Server {
   }
 }
 
-class TestServer extends Server {
-  async dropTestCollection() {
-    await this._dbConnection.dropTestCollection();
-  }
-}
-
-module.exports = { Server, TestServer };
+module.exports = Server;

@@ -1,3 +1,4 @@
+import { set } from "mongoose";
 import React, { createContext, useEffect, useState } from "react";
 import groups from "../data/groups.json";
 const axios = require("axios");
@@ -12,7 +13,7 @@ const GroupContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:5000/panel-nauczyciela/groups/marekKafka"
+        "http://localhost:5000/groups/marekKafka"
       );
       setAllGroups(response.data);
     };
@@ -24,30 +25,10 @@ const GroupContextProvider = ({ children }) => {
     setChosenGroup(group);
   };
 
-  const addGroup = (name) => {
-    if (canAddNewGroup(name)) {
-      let group = {
-        name: name.toUpperCase(),
-        code: Math.floor(Math.random() * (999 - 100 + 1) + 100),
-      };
-      setAllGroups([...allGroups, group]);
-    }
-  };
-
   const sortGroups = () => {
     let sortedGroups = allGroups.sort((a, b) => a.name.localeCompare(b.name));
     setAllGroups(reverseSort ? sortedGroups.reverse() : sortedGroups);
     setReverseSort(!reverseSort);
-  };
-
-  const canAddNewGroup = (name) => {
-    if (
-      name.length > 0 &&
-      !allGroups.map((group) => group.name).includes(name)
-    ) {
-      return true;
-    }
-    return false;
   };
 
   return (
@@ -56,7 +37,6 @@ const GroupContextProvider = ({ children }) => {
         allGroups,
         chosenGroup,
         chooseGroup,
-        addGroup,
         sortGroups,
       }}
     >

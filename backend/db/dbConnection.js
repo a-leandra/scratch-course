@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const teachersPanelModels = require("../models/allModels").teachersPanelModels;
 class DBConnection {
   #inUseDatabaseUri;
   #clasterName;
@@ -32,18 +31,6 @@ class DBConnection {
     } catch (error) {
       console.error(error);
       process.exit(1);
-    }
-  };
-  dropTestCollection = async () => {
-    for (const model of teachersPanelModels) {
-      await mongoose.connection
-        .collection(model.collection.collectionName)
-        .deleteMany({
-          name: {
-            $regex: "test",
-            $options: "i",
-          },
-        });
     }
   };
 }

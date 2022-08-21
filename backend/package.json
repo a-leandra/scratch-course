@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require test/runServer.js",
+    "test": "mocha test/testCrud --require test/runServer.js && mocha test/testRequests --require test/runServer.js",
     "start": "nodemon index.js"
   },
   "keywords": [],

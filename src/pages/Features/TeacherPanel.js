@@ -1,8 +1,6 @@
 import React from "react";
 import GroupList from "../../components/Groups/GroupList";
 import StudentList from "../../components/Students/StudentList";
-import GroupListContextProvider from "../../contexts/GroupContext";
-import StudentListContextProvider from "../../contexts/StudentContext";
 
 const TeacherPanel = () => {
   return (
@@ -13,12 +11,8 @@ const TeacherPanel = () => {
       }}
       id="default"
     >
-      <StudentListContextProvider>
-        <GroupListContextProvider>
-          <GroupList />
-          <StudentList />
-        </GroupListContextProvider>
-      </StudentListContextProvider>
+      <GroupList />
+      <StudentList />
     </div>
   );
 };

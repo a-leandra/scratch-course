@@ -1,31 +1,35 @@
-import React, { useContext, useEffect, useState } from "react";
-import { GroupContext } from "../../contexts/GroupContext";
-import { StudentContext } from "../../contexts/StudentContext";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AddNewGroup from "./AddNewGroup";
 import SearchBar from "../Layouts/SearchBar";
 import Group from "./Group";
+const axios = require("axios");
+const {
+  setKeyAndFilter,
+  setGroups,
+  sort,
+} = require("../../reducers/groupSearch");
+const {
+  setStudentGroupAndPrepareData,
+} = require("../../reducers/studentSearch");
 
 const GroupList = () => {
-  const { allGroups, chosenGroup, chooseGroup, sortGroups } =
-    useContext(GroupContext);
-  const { updateGroupData } = useContext(StudentContext);
-
-  const [keyword, setKeyword] = useState("");
+  const dispatch = useDispatch();
+  const groups = useSelector((state) => state.groupSearch.filtered);
+  const keyword = useSelector((state) => state.groupSearch.searchKey);
 
   useEffect(() => {
-    updateGroupData(chosenGroup);
+    const fetchData = async () => {
+      const response = await axios.get(
+        "http://localhost:5000/groups/marekKafka"
+      );
+      dispatch(setGroups(response.data));
+    };
+    fetchData();
   }, []);
 
-  const handleUserChoice = (e, param) => {
-    chooseGroup(param);
-    updateGroupData(param._id);
-  };
-
-  const filterByKeyword = (group) => {
-    if (group.name.startsWith(keyword.toUpperCase())) {
-      return true;
-    }
-    return false;
+  const handleUserChoice = (e, group) => {
+    dispatch(setStudentGroupAndPrepareData(group._id));
   };
 
   return (
@@ -34,12 +38,20 @@ const GroupList = () => {
       style={{ marginTop: "1em", flex: 1 }}
     >
       <AddNewGroup />
-      <SearchBar keyword={keyword} setKeyword={setKeyword} sort={sortGroups} />
+      <SearchBar
+        keyword={keyword}
+        setKeyword={(keyword) => {
+          dispatch(setKeyAndFilter(keyword));
+        }}
+        sort={() => {
+          dispatch(sort());
+        }}
+      />
       <div
         className="ui middle aligned selection list"
         style={{ overflow: "auto", maxHeight: "400px" }}
       >
-        {allGroups.filter(filterByKeyword).map((group) => {
+        {groups.map((group) => {
           return (
             <Group
               key={group.name}

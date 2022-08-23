@@ -1,8 +1,8 @@
 import React, { userState, useState } from "react";
-import LoginForm from "../components/Forms/LoginForm";
-import RegisterForm from "../components/Forms/RegisterForm";
-import TeacherRegisterForm from "../components/Forms/TeacherRegisterForm";
-import "../user_management_styles.css";
+import LoginForm from "./components/Forms/LoginForm";
+import RegisterForm from "./components/Forms/RegisterForm";
+import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
+import "./user_management_styles.css";
 
 function UserManagement() {
   const adminUser = {

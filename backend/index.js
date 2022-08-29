@@ -2,15 +2,28 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
-dotenv.config({ path: "./config/config.env" });
-connectDB();
+const students = require("./data/students.js");
+const userRoutes = require("./routes/userRoutes");
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
 const app = express();
+dotenv.config({ path: "./config/config.env" });
+connectDB();
+app.use(express.json());
 
 const PORT = process.env.PORT || 8000;
 
-const exampleRouter = require("./routes/example.routes");
-app.use(express.json());
-app.use("/example", exampleRouter);
+app.use("/api/users", userRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
+
+app.get("/", (req, res) => {
+  res.send("API is running..");
+});
+
+app.get("/api/students", (req, res) => {
+  res.json(students);
+});
 
 app.listen(PORT, console.log("Server running on port: " + PORT + "."));

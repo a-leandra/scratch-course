@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/testCrud --require test/runServer.js && mocha test/testRequests --require test/runServer.js",
+    "test": "mocha test/testCrud.js --require test/runServer.js && mocha test/testRequests.js --require test/runServer.js",
     "start": "nodemon index.js"
   },
   "keywords": [],
@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "mongoose": "^6.5.0",

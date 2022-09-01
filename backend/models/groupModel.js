@@ -7,6 +7,10 @@ const groupSchema = new Schema({
   name: {
     type: String,
     required: true,
+  },
+  code: {
+    type: Number,
+    required: true,
     unique: true,
   },
   teacher: {
@@ -14,10 +18,17 @@ const groupSchema = new Schema({
     ref: "Teacher",
     required: true,
   },
+  homeworkTask: {
+    type: Schema.Types.ObjectId,
+    ref: "Task",
+    default: null,
+  },
 });
 
 groupSchema.virtual("url").get(function () {
   return "/data/group/" + this._id;
 });
 
-module.exports = mongoose.model("Group", groupSchema);
+const Group = mongoose.model("Group", groupSchema);
+
+module.exports = Group;

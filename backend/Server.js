@@ -2,7 +2,7 @@ const express = require("express");
 const DBConnection = require("./db/dbConnection");
 const { port } = require("./config/globalVariables");
 const bodyParser = require("body-parser");
-const allRoutes = require("./routes/allRoutes");
+const allRoutes = require("./routes");
 
 class Server {
   #inUseDatabaseUri;

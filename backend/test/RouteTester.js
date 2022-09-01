@@ -1,10 +1,15 @@
 const assert = require("assert");
 const axios = require("axios");
+const defServerUrl = require("../config/globalVariables").defaultServerUrl;
 
 class RouteTester {
   #routeUrl;
-  constructor(routeUrl) {
-    this.#routeUrl = routeUrl;
+  constructor() {
+    this.#routeUrl = "";
+  }
+
+  setRouteUrl(routeUrl) {
+    this.#routeUrl = defServerUrl + routeUrl;
   }
   async postAndAssert(body) {
     await axios

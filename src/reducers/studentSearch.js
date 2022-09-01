@@ -14,7 +14,7 @@ const filter = (students, keyword) => {
   const filtered = [];
   for (const student of students) {
     const fullName = student.name + " " + student.surname;
-    if (fullName.startsWith(keyword.toUpperCase())) {
+    if (fullName.toLocaleLowerCase().startsWith(keyword.toLocaleLowerCase())) {
       filtered.push(student);
     }
   }
@@ -26,8 +26,9 @@ const countEvgProgress = (students) => {
     return 0;
   } else {
     return (
-      students.map((student) => student.progress).reduce((a, b) => a + b, 0) /
-      students.length
+      students
+        .map((student) => (student.progress - 1) * 10)
+        .reduce((a, b) => a + b, 0) / students.length
     );
   }
 };

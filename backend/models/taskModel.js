@@ -15,4 +15,6 @@ taskSchema.virtual("url").get(function () {
   return "/data/task/" + this._id;
 });
 
-module.exports = mongoose.model("Task", taskSchema);
+const Task = mongoose.model("Task", taskSchema);
+
+module.exports = Task;

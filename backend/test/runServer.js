@@ -1,7 +1,6 @@
 const Server = require("../Server.js");
 const { databaseUri } = require("../config/globalVariables");
-const { dropAllCollectionsByNameSubstring } = require("../db/dbHelpers");
-const { testNamePrefix } = require("../db/static/dbTestData");
+const { clearDB } = require("../db/dbHelpers");
 const server = new Server(databaseUri.development);
 
 exports.mochaHooks = {
@@ -12,9 +11,17 @@ exports.mochaHooks = {
     console.log("Server running. - - -\n");
   },
   async afterAll() {
-    await dropAllCollectionsByNameSubstring(testNamePrefix);
+    this.timeout(10000);
+    await clearDB(true);
     console.log("All test documents dropped. - - -");
     server.stop();
     console.log("Server stopped. - - -");
   },
 };
+
+/*
+  afterAll()
+  will take long to drop when a lot of data is in database to go throught,
+  since it looks for test examples.
+  Maybe use it only with separate claster?
+*/

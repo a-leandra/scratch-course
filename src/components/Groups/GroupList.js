@@ -21,7 +21,7 @@ const GroupList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:5000/groups/marekKafka"
+        "http://localhost:5000/groups/wojska@gmail.com"
       );
       dispatch(setGroups(response.data));
     };
@@ -29,7 +29,7 @@ const GroupList = () => {
   }, []);
 
   const handleUserChoice = (e, group) => {
-    dispatch(setStudentGroupAndPrepareData(group._id));
+    dispatch(setStudentGroupAndPrepareData(group.code));
   };
 
   return (

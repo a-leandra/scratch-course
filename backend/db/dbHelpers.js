@@ -1,18 +1,43 @@
-const groupModel = require("../models/groupModel");
-const progressModel = require("../models/progressModel");
-const studentModel = require("../models/studentModel");
-const teacherModel = require("../models/teacherModel");
-const { sampleStudents, sampleDataSets } = require("./static/dbSampleData");
+const { Group, User } = require("../models/index");
+const { dataSets, testNamePrefix, exampleNamePrefix } = require("./dbData");
 const url = require("../config/globalVariables").defaultServerUrl;
 const axios = require("axios");
-const generateProgressForNewStudentsForEachTask =
-  require("./dbDataGenerator").generateProgressForNewStudentsForEachTask;
 const mongoose = require("mongoose");
 
-const dropAllCollectionsByNameSubstring = async (substring) => {
-  await dropModelsByName([groupModel, teacherModel, studentModel], substring);
-  await dropProgressIfNoStudentFound();
-};
+async function populateDB(isTest) {
+  const prefix = isTest ? testNamePrefix : exampleNamePrefix;
+  for (const [key, value] of dataSets) {
+    for (const dataPiece of value.set) {
+      dataPiece.name = prefix + dataPiece.name;
+      await postRequest(url + value.url, dataPiece);
+    }
+    console.log("Populated " + key + ".");
+  }
+  await addStudentsToGroups(prefix);
+}
+
+async function addStudentsToGroups(prefix) {
+  const groups = (
+    await Group.find({
+      name: {
+        $regex: prefix,
+        $options: "i",
+      },
+    })
+  ).map((group) => group.code);
+  for (const student of dataSets.get("students").set) {
+    const code = groups[Math.floor(Math.random() * groups.length)];
+    await putRequest(url + "/users/addToGroup", {
+      email: student.email,
+      code: code,
+    });
+  }
+}
+
+async function clearDB(isTest) {
+  const prefix = isTest ? testNamePrefix : exampleNamePrefix;
+  await dropModelsByName([Group, User], prefix);
+}
 
 const dropModelsByName = async (models, substring) => {
   for (const model of models) {
@@ -27,36 +52,19 @@ const dropModelsByName = async (models, substring) => {
   }
 };
 
-const dropProgressIfNoStudentFound = async () => {
-  const allProgress = await progressModel.find({});
-  for (const progress of allProgress) {
-    const student = await studentModel.findOne({ _id: progress.student._id });
-    if (student == null || student === undefined) {
-      await progressModel.findOneAndDelete({ _id: progress._id });
-    }
-  }
-};
-
-async function populateDBWithSampleSets() {
-  for (const set of sampleDataSets) {
-    for (const dataPiece of set.data) {
-      await postRequest(url + set.url, dataPiece);
-    }
-  }
-  const sampleProgress =
-    generateProgressForNewStudentsForEachTask(sampleStudents);
-  for (const progress of sampleProgress) {
-    await postRequest(url + "/progress", progress);
-  }
-}
-
 const postRequest = async (url, body) => {
   await axios.post(url, body).catch(function (error) {
     console.log("Error message: '" + error + "'.");
   });
 };
 
+const putRequest = async (url, body) => {
+  await axios.put(url, body).catch(function (error) {
+    console.log("Error message: '" + error + "'.");
+  });
+};
+
 module.exports = {
-  populateDBWithSampleSets,
-  dropAllCollectionsByNameSubstring,
+  clearDB,
+  populateDB,
 };

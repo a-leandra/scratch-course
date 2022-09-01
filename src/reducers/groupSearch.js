@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const filter = (groups, keyword) => {
   const filtered = [];
   for (const group of groups) {
-    if (group.name.startsWith(keyword.toUpperCase())) {
+    if (
+      group.name.toLocaleLowerCase().startsWith(keyword.toLocaleLowerCase())
+    ) {
       filtered.push(group);
     }
   }

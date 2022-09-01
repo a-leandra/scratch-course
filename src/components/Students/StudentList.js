@@ -27,7 +27,7 @@ const StudentList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:5000/panel-nauczyciela/marekKafka"
+        "http://localhost:5000/users/wojska@gmail.com"
       );
       dispatch(setStudents(response.data));
     };
@@ -60,7 +60,7 @@ const StudentList = () => {
         {students.map((student) => {
           return (
             <Student
-              key={student.id}
+              key={student.name + student.surname}
               student={student}
               handleClick={removeStudentFromList}
               noAvatar={noAvatar}

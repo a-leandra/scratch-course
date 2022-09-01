@@ -10,7 +10,7 @@ const Student = ({ student, handleClick, noAvatar }) => {
       <img className="ui avatar image" src={noAvatar} alt="avatar" />
       <div className="content">
         <div className="header">
-          {student.name} {student.surname} {student.progress}%
+          {student.name} {student.surname} {(student.progress - 1) * 10}%
         </div>
       </div>
     </div>

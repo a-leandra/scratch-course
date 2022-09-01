@@ -10,8 +10,8 @@ const AddNewGroup = () => {
     await axios
       .post("http://localhost:5000/groups", {
         name: name,
-        teacherLogin: "marekKafka",
-      })
+        email: "wojska@gmail.com", // TODO: Add choice of email everywhere.
+      }) // Add notification about what happened.
       .catch((error) => {
         console.log(error);
       });

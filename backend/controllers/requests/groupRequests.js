@@ -2,22 +2,23 @@ const {
   tryToFindAllGroupsOfTeacher,
   tryToAddGroup,
   tryToRemoveGroup,
+  tryToUpdateGroupsVar,
 } = require("../crud/groupCrud");
 
 const getGroupsOfTeacherRequest = async (req, res) => {
-  const { teacherLogin } = req.params;
+  const { email } = req.params;
   try {
-    const allGroups = await tryToFindAllGroupsOfTeacher(teacherLogin);
-    res.status(200).json(allGroups);
+    const groups = await tryToFindAllGroupsOfTeacher(email);
+    res.status(200).json(groups);
   } catch (error) {
     res.status(error.code).json({ message: error.message });
   }
 };
 
 const addGroupRequest = async (req, res) => {
-  const { name, teacherLogin } = req.body;
+  const { name, email } = req.body;
   try {
-    await tryToAddGroup(name, teacherLogin);
+    await tryToAddGroup(name, email);
     res.status(201).json({ message: "Group " + name + " added." });
   } catch (error) {
     res.status(error.code).json({ message: error.message });
@@ -25,10 +26,22 @@ const addGroupRequest = async (req, res) => {
 };
 
 const removeGroupRequest = async (req, res) => {
-  const { teacherLogin, name } = req.params;
+  const { code } = req.params;
   try {
-    await tryToRemoveGroup(name, teacherLogin);
-    return res.status(200).json({ message: "Group " + name + " removed." });
+    await tryToRemoveGroup(code);
+    return res.status(200).json({ message: "Group (" + code + ") removed." });
+  } catch (error) {
+    res.status(error.code).json({ message: error.message });
+  }
+};
+
+const updateGroupsVarRequest = async (req, res) => {
+  const { code, valueName, value } = req.body;
+  try {
+    await tryToUpdateGroupsVar(code, { [valueName]: value });
+    res
+      .status(200)
+      .json({ message: "Group's (" + code + ") " + valueName + " changed." });
   } catch (error) {
     res.status(error.code).json({ message: error.message });
   }
@@ -38,4 +51,5 @@ module.exports = {
   getGroupsOfTeacherRequest,
   addGroupRequest,
   removeGroupRequest,
+  updateGroupsVarRequest,
 };

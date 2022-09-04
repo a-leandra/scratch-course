@@ -1,21 +1,32 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import { Form } from "react-bootstrap";
-const lastTask = 7;
+import { useDispatch, useSelector } from "react-redux";
+import { teacherRegister } from "../../actions/userActions";
+import { useNavigate } from "react-router-dom";
 
-function TeacherRegisterForm({ Register, error, addError, changeView }) {
+function TeacherRegisterForm({ changeView }) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
-  const [task, setTask] = useState(true);
+  const [task, setTask] = useState(null);
   const [isTeacher, setIsTeacher] = useState(true);
   const [message, setMessage] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const teacherUserRegister = useSelector((state) => state.teacherUserRegister);
+  const { loading, error, userInfo } = teacherUserRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/panel-nauczyciela");
+    }
+  }, [userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -24,41 +35,14 @@ function TeacherRegisterForm({ Register, error, addError, changeView }) {
       setMessage("Passwords do not match");
     } else {
       setMessage(null);
-      try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
-        };
-
-        setLoading(true);
-        setIsTeacher(true);
-        setTask(7);
-
-        const { data } = await axios.post(
-          "/api/users",
-          {
-            name,
-            surname,
-            email,
-            password,
-            task,
-            isTeacher,
-          },
-          config
-        );
-
-        setLoading(false);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-      } catch (error) {
-        setLoading(false);
-        addError(error.response.data.message);
-      }
+      setIsTeacher(true);
+      dispatch(
+        teacherRegister(name, surname, email, task, isTeacher, password)
+      );
     }
   };
 
   const loginHandler = (e) => {
-    addError("");
     e.preventDefault();
     changeView("login");
   };

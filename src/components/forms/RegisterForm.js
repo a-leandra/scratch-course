@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import { Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../actions/userActions";
+import { useNavigate } from "react-router-dom";
 
-function RegisterForm({ TeacherRegister, error, addError, changeView }) {
+function RegisterForm({ changeView }) {
   //const [details, setDetails] = useState({ name: "", email: "", password: "" });
 
   const [name, setName] = useState("");
@@ -15,7 +17,17 @@ function RegisterForm({ TeacherRegister, error, addError, changeView }) {
   const [group, setGroup] = useState("");
   const [message, setMessage] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -24,43 +36,16 @@ function RegisterForm({ TeacherRegister, error, addError, changeView }) {
       setMessage("Passwords do not match");
     } else {
       setMessage(null);
-      try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
-        };
-
-        setLoading(true);
-
-        const { data } = await axios.post(
-          "/api/users",
-          {
-            name,
-            surname,
-            email,
-            group,
-            password,
-          },
-          config
-        );
-
-        setLoading(false);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-      } catch (error) {
-        setLoading(false);
-        addError(error.response.data.message);
-      }
+      dispatch(register(name, surname, email, group, password));
     }
   };
 
   const loginHandler = (e) => {
-    addError("");
     e.preventDefault();
     changeView("login");
   };
+
   const teacherRegisterHandler = (e) => {
-    addError("");
     e.preventDefault();
     changeView("teacherRegister");
   };

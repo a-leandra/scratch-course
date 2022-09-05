@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { Button, Form } from "react-bootstrap"
 
 function RegisterForm({ TeacherRegister, error, addError, changeView}){
     const [details, setDetails] = useState({name: "", email: "", password: ""});
@@ -24,40 +25,65 @@ function RegisterForm({ TeacherRegister, error, addError, changeView}){
     }
     const teacherRegisterHandler = e => {
         addError("");
-        e.preventDefault();
+        //e.preventDefault();
         changeView("teacherRegister");
     }
 
     return (
         <form onSubmit={submitHandler}>
             <div className="form-inner">
-                <h2>Zarejestruj się</h2>
+                <h1 className="heading">Zarejestruj się</h1>
                 {(error!="" )? (<div className="error">{error}</div>) : ""}
                 <div className="form-group">
-                    <label htmlFor="name">Name: </label>
-                    <input type="text" name="name" id="name" onChange={e => setDetails({...details, name: e.target.value})} value={details.name}/>
+                    <Form.Label htmlFor="name">Name: </Form.Label>
+                    <Form.Control type="text" name="name" id="name" onChange={e => setDetails({...details, name: e.target.value})} value={details.name}
+                    style={{
+                        minWidth:'30vw'
+                    }}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="surname">Surame: </label>
-                    <input type="text" name="surname" id="surname" onChange={e => setDetails({...details, surname: e.target.value})} value={details.surname}/>
+                    <Form.Label htmlFor="surname">Surame: </Form.Label>
+                    <Form.Control type="text" name="surname" id="surname" onChange={e => setDetails({...details, surname: e.target.value})} value={details.surname}
+                    style={{
+                        minWidth:'30vw'
+                    }}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="login">Login: </label>
-                    <input type="login" name="login" id="login" onChange={e => setDetails({...details, login: e.target.value})} value={details.login}/>
+                    <Form.Label htmlFor="login">Login: </Form.Label>
+                    <Form.Control type="login" name="login" id="login" onChange={e => setDetails({...details, login: e.target.value})} value={details.login}
+                    style={{
+                        minWidth:'30vw'
+                    }}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password: </label>
-                    <input type="password" name="password" id="password" onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
+                    <Form.Label htmlFor="password">Password: </Form.Label>
+                    <Form.Control type="password" name="password" id="password" onChange={e => setDetails({...details, password: e.target.value})} 
+                    value={details.password}
+                    style={{
+                        minWidth:'30vw'
+                    }}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="code">Code: </label>
-                    <input type="code" name="code" id="code" onChange={e => setDetails({...details, code: e.target.value})} value={details.code}/>
+                    <Form.Label htmlFor="code">Code: </Form.Label>
+                    <Form.Control type="code" name="code" id="code" onChange={e => setDetails({...details, code: e.target.value})} value={details.code}
+                    style={{
+                        minWidth:'30vw'
+                    }}/>
                 </div>
-                <input type="submit" value="Zarejestruj się" />
-                <input type="loginView" value="Zaloguj się" onClick={loginHandler}/>
-                
-                <div>
-                <input type="teacherRegisterView" value="Jestem nauczycielem" onClick={teacherRegisterHandler}/>
+                <div style={{display:"flex", flexDirection:"Row"}}>
+                    <div>
+                    <Button type="submit" variant="primary" value="Zarejestruj się">
+                    Zarejestruj się
+                    </Button>
+                    </div>
+                    <div style={{marginLeft:"70px"}}>
+                    <Button onClick={loginHandler} type="loginView" variant="dark" >
+                    Logowanie
+                    </Button>
+                    <Button onClick={() => teacherRegisterHandler()} type="teacherRegisterView" variant="dark" style={{marginLeft:"10px"}}>
+                                            Jestem nauczycielem
+                    </Button>
+                    </div>
                 </div>
             </div>
 

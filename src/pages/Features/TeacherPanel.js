@@ -7,12 +7,23 @@ const TeacherPanel = () => {
     <div
       className="ui raised very padded text container segment"
       style={{
-        flexDirection: "row",
+        flexDirection: "column",
+        minWidth: "80%",
+        minHeight: "80%",
       }}
       id="default"
     >
-      <GroupList />
-      <StudentList />
+      <h1 className="heading">Panel nauczyciela</h1>
+      <hr />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <GroupList />
+        <StudentList />
+      </div>
     </div>
   );
 };

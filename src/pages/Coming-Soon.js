@@ -9,6 +9,8 @@ const ComingSoon = () => {
         alignItems: "center",
         justifyContent: "center",
         background: "#c8c8c8",
+        minWidth:'80%',
+        minHeight:'80%'
       }}
       id="default"
     >

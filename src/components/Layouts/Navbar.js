@@ -1,14 +1,23 @@
 // Navigation Bar with react-router-dom with bootstrap for an authorized user (teacher)
-import React from "react";
+
 import { NavLink, Link, useMatch, useResolvedPath } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faMap, faSchool } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import React from "react";
 
 export default function Navbar() {
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-light"
+      style={{
+        visibility: useSelector((state) =>
+          state.pageState.value.showNavbar === 0 ? "hidden" : "visible"
+        ),
+      }}
+    >
       <div class="container-fluid">
         <Link class="navbar-brand fs-4" to="/">
           Scratch Course
@@ -42,15 +51,15 @@ export default function Navbar() {
                 <FontAwesomeIcon icon={faUser}> </FontAwesomeIcon> Profil
               </Nav.Link>
             </li>
-            <li class="nav-item">
-              <Nav.Link as={NavLink} class="nav-link " to="/zaloguj">
-                <FontAwesomeIcon icon={faUser}> </FontAwesomeIcon>Zaloguj
-              </Nav.Link>
-            </li>
           </ul>
           <ul class="navbar-nav ms-auto text-center">
             <li class="nav-item">
-              <Link class="btn btn-danger" to="/logout">
+              <Nav.Link as={NavLink} class="btn btn-primary" to="/zaloguj">
+                <FontAwesomeIcon icon={faUser}> </FontAwesomeIcon>Zaloguj
+              </Nav.Link>
+            </li>
+            <li class="nav-item">
+              <Link class="btn btn-danger" to="/glowna">
                 Wyloguj
               </Link>
             </li>

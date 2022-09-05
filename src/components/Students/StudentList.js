@@ -9,7 +9,7 @@ const {
   setStudents,
   sort,
   setKeyAndFilter,
-} = require("../../reducers/studentSearch");
+} = require("../../reducers/teacherPanel/studentSearch");
 
 const StudentList = () => {
   const dispatch = useDispatch();

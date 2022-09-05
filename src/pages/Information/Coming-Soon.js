@@ -1,5 +1,5 @@
 import React from "react";
-import soonToCome from "../assets/coming-soon.gif";
+import soonToCome from "../../assets/coming-soon.gif";
 
 const ComingSoon = () => {
   return (
@@ -9,8 +9,8 @@ const ComingSoon = () => {
         alignItems: "center",
         justifyContent: "center",
         background: "#c8c8c8",
-        minWidth:'80%',
-        minHeight:'80%'
+        minWidth: "80%",
+        minHeight: "80%",
       }}
       id="default"
     >

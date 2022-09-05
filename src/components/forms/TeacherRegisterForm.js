@@ -54,7 +54,7 @@ function TeacherRegisterForm({ changeView }) {
       {loading && <Loading />}
       <form onSubmit={submitHandler}>
         <div className="form-inner">
-          <h2>Zarejestruj się</h2>
+          <h2>Zarejestruj się jako nauczyciel</h2>
           <div className="form-group">
             <Form.Group controlId="name">
               <Form.Label>Imię</Form.Label>

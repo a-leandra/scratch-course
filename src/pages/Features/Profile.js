@@ -121,11 +121,11 @@ const Profile = ({ changeView }) => {
             </div>
 
             <input type="submit" value="Zapisz" />
-            <input
+            {/*<input
               type="teacherRegisterView"
               value="Usuń konto"
               onClick={teacherRegisterHandler}
-            />
+          />*/}
           </div>
         </form>
       </div>

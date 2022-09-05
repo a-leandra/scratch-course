@@ -1,5 +1,5 @@
 import React from "react";
-import ComingSoon from "../Coming-Soon";
+import ComingSoon from "./Coming-Soon";
 
 const Privacy = () => {
   return <ComingSoon />;

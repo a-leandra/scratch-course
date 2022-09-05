@@ -8,10 +8,10 @@ const {
   setKeyAndFilter,
   setGroups,
   sort,
-} = require("../../reducers/groupSearch");
+} = require("../../reducers/teacherPanel/groupSearch");
 const {
   setStudentGroupAndPrepareData,
-} = require("../../reducers/studentSearch");
+} = require("../../reducers/teacherPanel/studentSearch");
 
 const GroupList = () => {
   const dispatch = useDispatch();

@@ -1,8 +1,10 @@
-import React, { userState, useState } from "react";
+import React, { pageState, useState } from "react";
 import LoginForm from "./components/Forms/LoginForm";
 import RegisterForm from "./components/Forms/RegisterForm";
 import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
 import "./user_management_styles.css";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoggedIn } from "./reducers/userState.js";
 
 function UserManagement() {
   const adminUser = {
@@ -28,6 +30,10 @@ function UserManagement() {
         email: details.email,
         password: details.password,
       });
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const dispatch = useDispatch();
+      dispatch(setLoggedIn());
     } else {
       console.log("Details do not match");
       setError("Email or password do not match ");
@@ -128,7 +134,12 @@ function UserManagement() {
   );
 
   return (
-    <div className="ui raised very padded text container segment">
+    <div
+      className="ui raised very padded text container segment"
+      style={{
+        minWidth: "30%",
+      }}
+    >
       {user.email != "" ? (
         <div className="welcome">
           <h1>

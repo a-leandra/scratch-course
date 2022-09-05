@@ -8,7 +8,6 @@ const Footer = () => {
   return (
     <div className="ui center aligned container">
       <div className="ui inverted section divider" />
-      <img src={logo} className="ui centered mini image" alt="logo" />
       <div
         style={{
           display: "flex",

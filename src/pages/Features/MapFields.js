@@ -15,7 +15,7 @@ export default function MapFields({coordinates}) {
                 style={{
                     position:'absolute',
                     left:element.x+'vw',
-                    top:element.y+'vw',
+                    top:element.y+'vh',
                     
                 }}
                 />)
@@ -27,7 +27,7 @@ export default function MapFields({coordinates}) {
                 style={{
                     position:'absolute',
                     left:element.x+'vw',
-                    top:element.y+'vw'
+                    top:element.y+'vh'
                 }}
                 />)
         }
@@ -38,7 +38,7 @@ export default function MapFields({coordinates}) {
                 style={{
                     position:'absolute',
                     left:element.x+'vw',
-                    top:element.y+'vw'
+                    top:element.y+'vh'
                 }}
                 />)
         }

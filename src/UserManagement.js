@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/UserManagement.js
 import React, { pageState, useState } from "react";
 import LoginForm from "./components/Forms/LoginForm";
 import RegisterForm from "./components/Forms/RegisterForm";
@@ -5,6 +6,13 @@ import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
 import "./user_management_styles.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoggedIn } from "./reducers/userState.js";
+=======
+import React, { userState, useState } from "react";
+import LoginForm from "../components/forms/LoginForm";
+import RegisterForm from "../components/forms/RegisterForm";
+import TeacherRegisterForm from "../components/forms/TeacherRegisterForm";
+import "../user_management_styles.css";
+>>>>>>> origin/SC-94-Komunikacja-bazy-danych-z-aplikacją:src/contexts/UserManagement.js
 
 function UserManagement() {
   const adminUser = {

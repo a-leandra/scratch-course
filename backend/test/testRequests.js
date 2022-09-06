@@ -1,43 +1,51 @@
 const RouteTester = require("./RouteTester");
-const { dataSets, testNamePrefix } = require("../db/dbData");
+const { dataSets, testNameSuffix } = require("../db/dbData");
 const assert = require("assert");
 const Group = require("../models/groupModel");
-
+const User = require("../models/userModel");
 let tester = new RouteTester();
+let generateToken = require("../utils/generateToken");
 
-describe("Test User model basic Crud functionality.", () => {
-  let users = null;
+describe("Add teachers.", () => {
+  let teachers = null;
   let toBeDeleted = null;
-  let toBeUpdated = null;
+  let toBeAuthAndUpd = null;
   it("prepare", () => {
-    users = dataSets.get("teachers").set;
-    users = users.concat(dataSets.get("students").set);
-    toBeDeleted = users.at(1);
-    toBeUpdated = users.at(0);
+    teachers = dataSets.get("teachers").set;
+    toBeDeleted = teachers.at(1);
+    toBeAuthAndUpd = teachers.at(0);
     tester.setRouteUrl("/users");
-    for (const toBeChecked of [users, toBeDeleted, toBeUpdated]) {
+    for (const toBeChecked of [teachers, toBeDeleted, toBeAuthAndUpd]) {
       assert(toBeChecked !== null);
     }
   });
-  it("add users", async () => {
-    for (const user of users) {
-      user.name = testNamePrefix + user.name;
-      await tester.postAndAssert(user);
+  it("add teachers", async () => {
+    for (const teacher of teachers) {
+      teacher.name = teacher.name + testNameSuffix;
+      await tester.postAndAssert(teacher);
     }
   });
-  it("remove user", async () => {
-    await tester.deleteAndAssert("/" + toBeDeleted.email);
+  it("authenticate teacher", async () => {
+    tester.setRouteUrl("/users/login");
+    const loginData = {
+      email: toBeAuthAndUpd.email,
+      password: toBeAuthAndUpd.password,
+    };
+    await tester.postAndAssert(loginData);
   });
-  it("update user surname", async () => {
-    await tester.putAndAssert({
-      login: toBeUpdated.email,
-      valueName: "surname",
-      value: toBeUpdated.name + "updated",
-    });
+  it("update teachers data", async () => {
+    tester.setRouteUrl("/users/profil");
+    const teacher = await User.findOne({ email: toBeAuthAndUpd.email });
+    const token = generateToken(teacher._id);
+    await tester.postAuthAssert(token, teacher);
+  });
+  it("delete teacher", async () => {
+    tester.setRouteUrl("/users");
+    await tester.deleteAndAssert("/" + toBeDeleted.email);
   });
 });
 
-describe("Test Group model Crud functionality.", () => {
+describe("Test Group model Requests functionality.", () => {
   let groups = null;
   let toBeDeleted = null;
   let toBeUpdated = null;
@@ -55,7 +63,7 @@ describe("Test Group model Crud functionality.", () => {
   });
   it("add groups", async () => {
     for (const group of groups) {
-      group.name = testNamePrefix + group.name;
+      group.name = group.name + testNameSuffix;
       await tester.postAndAssert(group);
     }
   });
@@ -76,12 +84,13 @@ describe("Test Group model Crud functionality.", () => {
   });
 });
 
-describe("Test User model specialized Crud functionality.", function () {
+describe("Test User model specialized Requests functionality.", function () {
   this.timeout(5000);
   let students = null;
   let group = null;
   let teacher = null;
   it("prepare", () => {
+    tester.setRouteUrl("/users");
     students = dataSets.get("students").set;
     group = dataSets.get("groups").set.at(0);
     teacher = dataSets.get("teachers").set.at(0);
@@ -89,20 +98,17 @@ describe("Test User model specialized Crud functionality.", function () {
       assert(toBeChecked !== null);
     }
   });
-  it("add students to groups", async () => {
-    tester.setRouteUrl("/users/addToGroup");
+  it("add students", async () => {
     const savedGroup = await Group.findOne({
       name: group.name + "updated",
     });
     for (const student of students) {
-      await tester.putAndAssert({
-        email: student.email,
-        code: savedGroup.code,
-      });
+      student.name = student.name + testNameSuffix;
+      student.group = savedGroup.code;
+      await tester.postAndAssert(student);
     }
   });
   it("get students of teacher", async () => {
-    tester.setRouteUrl("/users");
     await tester.getAndAssert("/" + teacher.email);
   });
 });

@@ -53,8 +53,8 @@ class Server {
   #mountMiddleware() {
     this.#app.use(express.json());
     this.#app.use(bodyParser.json());
-    this.#app.use(notFound);
-    this.#app.use(errorHandler);
+    //this.#app.use(notFound);
+    //this.#app.use(errorHandler);
   }
 }
 

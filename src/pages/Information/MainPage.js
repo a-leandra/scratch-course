@@ -1,6 +1,6 @@
 import React from "react";
 import "./main_page_style.css";
-import video from "../../assets/Scratch.mp4";
+import video from "../../static/assets/Scratch.mp4";
 import { useDispatch } from "react-redux";
 import { setNavbarOff } from "../../reducers/pageState";
 

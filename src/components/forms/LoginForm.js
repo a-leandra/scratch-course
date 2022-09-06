@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
+import Loading from "../../components/Layouts/Loading";
+import ErrorMessage from "../Layouts/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";

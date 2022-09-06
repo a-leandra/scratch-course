@@ -21,6 +21,21 @@ class RouteTester {
         console.log({ code: error.code, message: error.message });
       });
   }
+  async postAuthAssert(token, body) {
+    let config = {
+      headers: {
+        authorization: "Bearer " + token,
+      },
+    };
+    await axios
+      .post(this.#routeUrl, body, config)
+      .then(function (response) {
+        assert(response.status === 201);
+      })
+      .catch(function (error) {
+        console.log({ code: error.code, message: error.message });
+      });
+  }
   async putAndAssert(body) {
     await axios
       .put(this.#routeUrl, body)

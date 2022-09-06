@@ -2,12 +2,12 @@ const {
   removeUserRequest,
   getStudentsOfTeacher,
   addStudentToGroup,
-} = require("../controllers/requests/userRequests");
+} = require("../controllers/requests/userTeachRequests");
 const {
   registerUser,
   authUser,
   updateUserProfile,
-} = require("../controllers/userControllers");
+} = require("../controllers/requests/userRegLogRequests");
 const { protect } = require("../middlewares/authMiddleware");
 
 const userPrefix = "/users";
@@ -17,8 +17,8 @@ userRouter.get(userPrefix + "/:email", getStudentsOfTeacher);
 userRouter.delete(userPrefix + "/:email", removeUserRequest);
 userRouter.put(userPrefix + "/addToGroup", addStudentToGroup);
 
-userRouter.route("/").post(registerUser);
-userRouter.route("/login").post(authUser);
-userRouter.route("/profil").post(protect, updateUserProfile);
+userRouter.route(userPrefix).post(registerUser);
+userRouter.route(userPrefix + "/login").post(authUser);
+userRouter.route(userPrefix + "/profil").post(protect, updateUserProfile);
 
 module.exports = { userRouter, userPrefix };

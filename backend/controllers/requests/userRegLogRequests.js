@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../models/userModel");
-const Group = require("../models/groupModel");
-const generateToken = require("../utils/generateToken");
+const User = require("../../models/userModel");
+const Group = require("../../models/groupModel");
+const generateToken = require("../../utils/generateToken");
 
 const registerUser = asyncHandler(async (req, res) => {
   const {
@@ -96,7 +96,7 @@ const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
-    res.json({
+    res.status(201).json({
       _id: user.id,
       name: user.name,
       surname: user.surname,
@@ -127,7 +127,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
     const updatedUser = await user.save();
 
-    res.json({
+    res.status(201).json({
       _id: updateUserProfile._id,
       name: updatedUser.name,
       surname: updatedUser.surname,

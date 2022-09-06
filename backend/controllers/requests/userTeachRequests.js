@@ -4,7 +4,7 @@ const {
   tryToUpdateUsersVar,
   tryToFindAllStudentsOfTeacher,
   tryToAddStudentToGroup,
-} = require("../crud/userCrud");
+} = require("../crud/userTeachCrud");
 
 const addUserRequest = async (req, res) => {
   try {

@@ -8,7 +8,7 @@ exports.mochaHooks = {
     await server.prepareServer();
     console.log("Server prepared. - - -");
     server.run();
-    console.log("Server running. - - -\n");
+    console.log("Server running: " + server.getServerUrl() + ". - - -\n");
   },
   async afterAll() {
     this.timeout(10000);

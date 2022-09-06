@@ -1,42 +1,52 @@
 const { Group, User } = require("../models/index");
-const { dataSets, testNamePrefix, exampleNamePrefix } = require("./dbData");
-const url = require("../config/globalVariables").defaultServerUrl;
-const axios = require("axios");
+const { tryToAddUser } = require("../controllers/crud/userTeachCrud");
+const { tryToAddGroup } = require("../controllers/crud/groupCrud");
+const { dataSets, testNameSuffix, exampleNameSuffix } = require("./dbData");
 const mongoose = require("mongoose");
 
 async function populateDB(isTest) {
-  const prefix = isTest ? testNamePrefix : exampleNamePrefix;
-  for (const [key, value] of dataSets) {
-    for (const dataPiece of value.set) {
-      dataPiece.name = prefix + dataPiece.name;
-      await postRequest(url + value.url, dataPiece);
-    }
-    console.log("Populated " + key + ".");
-  }
-  await addStudentsToGroups(prefix);
+  const suffix = isTest ? testNameSuffix : exampleNameSuffix;
+  await addTeachers(suffix);
+  await addGroups(suffix);
+  await addStudents(suffix);
 }
 
-async function addStudentsToGroups(prefix) {
-  const groups = (
-    await Group.find({
-      name: {
-        $regex: prefix,
-        $options: "i",
-      },
-    })
-  ).map((group) => group.code);
-  for (const student of dataSets.get("students").set) {
-    const code = groups[Math.floor(Math.random() * groups.length)];
-    await putRequest(url + "/users/addToGroup", {
-      email: student.email,
-      code: code,
-    });
+const addTeachers = async (suffix) => {
+  for (const teacher of dataSets.get("teachers").set) {
+    teacher.name += suffix;
+    await tryToAddUser(teacher);
   }
-}
+};
+
+const addGroups = async (suffix) => {
+  for (const group of dataSets.get("groups").set) {
+    group.name += suffix;
+    await tryToAddGroup(group.name, group.email);
+  }
+};
+
+const addStudents = async (suffix) => {
+  const groups = await getGroups(suffix);
+  const n = groups.length;
+  for (const student of dataSets.get("students").set) {
+    student.name += suffix;
+    student.group = groups[Math.floor(Math.random() * n)];
+    await tryToAddUser(student);
+  }
+};
+
+const getGroups = async (suffix) => {
+  return await Group.find({
+    name: {
+      $regex: suffix,
+      $options: "i",
+    },
+  });
+};
 
 async function clearDB(isTest) {
-  const prefix = isTest ? testNamePrefix : exampleNamePrefix;
-  await dropModelsByName([Group, User], prefix);
+  const suffix = isTest ? testNameSuffix : exampleNameSuffix;
+  await dropModelsByName([Group, User], suffix);
 }
 
 const dropModelsByName = async (models, substring) => {
@@ -52,19 +62,27 @@ const dropModelsByName = async (models, substring) => {
   }
 };
 
-const postRequest = async (url, body) => {
-  await axios.post(url, body).catch(function (error) {
-    console.log("Error message: '" + error + "'.");
-  });
-};
-
-const putRequest = async (url, body) => {
-  await axios.put(url, body).catch(function (error) {
-    console.log("Error message: '" + error + "'.");
-  });
-};
+async function isDBPopulated(isTest) {
+  const suffix = isTest ? testNameSuffix : exampleNameSuffix;
+  const models = [Group, User];
+  for (const model of models) {
+    const result = await mongoose.connection
+      .collection(model.collection.collectionName)
+      .count({
+        name: {
+          $regex: suffix,
+          $options: "i",
+        },
+      });
+    if (result === 0) {
+      return false;
+    }
+  }
+  return true;
+}
 
 module.exports = {
   clearDB,
   populateDB,
+  isDBPopulated,
 };

@@ -3,6 +3,7 @@ const DBConnection = require("./db/dbConnection");
 const { port } = require("./config/globalVariables");
 const bodyParser = require("body-parser");
 const allRoutes = require("./routes");
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
 class Server {
   #inUseDatabaseUri;
@@ -52,6 +53,8 @@ class Server {
   #mountMiddleware() {
     this.#app.use(express.json());
     this.#app.use(bodyParser.json());
+    this.#app.use(notFound);
+    this.#app.use(errorHandler);
   }
 }
 

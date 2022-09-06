@@ -1,62 +1,122 @@
-import React, {useState} from "react";
-import { Form, Button } from "react-bootstrap"
+import React, { useEffect, useState } from "react";
+import ErrorMessage from "../../components/ErrorMessage";
+import Loading from "../../components/Loading";
+import { Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { teacherRegister } from "../../actions/userActions";
+import { useNavigate } from "react-router-dom";
 
-function TeacherRegisterForm({ Register, error, addError, changeView}){
-    const [details, setDetails] = useState({name: "", surname: "", login: "", email: "",phone:"", password: ""});
+function TeacherRegisterForm({ changeView }) {
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [task, setTask] = useState(null);
+  const [isTeacher, setIsTeacher] = useState(true);
+  const [message, setMessage] = useState(null);
 
-    const submitHandler = e => {
-        e.preventDefault();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-        if(details.name.includes("<") || details.email.includes("<") || details.password.includes("<") ){
-            console.log("Forbidden sign");
-            addError("Forbidden sign in email");
-        }else{
-            Register(details);
-        }
+  const teacherUserRegister = useSelector((state) => state.teacherUserRegister);
+  const { loading, error, userInfo } = teacherUserRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/panel-nauczyciela");
     }
+  }, [userInfo]);
 
-        
-    const loginHandler = e => {
-        addError("");
-        e.preventDefault();
-        changeView("login");
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmpassword) {
+      setMessage("Passwords do not match");
+    } else {
+      setMessage(null);
+      setIsTeacher(true);
+      dispatch(
+        teacherRegister(name, surname, email, task, isTeacher, password)
+      );
     }
+  };
 
-    return (
-        <Form onSubmit={submitHandler}>
-            <div className="form-inner">
-                <h1 className="heading">Zarejestruj się jako nauczyciel</h1>
-                {(error!="" )? (<div className="error">{error}</div>) : ""}
-                <div className="form-group">
-                    <Form.Label htmlFor="name">Name: </Form.Label>
-                    <Form.Control type="text" name="name" id="name" onChange={e => setDetails({...details, name: e.target.value})} value={details.name}/>
-                </div>
-                <div className="form-group">
-                    <Form.Label htmlFor="surname">Surame: </Form.Label>
-                    <Form.Control type="text" name="surname" id="surname" onChange={e => setDetails({...details, surname: e.target.value})} value={details.surname}/>
-                </div>
-                <div className="form-group">
-                    <Form.Label htmlFor="login">Login: </Form.Label>
-                    <Form.Control type="login" name="login" id="login" onChange={e => setDetails({...details, login: e.target.value})} value={details.login}/>
-                </div>
-                <div className="form-group">
-                    <Form.Label htmlFor="password">Password: </Form.Label>
-                    <Form.Control type="password" name="password" id="password" onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
-                </div>
-                <div className="form-group">
-                    <Form.Label htmlFor="phone">Phone number: </Form.Label>
-                    <Form.Control type="phone" name="phone" id="phone" onChange={e => setDetails({...details, phone: e.target.value})} value={details.phone}/>
-                </div>
-                <div className="form-group">
-                    <Form.Label htmlFor="email">Email: </Form.Label>
-                    <Form.Control type="email" name="email" id="email" onChange={e => setDetails({...details, email: e.target.value})} value={details.email}/>
-                </div>
-                <Button type="submit"> Zarejestruj się </Button>
-                <Button type="loginView" onClick={loginHandler} variant="dark" style={{marginLeft:"20px"}}>Logowanie</Button>
-            </div>
+  const loginHandler = (e) => {
+    e.preventDefault();
+    changeView("login");
+  };
 
-        </Form>
-    )
+  return (
+    <div className="loginContainer">
+      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+      {loading && <Loading />}
+      <form onSubmit={submitHandler}>
+        <div className="form-inner">
+          <h2>Zarejestruj się jako nauczyciel</h2>
+          <div className="form-group">
+            <Form.Group controlId="name">
+              <Form.Label>Imię</Form.Label>
+              <Form.Control
+                type="name"
+                value={name}
+                placeholder="Wprowadź imię"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+          </div>
+          <div className="form-group">
+            <Form.Group controlId="surname">
+              <Form.Label>Nazwisko</Form.Label>
+              <Form.Control
+                type="surname"
+                value={surname}
+                placeholder="Wprowadź nazwisko"
+                onChange={(e) => setSurname(e.target.value)}
+              />
+            </Form.Group>
+          </div>
+          <div className="form-group">
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Adres e-mail</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                placeholder="Wprowadź e-mail"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+          </div>
+          <div className="form-group">
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Hasło</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                placeholder="Wprowadź hasło"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+          </div>
+          <div className="form-group">
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Zatwierdź hasło</Form.Label>
+              <Form.Control
+                type="password"
+                value={confirmpassword}
+                placeholder="Powtórz hasło"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </Form.Group>
+          </div>
+
+          <input type="submit" value="Zarejestruj się" />
+          <input type="loginView" value="Zaloguj się" onClick={loginHandler} />
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default TeacherRegisterForm;

@@ -3,6 +3,8 @@ const userTeachCrude = require("../controllers/crud/userTeachCrud");
 const groupCrude = require("../controllers/crud/groupCrud");
 const assert = require("assert");
 const Group = require("../models/groupModel");
+const User = require("../models/userModel");
+const { test } = require("mocha");
 
 /*
   In future, it would be best to have one claster only for tests.
@@ -25,6 +27,7 @@ describe("Test UserTeach model basic Crud functionality.", () => {
   it("add users", async () => {
     for (const user of users) {
       user.name = user.name + testNameSuffix;
+      user.email += testNameSuffix;
       await userTeachCrude.tryToAddUser(user);
     }
   });
@@ -56,7 +59,7 @@ describe("Test Group model Crud functionality.", () => {
   it("add groups", async () => {
     for (const group of groups) {
       group.name = group.name + testNameSuffix;
-      await groupCrude.tryToAddGroup(group.name, group.email);
+      await groupCrude.tryToAddGroup(group.name, group.email + testNameSuffix);
     }
   });
   it("remove group", async () => {

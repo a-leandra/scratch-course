@@ -22,6 +22,7 @@ describe("Add teachers.", () => {
   it("add teachers", async () => {
     for (const teacher of teachers) {
       teacher.name = teacher.name + testNameSuffix;
+      teacher.email += testNameSuffix;
       await tester.postAndAssert(teacher);
     }
   });
@@ -104,6 +105,7 @@ describe("Test User model specialized Requests functionality.", function () {
     });
     for (const student of students) {
       student.name = student.name + testNameSuffix;
+      student.email += testNameSuffix;
       student.group = savedGroup.code;
       await tester.postAndAssert(student);
     }

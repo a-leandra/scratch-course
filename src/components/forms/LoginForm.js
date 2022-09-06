@@ -1,88 +1,79 @@
-import React, {useState} from "react";
-import { Form } from "react-bootstrap"
-import { useSelector } from 'react-redux'
-import { Button } from "react-bootstrap"
+import React, { useEffect, useState } from "react";
+import { Form } from "react-bootstrap";
+import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/ErrorMessage";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../actions/userActions";
+import { useNavigate } from "react-router-dom";
 
+function LoginForm({ changeView }) {
+  //const [details, setDetails] = useState({ name: "", email: "", password: "" });
 
-function LoginForm({ Login, error, addError, changeView}){
-    const [details, setDetails] = useState({name: "", email: "", password: ""});
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const submitHandler = e => {
-        e.preventDefault();
+  const dispatch = useDispatch();
 
-        if(details.name.includes("<") || details.email.includes("<") || details.password.includes("<") ){
-            console.log("Forbidden sign");
-            addError("Forbidden sign in email");
-        }else{
-            Login(details);
-        }
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
     }
-    
-    const registerHandler = e => {
-        addError("");
-        changeView("register");
-    }
+  }, [userInfo]);
 
-    return (
-        <Form onSubmit={submitHandler} >
-            <div className="form-inner">
-                <h1 className="heading">Zaloguj się</h1>
-                {(error!="" )? (<div className="error">{error}</div>) : ""}
-                <div className="form-group">
-                        <Form.Label htmlFor="name">Login</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="name"
-                            id="name"
-                            placeholder="Wprowadź login..."
-                            onChange={e => setDetails({...details, name: e.target.value})}
-                            value={details.name}
-                            style={{
-                                minWidth:'30vw'
-                            }}
-                        ></Form.Control>
-                    </div>
-                    <div className="form-group">
-                        <Form.Label htmlFor="email">E-mail</Form.Label>
-                        <Form.Control
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder="Wprowadź email..."
-                            onChange={e => setDetails({...details, email: e.target.value})}
-                            value={details.email}
-                            style={{
-                                minWidth:'30vw'
-                            }}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <Form.Label htmlFor="password">Hasło</Form.Label>
-                        <Form.Control
-                            type="password"
-                            name="password"
-                            id="password"
-                            placeholder="Wprowadź hasło..."
-                            onChange={e => setDetails({...details, password: e.target.value})}
-                            value={details.password}
-                            style={{
-                                minWidth:'30vw'
-                            }}
-                        ></Form.Control>
-                    </div>
-                {/* <input type="submit" value="Zaloguj się" />
-                <input type="register" value="Zarejestruj się" onClick={registerHandler}/> */}
-                <Button type="submit" variant="primary">
-                                        Zaloguj się
-                </Button>
-                <Button onClick={() => registerHandler()} type="register" variant="dark" style={{marginLeft:"20px"}}>
-                                        Zarejestruj się
-                </Button>
-            </div>
-            
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password));
+  };
 
-        </Form>
-    )
+  const registerHandler = (e) => {
+    e.preventDefault();
+    changeView("register");
+  };
+
+  return (
+    <div className="loginContainer">
+      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+      {loading && <Loading />}
+      <form onSubmit={submitHandler}>
+        <div className="form-inner">
+          <h2>Zaloguj się</h2>
+          <div className="form-group">
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>E-mail</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                placeholder="Wprowadź swój adres e-mail"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+          </div>
+          <div className="form-group">
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Hasło</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                placeholder="Wprowadź hasło"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+          </div>
+          <input type="submit" value="Zaloguj się" />
+          <input
+            type="register"
+            value="Zarejestruj się"
+            onClick={registerHandler}
+          />
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default LoginForm;

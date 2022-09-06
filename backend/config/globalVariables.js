@@ -12,4 +12,8 @@ const port = {
 
 const defaultServerUrl = "http://localhost:" + port.default;
 
-module.exports = { databaseUri, port, defaultServerUrl };
+const jwtSecret = "secret1234";
+
+const nodeEnv = "development";
+
+module.exports = { databaseUri, port, defaultServerUrl, jwtSecret, nodeEnv };

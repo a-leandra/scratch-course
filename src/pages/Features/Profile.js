@@ -1,129 +1,133 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import ErrorMessage from "../../components/ErrorMessage";
+import Loading from "../../components/Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "../../actions/userActions";
+import { useNavigate } from "react-router-dom";
 
-const Profile = ({ user }) => {
+const Profile = ({ changeView }) => {
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState(null);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const { loading, error, success } = userUpdate;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/");
+    } else {
+      setName(userInfo.name);
+      setSurname(userInfo.surname);
+      setEmail(userInfo.email);
+    }
+  }, [userInfo]);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmpassword) {
+      setMessage("Passwords do not match");
+    } else {
+      dispatch(update({ name, surname, email, password }));
+    }
+  };
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    changeView("login");
+  };
+  const teacherRegisterHandler = (e) => {
+    e.preventDefault();
+    changeView("teacherRegister");
+  };
+
   return (
-    <div
-      className="ui raised very padded text container segment"
-      style={{
-        flexDirection: "column",
-        minWidth: "80%",
-        minHeight: "80%",
-      }}
-      id="default"
-    >
-      <h1 className="heading">Zaktualizuj swoje informacje</h1>
-      <hr />
-      <div>
-        <Row className="profileContainer">
-          <Col md={6}>
-            <Form className="mb-3" /*onSubmit={submitHandler}*/>
-              <Form.Group className="mb-3" controlId="name">
-                <Form.Label>Imię</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Wprowadź imię"
-                  //value={name}
-                  //onChange={(e) => setName(e.target.value)}
-                  style={{
-                    minWidth: "30vw",
-                  }}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="surname">
-                <Form.Label>Nazwisko</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Wprowadź nazwisko"
-                  //value={name}
-                  //onChange={(e) => setName(e.target.value)}
-                  style={{
-                    minWidth: "30vw",
-                  }}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="email">
-                <Form.Label>Adres e-mail</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Wprowadź e-mail"
-                  //value={email}
-                  //onChange={(e) => setEmail(e.target.value)}
-                  style={{
-                    minWidth: "30vw",
-                  }}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="password">
-                <Form.Label>Hasło</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Wprowadź hasło"
-                  //value={password}
-                  //onChange={(e) => setPassword(e.target.value)}
-                  style={{
-                    minWidth: "30vw",
-                  }}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="confirmPassword">
-                <Form.Label>Zatwierdź hasło</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Powtórz hasło"
-                  //value={confirmPassword}
-                  //onChange={(e) => setPassword(e.target.value)}
-                  style={{
-                    minWidth: "30vw",
-                  }}
-                ></Form.Control>
-              </Form.Group>{" "}
-              {/*{picMessage && (
-                                    <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-                                )}*/}
-              <Form.Group className="mb-3" controlId="pic">
-                <Form.Label>Zmień zdjęcie profilowe</Form.Label>
-                <Form.Control
-                  id="custom-file"
-                  type="file"
-                  label="Dodaj zdjęcie profilowe"
-                  custom
-                  //onChange={(e) => postDetails(e.target.files[0])}
-                ></Form.Control>
-              </Form.Group>
-              <Button
-                /*onClick={() => updateUser(user.id)}*/ type="submit"
-                variant="primary"
-              >
-                Zaktualizuj
-              </Button>
-              <Button
-                /*onClick={() => deleteUser(user.id)}*/ style={{
-                  float: "right",
-                }}
-                type="delete"
-                variant="danger"
-              >
-                Usuń konto
-              </Button>
-            </Form>
-          </Col>
-          <Col
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              className="ui avatar image"
-              //src={user.avatarSrc === "" ? noAvatar : user.avatarSrc}
-              alt="Avatar"
-            />
-          </Col>
-        </Row>
+    <Form onSubmit={submitHandler}>
+      {loading && <Loading />}
+      {success && (
+        <ErrorMessage variant="success">Updated Succcessfully</ErrorMessage>
+      )}
+      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+      <div className="form-inner">
+        <h1 className="heading">Zaktualizuj swoje informacje</h1>
+        <div className="form-group">
+          <Form.Label htmlFor="name">Imię</Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            id="name"
+            value={name}
+            placeholder="Wprowadź imię"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="surname">Nazwisko</Form.Label>
+          <Form.Control
+            type="text"
+            name="surname"
+            id="surname"
+            value={surname}
+            placeholder="Wprowadź nazwisko"
+            onChange={(e) => setSurname(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="email">Adres e-mail</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            id="email"
+            value={email}
+            placeholder="Wprowadź e-mail"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="password">Hasło</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            id="password"
+            value={password}
+            placeholder="Wprowadź hasło"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="confirmpassword">Zatwierdź hasło</Form.Label>
+          <Form.Control
+            type="password"
+            name="confirmpassword"
+            id="confirmpassword"
+            value={confirmpassword}
+            placeholder="Powtórz hasło"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+
+        <Button type="submit" variant="primary">
+          Zapisz
+        </Button>
+        {/*<input
+              type="teacherRegisterView"
+              value="Usuń konto"
+              onClick={teacherRegisterHandler}
+          />*/}
       </div>
-    </div>
+    </Form>
   );
 };
 

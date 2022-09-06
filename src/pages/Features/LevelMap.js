@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../index.css";
 import MapFields from "./MapFields";
-import mapa_poziomy from "../../assets/mapa_poziomy.png";
+import mapa_poziomy from "../../static/assets/mapa_poziomy.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 

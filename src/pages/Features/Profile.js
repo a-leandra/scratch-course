@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
-import ErrorMessage from "../../components/ErrorMessage";
-import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/Layouts/ErrorMessage";
+import Loading from "../../components/Layouts/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { update } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";

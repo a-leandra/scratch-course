@@ -1,5 +1,5 @@
 import React from "react";
-import soonToCome from "../../assets/coming-soon.gif";
+import soonToCome from "../../static/assets/coming-soon.gif";
 
 const ComingSoon = () => {
   return (

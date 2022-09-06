@@ -20,7 +20,7 @@ const App = () => {
       <BrowserRouter location={history.location} navigator={history}>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Navigate to="/mapa-poziomow" />} />
+          <Route path="/" element={<Navigate to="/glowna" />} />
           <Route path="/panel-nauczyciela" element={<TeacherPanel />} />
           <Route path="/mapa-poziomow" element={<LevelMap />} />
           <Route path="/profil" element={<Profile />} />

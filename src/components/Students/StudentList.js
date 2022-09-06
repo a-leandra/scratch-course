@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import StudentListHeader from "./StudentListHeader";
-import noAvatar from "./../../assets/no-avatar.png";
+import noAvatar from "./../../static/assets/no-avatar.png";
 import SearchBar from "../Layouts/SearchBar";
 import Student from "./Student";
 const axios = require("axios");

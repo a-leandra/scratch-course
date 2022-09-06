@@ -1,5 +1,5 @@
-const { dataSets, testNamePrefix } = require("../db/dbData");
-const userCrude = require("../controllers/crud/userCrud");
+const { dataSets, testNameSuffix } = require("../db/dbData");
+const userTeachCrude = require("../controllers/crud/userTeachCrud");
 const groupCrude = require("../controllers/crud/groupCrud");
 const assert = require("assert");
 const Group = require("../models/groupModel");
@@ -9,7 +9,7 @@ const Group = require("../models/groupModel");
   This would simplfy testing.
 */
 
-describe("Test User model basic Crud functionality.", () => {
+describe("Test UserTeach model basic Crud functionality.", () => {
   let users = null;
   let toBeDeleted = null;
   let toBeUpdated = null;
@@ -24,15 +24,15 @@ describe("Test User model basic Crud functionality.", () => {
   });
   it("add users", async () => {
     for (const user of users) {
-      user.name = testNamePrefix + user.name;
-      await userCrude.tryToAddUser(user);
+      user.name = user.name + testNameSuffix;
+      await userTeachCrude.tryToAddUser(user);
     }
   });
   it("remove user", async () => {
-    await userCrude.tryToRemoveUser(toBeDeleted.email);
+    await userTeachCrude.tryToRemoveUser(toBeDeleted.email);
   });
   it("update user surname", async () => {
-    await userCrude.tryToUpdateUsersVar(toBeUpdated.email, {
+    await userTeachCrude.tryToUpdateUsersVar(toBeUpdated.email, {
       surname: "updated",
     });
   });
@@ -55,7 +55,7 @@ describe("Test Group model Crud functionality.", () => {
   });
   it("add groups", async () => {
     for (const group of groups) {
-      group.name = testNamePrefix + group.name;
+      group.name = group.name + testNameSuffix;
       await groupCrude.tryToAddGroup(group.name, group.email);
     }
   });
@@ -72,13 +72,13 @@ describe("Test Group model Crud functionality.", () => {
   it("get groups of teacher", async () => {
     const result = await groupCrude.tryToFindAllGroupsOfTeacher(teacher.email);
     const found = result.map((instance) => instance.name);
-    const expected = [testNamePrefix + "Aupdated", testNamePrefix + "B"];
+    const expected = ["A" + testNameSuffix + "updated", "B" + testNameSuffix];
     assert(found.toString() === expected.toString());
   });
 });
 
-describe("Test User model specialized Crud functionality.", function () {
-  this.timeout(5000);
+describe("Test UserTeach model specialized Crud functionality.", function () {
+  this.timeout(5000); // Neccessery if no separate claster is used or changes in model are done.
   let students = null;
   let group = null;
   let teacher = null;
@@ -95,12 +95,15 @@ describe("Test User model specialized Crud functionality.", function () {
       name: group.name + "updated",
     });
     for (const student of students) {
-      await userCrude.tryToAddStudentToGroup(student.email, savedGroup.code);
+      await userTeachCrude.tryToAddStudentToGroup(
+        student.email,
+        savedGroup.code
+      );
     }
   });
   it("get students of teacher", async () => {
     const found = (
-      await userCrude.tryToFindAllStudentsOfTeacher(teacher.email)
+      await userTeachCrude.tryToFindAllStudentsOfTeacher(teacher.email)
     ).map((student) => student.name);
     const expected = students.map((student) => student.name);
     assert(found.toString() === expected.toString());

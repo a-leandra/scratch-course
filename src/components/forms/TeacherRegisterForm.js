@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ErrorMessage from "../../components/ErrorMessage";
-import Loading from "../../components/Loading";
+import ErrorMessage from "../Layouts/ErrorMessage";
+import Loading from "../../components/Layouts/Loading";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { teacherRegister } from "../../actions/userActions";

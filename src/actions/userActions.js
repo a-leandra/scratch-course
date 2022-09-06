@@ -12,8 +12,10 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
-} from "../constants/userConstants";
+} from "../static/constants/userConstants";
 import axios from "axios";
+
+const api = "http://localhost:5000";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -26,7 +28,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "/api/users/login",
+      api + "/users/login",
       { email, password },
       config
     );
@@ -62,7 +64,7 @@ export const register =
       };
 
       const { data } = await axios.post(
-        "/api/users",
+        api + "/users",
         {
           name,
           surname,
@@ -100,7 +102,7 @@ export const teacherRegister =
       };
 
       const { data } = await axios.post(
-        "/api/users",
+        api + "/users",
         {
           name,
           surname,
@@ -142,7 +144,7 @@ export const update = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post("/api/users/profil", user, config);
+    const { data } = await axios.post(api + "/users/profil", user, config);
 
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });

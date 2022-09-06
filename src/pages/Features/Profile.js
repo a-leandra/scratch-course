@@ -53,89 +53,83 @@ const Profile = ({ changeView }) => {
   };
 
   return (
-        <Form onSubmit={submitHandler}>
-            {loading && <Loading />}
-            {success && (
-              <ErrorMessage variant="success">Updated Succcessfully</ErrorMessage>
-            )}
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+    <div className="ui raised very padded text container segment">
+      <div className="loginContainer">
+        {loading && <Loading />}
+        {success && (
+          <ErrorMessage variant="success">Updated Succcessfully</ErrorMessage>
+        )}
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        <form onSubmit={submitHandler}>
           <div className="form-inner">
-            <h1 className="heading">Zaktualizuj swoje informacje</h1>
+            <h2>Zaktualizuj swoje informacje</h2>
             <div className="form-group">
-              
-                <Form.Label htmlFor="name">Imię</Form.Label>
+              <Form.Group controlId="name">
+                <Form.Label>Imię</Form.Label>
                 <Form.Control
                   type="text"
-                  name="name" 
-                  id="name"
                   value={name}
                   placeholder="Wprowadź imię"
                   onChange={(e) => setName(e.target.value)}
                 />
-              
+              </Form.Group>
             </div>
             <div className="form-group">
-              
-                <Form.Label htmlFor="surname">Nazwisko</Form.Label>
+              <Form.Group controlId="surname">
+                <Form.Label>Nazwisko</Form.Label>
                 <Form.Control
                   type="text"
-                  name="surname" 
-                  id="surname"
                   value={surname}
                   placeholder="Wprowadź nazwisko"
                   onChange={(e) => setSurname(e.target.value)}
                 />
-              
+              </Form.Group>
             </div>
             <div className="form-group">
-              
-                <Form.Label htmlFor="email">Adres e-mail</Form.Label>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Adres e-mail</Form.Label>
                 <Form.Control
                   type="email"
-                  name="email" 
-                  id="email" 
                   value={email}
                   placeholder="Wprowadź e-mail"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              
+              </Form.Group>
             </div>
             <div className="form-group">
-              
-                <Form.Label htmlFor="password">Hasło</Form.Label>
+              <Form.Group controlId="formBasicPassword">
+                <Form.Label>Hasło</Form.Label>
                 <Form.Control
                   type="password"
-                  name="password" 
-                  id="password"
                   value={password}
                   placeholder="Wprowadź hasło"
                   onChange={(e) => setPassword(e.target.value)}
                 />
-              
+              </Form.Group>
             </div>
             <div className="form-group">
-              
-                <Form.Label htmlFor="confirmpassword">Zatwierdź hasło</Form.Label>
+              <Form.Group controlId="confirmPassword">
+                <Form.Label>Zatwierdź hasło</Form.Label>
                 <Form.Control
                   type="password"
-                  name="confirmpassword" 
-                  id="confirmpassword" 
                   value={confirmpassword}
                   placeholder="Powtórz hasło"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-              
+              </Form.Group>
             </div>
 
-            <Button type="submit" variant="primary">Zapisz</Button>
+            <input type="submit" value="Zapisz" />
             {/*<input
               type="teacherRegisterView"
               value="Usuń konto"
               onClick={teacherRegisterHandler}
           />*/}
           </div>
-        </Form>
+        </form>
+      </div>
+    </div>
   );
 };
 

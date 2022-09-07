@@ -26,9 +26,9 @@ const StudentList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:5000/users/wojska@gmail.com"
-      );
+      // should it be moved to actions? or somewhere else?
+      const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
+      const response = await axios.get("/users/" + userEmail);
       dispatch(setStudents(response.data));
     };
     fetchData();

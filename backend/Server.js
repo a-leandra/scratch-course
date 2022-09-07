@@ -35,8 +35,16 @@ class Server {
 
   async prepareServer() {
     await this.#connectWithDatabase();
-    this.#mountMiddleware();
+    this.#mountBodyParsing();
     this.#setRouting();
+    this.#setDefaultResponse();
+    this.#mountErrorHandling();
+  }
+
+  #setDefaultResponse() {
+    this.#app.get("/", (req, res) => {
+      res.send("API is running... " + this.getServerUrl());
+    });
   }
 
   #setRouting() {
@@ -50,10 +58,13 @@ class Server {
     await this.#dbConnection.connect();
   }
 
-  #mountMiddleware() {
+  #mountBodyParsing() {
     this.#app.use(express.json());
     this.#app.use(bodyParser.json());
-    //this.#app.use(notFound);
+  }
+
+  #mountErrorHandling() {
+    this.#app.use(notFound);
     this.#app.use(errorHandler);
   }
 }

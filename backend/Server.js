@@ -34,6 +34,7 @@ class Server {
   }
 
   async prepareServer() {
+    // Don't change the order - it might stop working.
     await this.#connectWithDatabase();
     this.#mountBodyParsing();
     this.#setRouting();

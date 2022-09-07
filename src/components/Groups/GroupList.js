@@ -20,9 +20,9 @@ const GroupList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:5000/groups/wojska@gmail.com"
-      );
+      // should it be moved to actions? or somewhere else?
+      const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
+      const response = await axios.get("/groups/" + userEmail);
       dispatch(setGroups(response.data));
     };
     fetchData();

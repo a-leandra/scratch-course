@@ -1,6 +1,5 @@
 import React from "react";
 import "./main_page_style.css";
-import video from "../../static/assets/Scratch.mp4";
 import { useDispatch } from "react-redux";
 import { setNavbarOff } from "../../reducers/pageState";
 
@@ -10,22 +9,6 @@ export default function MainPage() {
 
   return (
     <div>
-      <video
-        muted
-        loop
-        autoPlay
-        alt="Mapa"
-        style={{
-          position: "absolute",
-          left: 0 + "vw",
-          top: 0 + "vh",
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-      >
-        <source src={video} type="video/mp4" />
-      </video>
       <div
         style={{
           position: "absolute",

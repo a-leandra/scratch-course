@@ -53,81 +53,85 @@ const Profile = ({ changeView }) => {
   };
 
   return (
-    <Form onSubmit={submitHandler}>
-      {loading && <Loading />}
-      {success && (
-        <ErrorMessage variant="success">Updated Succcessfully</ErrorMessage>
-      )}
-      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-      <div className="form-inner">
-        <h1 className="heading">Zaktualizuj swoje informacje</h1>
-        <div className="form-group">
-          <Form.Label htmlFor="name">Imię</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            id="name"
-            value={name}
-            placeholder="Wprowadź imię"
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <Form.Label htmlFor="surname">Nazwisko</Form.Label>
-          <Form.Control
-            type="text"
-            name="surname"
-            id="surname"
-            value={surname}
-            placeholder="Wprowadź nazwisko"
-            onChange={(e) => setSurname(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <Form.Label htmlFor="email">Adres e-mail</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            id="email"
-            value={email}
-            placeholder="Wprowadź e-mail"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <Form.Label htmlFor="password">Hasło</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            placeholder="Wprowadź hasło"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <Form.Label htmlFor="confirmpassword">Zatwierdź hasło</Form.Label>
-          <Form.Control
-            type="password"
-            name="confirmpassword"
-            id="confirmpassword"
-            value={confirmpassword}
-            placeholder="Powtórz hasło"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
+    <div className="ui raised very padded text container segment">
+      <h1 className="heading">Zaktualizuj swoje informacje</h1>
+      <div>
+        <Form onSubmit={submitHandler}>
+          {loading && <Loading />}
+          {success && (
+            <ErrorMessage variant="success">Updated Succcessfully</ErrorMessage>
+          )}
+          {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+          {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+          <div className="form-inner">
+            <div className="form-group">
+              <Form.Label htmlFor="name">Imię</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                id="name"
+                value={name}
+                placeholder="Wprowadź imię"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <Form.Label htmlFor="surname">Nazwisko</Form.Label>
+              <Form.Control
+                type="text"
+                name="surname"
+                id="surname"
+                value={surname}
+                placeholder="Wprowadź nazwisko"
+                onChange={(e) => setSurname(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <Form.Label htmlFor="email">Adres e-mail</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                id="email"
+                value={email}
+                placeholder="Wprowadź e-mail"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <Form.Label htmlFor="password">Hasło</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                id="password"
+                value={password}
+                placeholder="Wprowadź hasło"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <Form.Label htmlFor="confirmpassword">Zatwierdź hasło</Form.Label>
+              <Form.Control
+                type="password"
+                name="confirmpassword"
+                id="confirmpassword"
+                value={confirmpassword}
+                placeholder="Powtórz hasło"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
 
-        <Button type="submit" variant="primary">
-          Zapisz
-        </Button>
-        {/*<input
+            <Button type="submit" variant="primary">
+              Zapisz
+            </Button>
+            {/*<input
               type="teacherRegisterView"
               value="Usuń konto"
               onClick={teacherRegisterHandler}
           />*/}
+          </div>
+        </Form>
       </div>
-    </Form>
+    </div>
   );
 };
 

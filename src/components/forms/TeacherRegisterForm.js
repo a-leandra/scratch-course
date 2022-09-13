@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ErrorMessage from "../Layouts/ErrorMessage";
 import Loading from "../../components/Layouts/Loading";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { teacherRegister } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";
@@ -48,74 +48,79 @@ function TeacherRegisterForm({ changeView }) {
   };
 
   return (
-    <div className="loginContainer">
-      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-      {loading && <Loading />}
-      <form onSubmit={submitHandler}>
-        <div className="form-inner">
-          <h2>Zarejestruj się jako nauczyciel</h2>
-          <div className="form-group">
-            <Form.Group controlId="name">
-              <Form.Label>Imię</Form.Label>
-              <Form.Control
-                type="name"
-                value={name}
-                placeholder="Wprowadź imię"
-                onChange={(e) => setName(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="surname">
-              <Form.Label>Nazwisko</Form.Label>
-              <Form.Control
-                type="surname"
-                value={surname}
-                placeholder="Wprowadź nazwisko"
-                onChange={(e) => setSurname(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Adres e-mail</Form.Label>
-              <Form.Control
-                type="email"
-                value={email}
-                placeholder="Wprowadź e-mail"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Hasło</Form.Label>
-              <Form.Control
-                type="password"
-                value={password}
-                placeholder="Wprowadź hasło"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="confirmPassword">
-              <Form.Label>Zatwierdź hasło</Form.Label>
-              <Form.Control
-                type="password"
-                value={confirmpassword}
-                placeholder="Powtórz hasło"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-
-          <input type="submit" value="Zarejestruj się" />
-          <input type="loginView" value="Zaloguj się" onClick={loginHandler} />
+    <Form onSubmit={submitHandler}>
+      <div className="form-inner">
+        <h1 className="heading">Zarejestruj się jako nauczyciel</h1>
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {loading && <Loading />}
+        <div className="form-group">
+          <Form.Label htmlFor="name">Imię</Form.Label>
+          <Form.Control
+            type="name"
+            name="name"
+            id="name"
+            value={name}
+            placeholder="Wprowadź imię"
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
-      </form>
-    </div>
+        <div className="form-group">
+          <Form.Label htmlFor="surname">Nazwisko</Form.Label>
+          <Form.Control
+            type="surname"
+            name="surname"
+            id="surname"
+            value={surname}
+            placeholder="Wprowadź nazwisko"
+            onChange={(e) => setSurname(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="email">E-mail</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            id="email"
+            value={email}
+            placeholder="Wprowadź e-mail"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="password">Hasło</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            id="password"
+            value={password}
+            placeholder="Wprowadź hasło"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="confirmpassword">Potwierdź hasło</Form.Label>
+          <Form.Control
+            type="password"
+            name="confirmpassword"
+            id="confirmpassword"
+            value={confirmpassword}
+            placeholder="Powtórz hasło"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+
+        <Button type="submit"> Zarejestruj się </Button>
+        <Button
+          type="loginView"
+          onClick={loginHandler}
+          variant="dark"
+          style={{ marginLeft: "20px" }}
+        >
+          Logowanie
+        </Button>
+      </div>
+    </Form>
   );
 }
 

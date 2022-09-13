@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import Loading from "../../components/Layouts/Loading";
 import ErrorMessage from "../Layouts/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ function LoginForm({ changeView }) {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/mapa-poziomow");
     }
   }, [userInfo]);
 
@@ -31,48 +31,56 @@ function LoginForm({ changeView }) {
   };
 
   const registerHandler = (e) => {
-    e.preventDefault();
     changeView("register");
   };
 
   return (
-    <div className="loginContainer">
-      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-      {loading && <Loading />}
-      <form onSubmit={submitHandler}>
-        <div className="form-inner">
-          <h2>Zaloguj się</h2>
-          <div className="form-group">
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>E-mail</Form.Label>
-              <Form.Control
-                type="email"
-                value={email}
-                placeholder="Wprowadź swój adres e-mail"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Hasło</Form.Label>
-              <Form.Control
-                type="password"
-                value={password}
-                placeholder="Wprowadź hasło"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <input type="submit" value="Zaloguj się" />
-          <input
-            type="register"
-            value="Zarejestruj się"
-            onClick={registerHandler}
-          />
+    <Form onSubmit={submitHandler}>
+      <div className="form-inner">
+        <h1 className="heading">Zaloguj się</h1>
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {loading && <Loading />}
+        <div className="form-group">
+          <Form.Label htmlFor="email">E-mail</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            id="email"
+            value={email}
+            placeholder="Wprowadź swój adres e-mail"
+            onChange={(e) => setEmail(e.target.value)}
+            style={{
+              minWidth: "30vw",
+            }}
+          ></Form.Control>
         </div>
-      </form>
-    </div>
+        <div className="form-group">
+          <Form.Label htmlFor="password">Hasło</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            id="password"
+            value={password}
+            placeholder="Wprowadź hasło"
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              minWidth: "30vw",
+            }}
+          ></Form.Control>
+        </div>
+        <Button type="submit" variant="primary">
+          Zaloguj się
+        </Button>
+        <Button
+          type="register"
+          onClick={registerHandler}
+          variant="dark"
+          style={{ marginLeft: "20px" }}
+        >
+          Zarejestruj się
+        </Button>
+      </div>
+    </Form>
   );
 }
 

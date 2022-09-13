@@ -27,9 +27,9 @@ const userSchema = mongoose.Schema(
       required: false,
       default: null,
     },
-    currentTask: {
+    task: {
       type: Number,
-      required: true,
+      required: false,
       default: 1,
     },
     isTeacher: {

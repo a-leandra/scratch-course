@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ErrorMessage from "../Layouts/ErrorMessage";
 import Loading from "../../components/Layouts/Loading";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +25,7 @@ function RegisterForm({ changeView }) {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/mapa-poziomow");
     }
   }, [userInfo]);
 
@@ -51,92 +51,121 @@ function RegisterForm({ changeView }) {
   };
 
   return (
-    <div className="loginContainer">
-      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-      {loading && <Loading />}
-      <form onSubmit={submitHandler}>
-        <div className="form-inner">
-          <h2>Zarejestruj się</h2>
-          <div className="form-group">
-            <Form.Group controlId="name">
-              <Form.Label>Imię</Form.Label>
-              <Form.Control
-                type="name"
-                value={name}
-                placeholder="Wprowadź imię"
-                onChange={(e) => setName(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="surname">
-              <Form.Label>Nazwisko</Form.Label>
-              <Form.Control
-                type="surname"
-                value={surname}
-                placeholder="Wprowadź nazwisko"
-                onChange={(e) => setSurname(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Adres e-mail</Form.Label>
-              <Form.Control
-                type="email"
-                value={email}
-                placeholder="Wprowadź e-mail"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Hasło</Form.Label>
-              <Form.Control
-                type="password"
-                value={password}
-                placeholder="Wprowadź hasło"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="confirmPassword">
-              <Form.Label>Zatwierdź hasło</Form.Label>
-              <Form.Control
-                type="password"
-                value={confirmpassword}
-                placeholder="Powtórz hasło"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-          <div className="form-group">
-            <Form.Group controlId="group">
-              <Form.Label>Kod grupy</Form.Label>
-              <Form.Control
-                type="group"
-                value={group}
-                placeholder="Wprowadź kod grupy"
-                onChange={(e) => setGroup(e.target.value)}
-              />
-            </Form.Group>
-          </div>
-
-          <input type="submit" value="Zarejestruj się" />
-          <input type="loginView" value="Zaloguj się" onClick={loginHandler} />
+    <Form onSubmit={submitHandler}>
+      <div className="form-inner">
+        <h1 className="heading">Zarejestruj się</h1>
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {loading && <Loading />}
+        <div className="form-group">
+          <Form.Label htmlFor="name">Imię</Form.Label>
+          <Form.Control
+            type="name"
+            name="name"
+            id="name"
+            value={name}
+            placeholder="Wprowadź imię"
+            onChange={(e) => setName(e.target.value)}
+            style={{
+              minWidth: "30vw",
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="surname">Nazwisko</Form.Label>
+          <Form.Control
+            type="surname"
+            name="surname"
+            id="surname"
+            value={surname}
+            placeholder="Wprowadź nazwisko"
+            onChange={(e) => setSurname(e.target.value)}
+            style={{
+              minWidth: "30vw",
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="email">E-mail</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            id="email"
+            value={email}
+            placeholder="Wprowadź e-mail"
+            onChange={(e) => setEmail(e.target.value)}
+            style={{
+              minWidth: "30vw",
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="password">Hasło</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            id="password"
+            value={password}
+            placeholder="Wprowadź hasło"
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              minWidth: "30vw",
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="confirmpassword">Potwierdź hasło</Form.Label>
+          <Form.Control
+            type="password"
+            name="confirmpassword"
+            id="confirmpassword"
+            value={confirmpassword}
+            placeholder="Powtórz hasło"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            style={{
+              minWidth: "30vw",
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Form.Label htmlFor="group">
+            Kod grupy (jeśli został podany przez nauczyciela)
+          </Form.Label>
+          <Form.Control
+            type="group"
+            name="group"
+            id="group"
+            value={group}
+            placeholder="Wprowadź kod grupy"
+            onChange={(e) => setGroup(e.target.value)}
+            style={{
+              minWidth: "30vw",
+            }}
+          />
+        </div>
+        <div style={{ display: "flex", flexDirection: "Row" }}>
           <div>
-            <input
+            <Button type="submit" variant="primary" value="Zarejestruj się">
+              Zarejestruj się
+            </Button>
+          </div>
+          <div style={{ marginLeft: "70px" }}>
+            <Button onClick={loginHandler} type="loginView" variant="dark">
+              Logowanie
+            </Button>
+            <Button
               type="teacherRegisterView"
               value="Jestem nauczycielem"
               onClick={teacherRegisterHandler}
-            />
+              variant="dark"
+              style={{ marginLeft: "10px" }}
+            >
+              Jestem nauczycielem
+            </Button>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </Form>
   );
 }
 

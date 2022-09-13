@@ -4,16 +4,8 @@ const Group = require("../../models/groupModel");
 const generateToken = require("../../utils/generateToken");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const {
-    name,
-    surname,
-    email,
-    password,
-    group,
-    currentTask,
-    isTeacher,
-    picture,
-  } = req.body;
+  const { name, surname, email, password, group, task, isTeacher, picture } =
+    req.body;
 
   // check if user already exists in the database
   const userExists = await User.findOne({ email });
@@ -24,7 +16,11 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // check if such group exists in the database
-  const groupExists = await Group.findOne({ code: group });
+  groupExists = await Group.findOne({ code: group });
+
+  if (group === "") {
+    groupExists = await Group.findOne({ code: 0 });
+  }
 
   if (groupExists) {
     const user = await User.create({
@@ -33,7 +29,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email,
       password,
       group: groupExists._id,
-      currentTask,
+      task,
       isTeacher,
       picture,
     });
@@ -45,7 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
         surname: user.surname,
         email: user.email,
         group: groupExists._id,
-        currentTask: user.task,
+        task: user.task,
         isTeacher: user.isTeacher,
         picture: user.picture,
         token: generateToken(user._id),
@@ -62,7 +58,7 @@ const registerUser = asyncHandler(async (req, res) => {
         email,
         password,
         group,
-        currentTask,
+        task,
         isTeacher,
         picture,
       });
@@ -74,7 +70,7 @@ const registerUser = asyncHandler(async (req, res) => {
           surname: user.surname,
           email: user.email,
           group: user.group,
-          currentTask: user.task,
+          task: user.task,
           isTeacher: user.isTeacher,
           picture: user.picture,
           token: generateToken(user._id),
@@ -102,7 +98,7 @@ const authUser = asyncHandler(async (req, res) => {
       surname: user.surname,
       email: user.email,
       group: user.group,
-      currentTask: user.task,
+      task: user.task,
       isTeacher: user.isTeacher,
       picture: user.picture,
       token: generateToken(user._id),

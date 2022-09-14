@@ -23,11 +23,7 @@ export default function MapComponent() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!userInfo) {
-      navigate("/panel-nauczyciela");
-    }
-  }, [userInfo]);
+  useEffect(() => {}, [userInfo]);
 
   return (
     <div>

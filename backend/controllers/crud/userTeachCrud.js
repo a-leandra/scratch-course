@@ -56,7 +56,7 @@ const tryToFindAllStudentsOfTeacher = async (email) => {
       results.push({
         name: student.name,
         surname: student.surname,
-        progress: student.currentTask,
+        progress: student.task,
         group: group.code,
       });
     }

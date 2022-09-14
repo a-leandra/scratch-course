@@ -6,7 +6,7 @@ import "./map_style.css";
 
 export default function MapFields({ coordinates }) {
   const fields = [];
-  console.log(coordinates);
+  //console.log(coordinates);
   coordinates.forEach((element) => {
     if (element.current) {
       fields.push(

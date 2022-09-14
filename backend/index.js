@@ -7,7 +7,7 @@ const startServer = async () => {
   await server.prepareServer();
   server.run();
   console.log("Server is running: " + server.getServerUrl() + ".");
-  await clearDB(false);
+  //await clearDB(false);
   if (!(await isDBPopulated(false))) {
     console.log("Populating data base with examplary data...");
     await populateDB(false);

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddNewGroup from "./AddNewGroup";
 import SearchBar from "../Layouts/SearchBar";
 import Group from "./Group";
+import { fetchGroups } from "../../actions/teacherPanelReq";
 const axios = require("axios");
 const {
   setKeyAndFilter,
@@ -19,13 +20,7 @@ const GroupList = () => {
   const keyword = useSelector((state) => state.groupSearch.searchKey);
 
   useEffect(() => {
-    const fetchData = async () => {
-      // should it be moved to actions? or somewhere else?
-      const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
-      const response = await axios.get("/groups/" + userEmail);
-      dispatch(setGroups(response.data));
-    };
-    fetchData();
+    dispatch(fetchGroups(setGroups));
   }, []);
 
   const handleUserChoice = (e, group) => {

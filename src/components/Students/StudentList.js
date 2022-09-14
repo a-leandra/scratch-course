@@ -4,6 +4,7 @@ import StudentListHeader from "./StudentListHeader";
 import noAvatar from "./../../static/assets/no-avatar.png";
 import SearchBar from "../Layouts/SearchBar";
 import Student from "./Student";
+import { fetchStudents } from "../../actions/teacherPanelReq";
 const axios = require("axios");
 const {
   setStudents,
@@ -25,13 +26,7 @@ const StudentList = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      // should it be moved to actions? or somewhere else?
-      const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
-      const response = await axios.get("/users/" + userEmail);
-      dispatch(setStudents(response.data));
-    };
-    fetchData();
+    dispatch(fetchStudents(setStudents));
   }, []);
 
   return (

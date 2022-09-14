@@ -10,8 +10,10 @@ import About from "./pages/Information/About";
 import Contact from "./pages/Information/Contact";
 import Privacy from "./pages/Information/Privacy";
 import { createMemoryHistory } from "history";
-import UserManagement from "./UserManagement";
 import MainPage from "./pages/Information/MainPage";
+import LoginForm from "./components/Forms/LoginForm";
+import RegisterForm from "./components/Forms/RegisterForm";
+import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
 
 const App = () => {
   const history = createMemoryHistory({ reducer: {} });
@@ -21,14 +23,19 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to="/glowna" />} />
-          <Route path="/panel-nauczyciela" element={<TeacherPanel />} />
-          <Route path="/mapa-poziomow" element={<LevelMap />} />
-          <Route path="/profil" element={<Profile />} />
+          <Route path="/glowna" element={<MainPage />} />
+          <Route path="/zaloguj" element={<LoginForm />} />
+          <Route path="/zarejestruj" element={<RegisterForm />} />
+          <Route
+            path="zarejestrujNauczyciela"
+            element={<TeacherRegisterForm />}
+          />
           <Route path="/o-nas" element={<About />} />
           <Route path="/kontakt" element={<Contact />} />
           <Route path="/polityka-prywatnosci" element={<Privacy />} />
-          <Route path="/zaloguj" element={<UserManagement />} />
-          <Route path="/glowna" element={<MainPage />} />
+          <Route path="/mapa-poziomow" element={<LevelMap />} />
+          <Route path="/panel-nauczyciela" element={<TeacherPanel />} />
+          <Route path="/profil" element={<Profile />} />
         </Routes>
         <Footer />
       </BrowserRouter>

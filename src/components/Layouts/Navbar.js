@@ -17,7 +17,7 @@ export default function Navbar() {
 
   const logoutHandler = () => {
     dispatch(logout());
-    navigate("/");
+    navigate("/glowna");
   };
 
   useEffect(() => {}, [userInfo]);
@@ -43,16 +43,20 @@ export default function Navbar() {
           <ul class="navbar-nav text-center">
             {userInfo ? (
               <>
-                <li class="nav-item">
-                  <Nav.Link
-                    as={NavLink}
-                    class="nav-link"
-                    to="/panel-nauczyciela"
-                  >
-                    <FontAwesomeIcon icon={faSchool}> </FontAwesomeIcon> Panel
-                    nauczyciela
-                  </Nav.Link>
-                </li>
+                {userInfo.isTeacher ? (
+                  <li class="nav-item">
+                    <Nav.Link
+                      as={NavLink}
+                      class="nav-link"
+                      to="/panel-nauczyciela"
+                    >
+                      <FontAwesomeIcon icon={faSchool}> </FontAwesomeIcon> Panel
+                      nauczyciela
+                    </Nav.Link>
+                  </li>
+                ) : (
+                  <></>
+                )}
                 <li class="nav-item">
                   <Nav.Link as={NavLink} class="nav-link" to="/mapa-poziomow">
                     <FontAwesomeIcon icon={faMap}> </FontAwesomeIcon> Mapa

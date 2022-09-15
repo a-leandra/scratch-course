@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { addNewGroup } from "../../actions/teacherPanelReq";
 const axios = require("axios");
 
 const AddNewGroup = () => {
@@ -7,15 +8,9 @@ const AddNewGroup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios
-      .post("http://localhost:5000/groups", {
-        name: name,
-        email: "wojska@gmail.com", // TODO: Add choice of email everywhere.
-      }) // Add notification about what happened.
-      .catch((error) => {
-        console.log(error);
-      });
+    addNewGroup(name);
     setName("");
+    window.location.reload(false); // TODO: change without force update
   };
 
   return (

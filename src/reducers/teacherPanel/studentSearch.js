@@ -50,7 +50,7 @@ const studentSearchSlice = createSlice({
     },
     setStudentGroupAndPrepareData(state, action) {
       state.studentGroup = action.payload;
-      state.group = filterByGroup(state.students, state.studentGroup);
+      state.group = filterByGroup(state.students, state.studentGroup.code);
       state.overallProgress = countEvgProgress(state.group);
       state.filtered = state.group;
     },
@@ -67,6 +67,10 @@ const studentSearchSlice = createSlice({
       state.keyword = action.payload;
       state.filtered = filter(state.group, state.keyword);
     },
+    changeHomeworkTo(state, action) {
+      state.studentGroup.homework = { number: -1 };
+      state.studentGroup.homework.number = action.payload;
+    },
   },
 });
 
@@ -75,6 +79,7 @@ export const {
   setStudentGroupAndPrepareData,
   sort,
   setKeyAndFilter,
+  changeHomeworkTo,
 } = studentSearchSlice.actions;
 
 export default studentSearchSlice.reducer;

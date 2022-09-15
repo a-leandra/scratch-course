@@ -24,7 +24,7 @@ const GroupList = () => {
   }, []);
 
   const handleUserChoice = (e, group) => {
-    dispatch(setStudentGroupAndPrepareData(group.code));
+    dispatch(setStudentGroupAndPrepareData(group));
   };
 
   return (

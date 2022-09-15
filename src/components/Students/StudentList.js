@@ -4,8 +4,9 @@ import StudentListHeader from "./StudentListHeader";
 import noAvatar from "./../../static/assets/no-avatar.png";
 import SearchBar from "../Layouts/SearchBar";
 import Student from "./Student";
-import { fetchStudents } from "../../actions/teacherPanelReq";
-const axios = require("axios");
+import { fetchStudents, removeStudent } from "../../actions/teacherPanelReq";
+import Homework from "./Homework";
+
 const {
   setStudents,
   sort,
@@ -15,14 +16,10 @@ const {
 const StudentList = () => {
   const dispatch = useDispatch();
   const students = useSelector((state) => state.studentSearch.filtered);
-  const group = useSelector((state) => state.studentSearch.studentGroup);
-  const groupProgress = useSelector(
-    (state) => state.studentSearch.overallProgress
-  );
   const keyword = useSelector((state) => state.studentSearch.keyword);
 
   const removeStudentFromList = (e, student) => {
-    // TODO
+    removeStudent(student.email);
   };
 
   useEffect(() => {
@@ -34,11 +31,8 @@ const StudentList = () => {
       className="ui container center aligned"
       style={{ marginTop: "1em", flex: 1 }}
     >
-      <StudentListHeader
-        chosenGroup={group}
-        groupStudents={students}
-        overallProgress={groupProgress}
-      />
+      <StudentListHeader />
+      <Homework />
       <SearchBar
         keyword={keyword}
         setKeyword={(keyword) => {

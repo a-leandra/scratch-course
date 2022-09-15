@@ -80,7 +80,16 @@ describe("Test Group model Requests functionality.", () => {
       value: group.name + "updated",
     });
   });
+  it("update group homework", async () => {
+    tester.setRouteUrl("/groups/homework");
+    const group = await Group.findOne({ name: toBeUpdated.name + "updated" });
+    await tester.putAndAssert({
+      code: group.code,
+      homework: 4,
+    });
+  });
   it("get groups of teacher", async () => {
+    tester.setRouteUrl("/groups");
     await tester.getAndAssert("/" + groups.at(0).email);
   });
 });

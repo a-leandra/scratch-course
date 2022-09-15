@@ -1,9 +1,12 @@
 let Group = require("../../models/groupModel");
 let User = require("../../models/userModel");
+let Task = require("../../models/taskModel");
 
 const tryToFindAllGroupsOfTeacher = async (email) => {
   const teacher = await User.findOne({ email: email });
-  const groups = await Group.find({ teacher: teacher });
+  const groups = await Group.find({ teacher: teacher }).populate(
+    "homeworkTask"
+  );
   const results = groups.map((group) => {
     return { name: group.name, code: group.code, homework: group.homeworkTask };
   });
@@ -15,7 +18,7 @@ const tryToAddGroup = async (name, email) => {
   const newGroup = Group({
     name: name,
     teacher: teacher,
-    code: (await Group.count({})) + 1000,
+    code: (await Group.count({})) + 2000,
   });
   const result = await newGroup.save();
   if (result !== newGroup) {
@@ -45,9 +48,20 @@ const tryToUpdateGroupsVar = async (code, newVariable) => {
   }
 };
 
+const tryToChangeHomework = async (code, homework) => {
+  const task = await Task.findOne({ number: homework });
+  const result = await Group.updateOne({ code: code }, { homeworkTask: task });
+  if (result.acknowledged === false) {
+    throw Object.assign(new Error("Group with code " + code + " not found."), {
+      code: 404,
+    });
+  }
+};
+
 module.exports = {
   tryToFindAllGroupsOfTeacher,
   tryToAddGroup,
   tryToRemoveGroup,
   tryToUpdateGroupsVar,
+  tryToChangeHomework,
 };

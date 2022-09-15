@@ -58,6 +58,7 @@ const tryToFindAllStudentsOfTeacher = async (email) => {
         surname: student.surname,
         progress: student.task,
         group: group.code,
+        email: student.email,
       });
     }
   }

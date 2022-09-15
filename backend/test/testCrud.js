@@ -72,6 +72,10 @@ describe("Test Group model Crud functionality.", () => {
       name: group.name + "updated",
     });
   });
+  it("change homework", async () => {
+    const group = await Group.findOne({ name: toBeUpdated.name + "updated" });
+    await groupCrude.tryToChangeHomework(group.code, 4);
+  });
   it("get groups of teacher", async () => {
     const result = await groupCrude.tryToFindAllGroupsOfTeacher(teacher.email);
     const found = result.map((instance) => instance.name);

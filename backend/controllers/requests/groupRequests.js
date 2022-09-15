@@ -3,6 +3,7 @@ const {
   tryToAddGroup,
   tryToRemoveGroup,
   tryToUpdateGroupsVar,
+  tryToChangeHomework,
 } = require("../crud/groupCrud");
 
 const getGroupsOfTeacherRequest = async (req, res) => {
@@ -47,9 +48,22 @@ const updateGroupsVarRequest = async (req, res) => {
   }
 };
 
+const updateGroupHomework = async (req, res) => {
+  const { code, homework } = req.body;
+  try {
+    await tryToChangeHomework(code, homework);
+    res
+      .status(200)
+      .json({ message: "Group's (" + code + ") homework  changed." });
+  } catch (error) {
+    res.status(error.code).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getGroupsOfTeacherRequest,
   addGroupRequest,
   removeGroupRequest,
   updateGroupsVarRequest,
+  updateGroupHomework,
 };

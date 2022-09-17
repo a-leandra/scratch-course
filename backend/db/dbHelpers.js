@@ -14,6 +14,7 @@ async function populateDB(isTest) {
 const addTeachers = async (suffix) => {
   for (const teacher of dataSets.get("teachers").set) {
     teacher.name += suffix;
+    teacher.email += suffix;
     await tryToAddUser(teacher);
   }
 };
@@ -21,6 +22,7 @@ const addTeachers = async (suffix) => {
 const addGroups = async (suffix) => {
   for (const group of dataSets.get("groups").set) {
     group.name += suffix;
+    group.email += suffix;
     await tryToAddGroup(group.name, group.email);
   }
 };
@@ -30,6 +32,7 @@ const addStudents = async (suffix) => {
   const n = groups.length;
   for (const student of dataSets.get("students").set) {
     student.name += suffix;
+    student.email += suffix;
     student.group = groups[Math.floor(Math.random() * n)];
     await tryToAddUser(student);
   }

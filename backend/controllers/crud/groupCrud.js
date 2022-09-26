@@ -15,10 +15,11 @@ const tryToFindAllGroupsOfTeacher = async (email) => {
 
 const tryToAddGroup = async (name, email) => {
   const teacher = await User.findOne({ email: email });
+  const n = (await getLastCode()) + 1;
   const newGroup = Group({
     name: name,
     teacher: teacher,
-    code: (await Group.count({})) + 2000,
+    code: n,
   });
   const result = await newGroup.save();
   if (result !== newGroup) {
@@ -27,6 +28,15 @@ const tryToAddGroup = async (name, email) => {
     });
   }
 };
+
+async function getLastCode() {
+  if (typeof getLastCode.code === "undefined") {
+    const lastGroup = await Group.findOne().sort({ _id: -1 });
+    getLastCode.code = lastGroup.code;
+    return getLastCode.code;
+  }
+  return ++getLastCode.code;
+}
 
 const tryToRemoveGroup = async (code) => {
   const removed = await Group.findOneAndDelete({

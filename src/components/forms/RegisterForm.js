@@ -21,8 +21,8 @@ function RegisterForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
 
   useEffect(() => {
     if (typeof userInfo !== "undefined" && userInfo !== null) {
@@ -48,7 +48,7 @@ function RegisterForm() {
 
   const teacherRegisterHandler = (e) => {
     e.preventDefault();
-    navigate("/zarejestrujNauczyciela");
+    navigate("/zarejestruj-nauczyciela");
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddNewGroup from "./AddNewGroup";
-import SearchBar from "../Layouts/SearchBar";
+import SearchBar from "../../../Layouts/SearchBar";
 import Group from "./Group";
 import { fetchGroups } from "../../actions/teacherPanelReq";
 const axios = require("axios");
@@ -9,10 +9,10 @@ const {
   setKeyAndFilter,
   setGroups,
   sort,
-} = require("../../reducers/teacherPanel/groupSearch");
+} = require("../../reducers/groupSearch");
 const {
   setStudentGroupAndPrepareData,
-} = require("../../reducers/teacherPanel/studentSearch");
+} = require("../../reducers/studentSearch");
 
 const GroupList = () => {
   const dispatch = useDispatch();

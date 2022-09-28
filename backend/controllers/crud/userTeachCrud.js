@@ -22,7 +22,7 @@ const tryToRemoveUser = async (email) => {
 
 const tryToUpdateUsersVar = async (email, newVariable) => {
   const result = await User.updateOne({ email: email }, newVariable);
-  if (result.acknowledged === false) {
+  if (result.acknowledged === false || result.modifiedCount === 0) {
     throw Object.assign(new Error("E-mail " + email + " not found."), {
       code: 404,
     });
@@ -32,7 +32,7 @@ const tryToUpdateUsersVar = async (email, newVariable) => {
 const tryToAddStudentToGroup = async (email, code) => {
   const group = await Group.findOne({ code: code });
   const result = await User.updateOne({ email: email }, { group: group });
-  if (result.acknowledged === false) {
+  if (result.acknowledged === false || result.modifiedCount === 0) {
     throw Object.assign(
       new Error(
         "Can't add account (" + email + ") to group with code: " + code + "."

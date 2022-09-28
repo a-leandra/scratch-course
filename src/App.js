@@ -3,7 +3,7 @@ import "./index.css";
 import Navbar from "./components/Layouts/Navbar";
 import Footer from "./components/Layouts/Footer";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import TeacherPanel from "./pages/Features/TeacherPanel";
+import TeacherPanel from "./components/TeacherPanel/pages/TeacherPanel";
 import LevelMap from "./pages/Features/LevelMap";
 import Profile from "./pages/Features/Profile";
 import About from "./pages/Information/About";
@@ -14,6 +14,7 @@ import MainPage from "./pages/Information/MainPage";
 import LoginForm from "./components/Forms/LoginForm";
 import RegisterForm from "./components/Forms/RegisterForm";
 import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
+import SubmitionResults from "./components/TeacherPanel/pages/SubmitionResults";
 
 const App = () => {
   const history = createMemoryHistory({ reducer: {} });
@@ -27,7 +28,7 @@ const App = () => {
           <Route path="/zaloguj" element={<LoginForm />} />
           <Route path="/zarejestruj" element={<RegisterForm />} />
           <Route
-            path="zarejestrujNauczyciela"
+            path="zarejestruj-nauczyciela"
             element={<TeacherRegisterForm />}
           />
           <Route path="/o-nas" element={<About />} />
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/mapa-poziomow" element={<LevelMap />} />
           <Route path="/panel-nauczyciela" element={<TeacherPanel />} />
           <Route path="/profil" element={<Profile />} />
+          <Route path="/zapis" element={<SubmitionResults />} />
         </Routes>
         <Footer />
       </BrowserRouter>

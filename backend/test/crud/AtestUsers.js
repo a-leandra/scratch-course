@@ -4,8 +4,8 @@ const User = require("../../models/userModel");
 const assert = require("assert");
 
 /*
-  In future, it would be best to have one claster only for tests.
-  This would simplfy testing, e.g. no need to check for group code.
+  In future, only one claster for tests.
+  It simplfies testing, e.g. no need to check for group code.
 */
 
 const teachers = dataSets.get("teachers").set;

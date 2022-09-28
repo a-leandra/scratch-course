@@ -29,7 +29,13 @@ export const login = (email, password) => async (dispatch) => {
 
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
-    dispatch(getErrAction(error, USER_LOGIN_FAIL));
+    dispatch({
+      type: USER_LOGIN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 
@@ -61,7 +67,13 @@ export const register =
 
       localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
-      dispatch(getErrAction(error, USER_REGISTER_FAIL));
+      dispatch({
+        type: USER_REGISTER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
     }
   };
 
@@ -88,7 +100,13 @@ export const teacherRegister =
 
       localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
-      dispatch(getErrAction(error, TEACHER_USER_REGISTER_FAIL));
+      dispatch({
+        type: TEACHER_USER_REGISTER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
     }
   };
 
@@ -114,7 +132,13 @@ export const update = (user) => async (dispatch, getState) => {
 
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
-    dispatch(getErrAction(error, USER_UPDATE_FAIL));
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 
@@ -122,14 +146,4 @@ const requestConfig = {
   headers: {
     "Content-type": "application/json",
   },
-};
-
-const getErrAction = (error, type) => {
-  return {
-    type: type,
-    payload:
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message,
-  };
 };

@@ -35,6 +35,18 @@ describe("student's requests", function () {
     assert(res.status === 200);
     assertStudentsMatch(res);
   });
+  it("remove student from their group", async () => {
+    const body = {
+      email: students.at(-1).email,
+      valueName: "group",
+      value: null,
+    };
+    const res = await tester.post(
+      message(basicRoute + "/removeFromGroup", body)
+    );
+    assert(res.status === 200);
+    await assertUserNotInGroup(students.at(-1).email);
+  });
 });
 
 const addStudent = async (data) => {
@@ -48,4 +60,9 @@ const assertStudentsMatch = (response) => {
   const found = response.data.map((student) => student.name);
   const expected = students.map((student) => student.name);
   assert(found.toString() === expected.toString());
+};
+
+const assertUserNotInGroup = async (email) => {
+  const student = await User.findOne({ email: email });
+  assert(student.group === null);
 };

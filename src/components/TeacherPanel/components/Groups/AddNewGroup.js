@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Form, Button } from "react-bootstrap";
-import { addNewGroup } from "../../actions/teacherPanelReq";
-const axios = require("axios");
+import { addRequest } from "../../reducers/requests";
+import { ADD_GROUP } from "../../static/constants/teacherPanelConst";
 
 const AddNewGroup = () => {
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    addNewGroup(name);
+    const submit = {
+      type: ADD_GROUP,
+      param: name,
+      info: " Dodaj grupę " + name,
+      color: { color: "green" },
+    };
+    dispatch(addRequest(submit));
     setName("");
-    window.location.reload(false); // TODO: change without force update
   };
 
   return (

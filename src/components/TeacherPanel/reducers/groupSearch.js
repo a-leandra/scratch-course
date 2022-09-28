@@ -41,6 +41,7 @@ const groupSearchSlice = createSlice({
   },
 });
 
-export const { setKeyAndFilter, setGroups, sort } = groupSearchSlice.actions;
+export const { setKeyAndFilter, setGroups, sort, addGroup } =
+  groupSearchSlice.actions;
 
 export default groupSearchSlice.reducer;

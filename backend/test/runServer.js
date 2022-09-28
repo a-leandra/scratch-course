@@ -23,5 +23,5 @@ exports.mochaHooks = {
   afterAll()
   will take long to drop when a lot of data is in database to go throught,
   since it looks for test examples.
-  Maybe use it only with separate claster?
+  Use only with separate claster in a future.
 */

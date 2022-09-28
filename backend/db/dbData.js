@@ -11,7 +11,7 @@ const teachers = [
     name: "Dominika",
     surname: "Wojska",
     email: "wojska@gmail.com",
-    password: "nfged22*2",
+    password: "pass",
     group: null,
     task: 1,
     isTeacher: true,

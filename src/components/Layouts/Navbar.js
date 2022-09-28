@@ -91,6 +91,13 @@ export default function Navbar() {
               </li>
             )}
           </ul>
+          {/* <ul>
+            <li class="nav-item">
+              <a target="_blank" href="http://localhost:8602?tmp">
+                Scratch-GUI-TMP
+              </a>
+            </li>
+          </ul> */}
         </div>
       </div>
     </nav>

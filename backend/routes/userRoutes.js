@@ -2,6 +2,7 @@ const {
   removeUserRequest,
   getStudentsOfTeacher,
   addStudentToGroup,
+  updateUsersVarRequest,
 } = require("../controllers/requests/userTeachRequests");
 const {
   registerUser,
@@ -20,5 +21,6 @@ userRouter.put(userPrefix + "/addToGroup", addStudentToGroup);
 userRouter.route(userPrefix).post(registerUser);
 userRouter.route(userPrefix + "/login").post(authUser);
 userRouter.route(userPrefix + "/profil").post(protect, updateUserProfile);
+userRouter.route(userPrefix + "/removeFromGroup").post(updateUsersVarRequest);
 
 module.exports = { userRouter, userPrefix };

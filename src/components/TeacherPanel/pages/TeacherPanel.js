@@ -1,6 +1,7 @@
 import React from "react";
-import GroupList from "../../components/Groups/GroupList";
-import StudentList from "../../components/Students/StudentList";
+import GroupList from "../components/Groups/GroupList";
+import ToBeSubmitted from "../components/Submition/ToBeSubmitted";
+import StudentList from "../components/Students/StudentList";
 
 const TeacherPanel = () => {
   return (
@@ -24,6 +25,7 @@ const TeacherPanel = () => {
         <GroupList />
         <StudentList />
       </div>
+      <ToBeSubmitted />
     </div>
   );
 };

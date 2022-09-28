@@ -32,7 +32,7 @@ const tryToAddGroup = async (name, email) => {
 async function getLastCode() {
   if (typeof getLastCode.code === "undefined") {
     const lastGroup = await Group.findOne().sort({ _id: -1 });
-    getLastCode.code = lastGroup.code;
+    getLastCode.code = lastGroup === null ? 1000 : lastGroup.code;
     return getLastCode.code;
   }
   return ++getLastCode.code;
@@ -51,7 +51,7 @@ const tryToRemoveGroup = async (code) => {
 
 const tryToUpdateGroupsVar = async (code, newVariable) => {
   const result = await Group.updateOne({ code: code }, newVariable);
-  if (result.acknowledged === false) {
+  if (result.acknowledged === false || result.modifiedCount === 0) {
     throw Object.assign(new Error("Group with code " + code + " not found."), {
       code: 404,
     });
@@ -61,7 +61,7 @@ const tryToUpdateGroupsVar = async (code, newVariable) => {
 const tryToChangeHomework = async (code, homework) => {
   const task = await Task.findOne({ number: homework });
   const result = await Group.updateOne({ code: code }, { homeworkTask: task });
-  if (result.acknowledged === false) {
+  if (result.acknowledged === false || result.modifiedCount === 0) {
     throw Object.assign(new Error("Group with code " + code + " not found."), {
       code: 404,
     });

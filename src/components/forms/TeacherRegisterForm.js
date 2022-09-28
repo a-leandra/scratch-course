@@ -20,8 +20,8 @@ function TeacherRegisterForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const teacherUserRegister = useSelector((state) => state.teacherUserRegister);
+  const { loading, error, userInfo } = teacherUserRegister;
 
   useEffect(() => {
     if (typeof userInfo !== "undefined" && userInfo !== null) {

@@ -5,8 +5,16 @@ import {
   REMOVE_STUDENT_FROM_GROUP,
   CHANGE_HOMEWORK,
 } from "../static/constants/teacherPanelConst";
-import { addNotPassed } from "../reducers/requests";
-import { clearRequests } from "../reducers/requests";
+import {
+  addGroup,
+  removeGroup,
+  changeHomeworkOfGroup,
+} from "../reducers/groupSearch";
+import {
+  setStudentGroupAndPrepareData,
+  changeHomeworkTo,
+  removeStudent,
+} from "../reducers/studentSearch";
 
 export const fetchGroups = (setGroups) => async (dispatch) => {
   try {
@@ -30,10 +38,11 @@ export const fetchStudents = (setStudents) => async (dispatch) => {
 
 export const addNewGroup = async (name) => {
   const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
-  await axios.post("/groups", {
+  const response = await axios.post("/groups", {
     name: name,
     email: userEmail,
   });
+  return response.data;
 };
 
 export const removeStudentFromGroup = async (param) => {
@@ -45,7 +54,7 @@ export const removeStudentFromGroup = async (param) => {
   await axios.post("/users/removeFromGroup", body);
 };
 
-export const removeGroup = async (code) => {
+export const removeOldGroup = async (code) => {
   await axios.delete("/groups/" + code);
 };
 
@@ -56,32 +65,34 @@ export const changeHomework = async (param) => {
   });
 };
 
-export const submitRequests = (requests) => async (dispatch) => {
-  let index = 0;
-  for (const request of requests) {
-    try {
-      await makeRequest(request);
-    } catch (error) {
-      dispatch(addNotPassed(index));
-    }
-    index++;
+export const tryToMakeRequest = async (request, dispatch) => {
+  try {
+    await makeRequest(request, dispatch);
+  } catch (error) {
+    console.log(error); // TODO: handle errors
   }
-  dispatch(clearRequests());
 };
 
-const makeRequest = async (request) => {
+const makeRequest = async (request, dispatch) => {
+  // TODO: rename
   switch (request.type) {
     case ADD_GROUP:
-      await addNewGroup(request.param);
+      const group = await addNewGroup(request.param);
+      dispatch(addGroup(group));
       break;
     case REMOVE_GROUP:
-      await removeGroup(request.param);
+      await removeOldGroup(request.param);
+      dispatch(removeGroup(request.param));
+      dispatch(setStudentGroupAndPrepareData({})); // TODO: check before changing
       break;
     case CHANGE_HOMEWORK:
       await changeHomework(request.param);
+      dispatch(changeHomeworkTo(request.param.homework)); // change homeworks of set group
+      dispatch(changeHomeworkOfGroup(request.param)); // change homework from saved groups
       break;
     case REMOVE_STUDENT_FROM_GROUP:
       await removeStudentFromGroup(request.param);
+      dispatch(removeStudent(request.param.email));
       break;
     default:
       throw Object.assign(new Error("Unknown request type."), { code: 404 });

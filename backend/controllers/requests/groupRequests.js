@@ -1,3 +1,4 @@
+const Group = require("../../models/groupModel");
 const {
   tryToFindAllGroupsOfTeacher,
   tryToAddGroup,
@@ -19,8 +20,8 @@ const getGroupsOfTeacherRequest = async (req, res) => {
 const addGroupRequest = async (req, res) => {
   const { name, email } = req.body;
   try {
-    await tryToAddGroup(name, email);
-    res.status(201).json({ message: "Group " + name + " added." });
+    let code = await tryToAddGroup(name, email);
+    res.status(201).json({ name: name, code: code, task: null });
   } catch (error) {
     res.status(error.code).json({ message: error.message });
   }

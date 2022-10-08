@@ -14,7 +14,6 @@ import MainPage from "./pages/Information/MainPage";
 import LoginForm from "./components/Forms/LoginForm";
 import RegisterForm from "./components/Forms/RegisterForm";
 import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
-import SubmitionResults from "./components/TeacherPanel/pages/SubmitionResults";
 
 const App = () => {
   const history = createMemoryHistory({ reducer: {} });
@@ -37,7 +36,6 @@ const App = () => {
           <Route path="/mapa-poziomow" element={<LevelMap />} />
           <Route path="/panel-nauczyciela" element={<TeacherPanel />} />
           <Route path="/profil" element={<Profile />} />
-          <Route path="/zapis" element={<SubmitionResults />} />
         </Routes>
         <Footer />
       </BrowserRouter>

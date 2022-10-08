@@ -38,10 +38,38 @@ const groupSearchSlice = createSlice({
         : sortedGroups;
       state.reverseSort = !state.reverseSort;
     },
+    addGroup(state, action) {
+      state.groups.push(action.payload);
+      state.filtered.push(action.payload);
+    },
+    removeGroup(state, action) {
+      state.groups = state.groups.filter((group) => {
+        return group.code !== action.payload;
+      });
+      state.filtered = state.filtered.filter((group) => {
+        return group.code !== action.payload;
+      });
+    },
+    changeHomeworkOfGroup(state, action) {
+      let i = state.groups.findIndex(
+        (group) => group.code === action.payload.code
+      );
+      state.groups[i].homework = { number: action.payload.homework };
+      let j = state.filtered.findIndex(
+        (group) => group.code === action.payload.code
+      );
+      state.filtered[j].homework = { number: action.payload.homework };
+    },
   },
 });
 
-export const { setKeyAndFilter, setGroups, sort, addGroup } =
-  groupSearchSlice.actions;
+export const {
+  setKeyAndFilter,
+  setGroups,
+  sort,
+  addGroup,
+  removeGroup,
+  changeHomeworkOfGroup,
+} = groupSearchSlice.actions;
 
 export default groupSearchSlice.reducer;

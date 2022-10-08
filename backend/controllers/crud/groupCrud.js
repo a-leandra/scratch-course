@@ -27,6 +27,7 @@ const tryToAddGroup = async (name, email) => {
       code: 409,
     });
   }
+  return n;
 };
 
 async function getLastCode() {

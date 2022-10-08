@@ -68,8 +68,19 @@ const studentSearchSlice = createSlice({
       state.filtered = filter(state.group, state.keyword);
     },
     changeHomeworkTo(state, action) {
-      state.studentGroup.homework = { number: -1 };
-      state.studentGroup.homework.number = action.payload;
+      state.studentGroup = {
+        name: state.studentGroup.name,
+        code: state.studentGroup.code,
+        homework: { number: action.payload },
+      };
+    },
+    removeStudent(state, action) {
+      state.students = state.students.filter(
+        (student) => student.email !== action.payload
+      );
+      state.filtered = state.filtered.filter(
+        (student) => student.email !== action.payload
+      );
     },
   },
 });
@@ -80,6 +91,7 @@ export const {
   sort,
   setKeyAndFilter,
   changeHomeworkTo,
+  removeStudent,
 } = studentSearchSlice.actions;
 
 export default studentSearchSlice.reducer;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button } from "react-bootstrap";
-import { addRequest } from "../../reducers/requests";
 import { ADD_GROUP } from "../../static/constants/teacherPanelConst";
+import { tryToMakeRequest } from "../../actions/teacherPanelReq";
 
 const AddNewGroup = () => {
   const dispatch = useDispatch();
@@ -10,13 +10,13 @@ const AddNewGroup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const submit = {
-      type: ADD_GROUP,
-      param: name,
-      info: " Dodaj grupę " + name,
-      color: { color: "green" },
-    };
-    dispatch(addRequest(submit));
+    await tryToMakeRequest(
+      {
+        type: ADD_GROUP,
+        param: name,
+      },
+      dispatch
+    );
     setName("");
   };
 

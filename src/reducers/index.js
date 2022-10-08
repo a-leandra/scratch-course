@@ -1,4 +1,3 @@
-import requestsState from "../components/TeacherPanel/reducers/requests";
 import groupSearchReducer from "../components/TeacherPanel/reducers/groupSearch";
 import studentSearchReducer from "../components/TeacherPanel/reducers/studentSearch";
 import userState from "./userState";
@@ -20,7 +19,6 @@ const reducers = {
   userRegister: userRegisterReducer,
   teacherUserRegister: teacherUserRegisterReducer,
   userUpdate: userUpdateReducer,
-  requestsState: requestsState,
 };
 
 export default reducers;

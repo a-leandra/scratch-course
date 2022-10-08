@@ -1,19 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addRequest } from "../../reducers/requests";
 import { REMOVE_GROUP } from "../../static/constants/teacherPanelConst";
+import { tryToMakeRequest } from "../../actions/teacherPanelReq";
 
 const Group = ({ group, handleClick }) => {
   const dispatch = useDispatch();
 
   const removeGroupWrapper = async (e, group) => {
-    const submit = {
-      type: REMOVE_GROUP,
-      param: group.code,
-      info: " Usuń grupę " + group.name,
-      color: { color: "red" },
-    };
-    dispatch(addRequest(submit));
+    await tryToMakeRequest(
+      {
+        type: REMOVE_GROUP,
+        param: group.code,
+      },
+      dispatch
+    );
   };
 
   return (

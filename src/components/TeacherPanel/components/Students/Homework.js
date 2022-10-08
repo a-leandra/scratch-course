@@ -1,21 +1,20 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequest } from "../../reducers/requests";
 import { CHANGE_HOMEWORK } from "../../static/constants/teacherPanelConst";
+import { tryToMakeRequest } from "../../actions/teacherPanelReq";
 
 const Homework = () => {
   const group = useSelector((state) => state.studentSearch.studentGroup);
   const dispatch = useDispatch();
 
   const onClick = async (e, i) => {
-    const submit = {
-      type: CHANGE_HOMEWORK,
-      param: { code: group.code, homework: i },
-      info:
-        " Zmień pracę domową grupy " + group.name + " na do zadania numer " + i,
-      color: { color: "yellow" },
-    };
-    dispatch(addRequest(submit));
+    await tryToMakeRequest(
+      {
+        type: CHANGE_HOMEWORK,
+        param: { code: group.code, homework: i },
+      },
+      dispatch
+    );
   };
 
   return (
@@ -34,7 +33,10 @@ const Homework = () => {
                   type="radio"
                   onChange={(event) => onClick(event, j)}
                   checked={
-                    group.homework !== null && group.homework.number === j
+                    typeof group.homework !== "undefined" &&
+                    group.homework !== null &&
+                    typeof group.homework.number !== "undefined" &&
+                    group.homework.number === j
                       ? "checked"
                       : ""
                   }

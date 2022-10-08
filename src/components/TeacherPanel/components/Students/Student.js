@@ -1,19 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addRequest } from "../../reducers/requests";
 import { REMOVE_STUDENT_FROM_GROUP } from "../../static/constants/teacherPanelConst";
+import { tryToMakeRequest } from "../../actions/teacherPanelReq";
 
 const Student = ({ student, noAvatar }) => {
   const dispatch = useDispatch();
 
   const removeStudentWrapper = async (e, student) => {
-    const submit = {
-      type: REMOVE_STUDENT_FROM_GROUP,
-      param: { emai: student.email, code: student.group },
-      info: " Wykreśl ucznia " + student.name + " " + student.surname,
-      color: { color: "red" },
-    };
-    dispatch(addRequest(submit));
+    await tryToMakeRequest(
+      {
+        type: REMOVE_STUDENT_FROM_GROUP,
+        param: { email: student.email, code: student.group },
+      },
+      dispatch
+    );
   };
 
   return (

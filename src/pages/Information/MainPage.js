@@ -44,9 +44,9 @@ export default function MainPage() {
         >
           Kurs Scratcha
         </h2>
-        <div className="subtitle">
-          <h3>Witaj, Mały Programisto!</h3>
-          <h4>Rozpocznij przygodę z programowaniem już dziś</h4>
+        <div className="subtitle" style={{ textAlign: "center" }}>
+          <h3>Witaj, mały programisto!</h3>
+          <h4>Rozpocznij swoją przygodę z programowaniem już dziś :)</h4>
         </div>
 
         <a href="./zaloguj" className="startBtn">

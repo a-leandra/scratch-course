@@ -1,11 +1,13 @@
 const { Group, User } = require("../models/index");
 const { tryToAddUser } = require("../controllers/crud/userTeachCrud");
 const { tryToAddGroup } = require("../controllers/crud/groupCrud");
+const { tryToaddUnivTeachAndGroup } = require("../controllers/special/special");
 const { dataSets, testNameSuffix, exampleNameSuffix } = require("./dbData");
 const mongoose = require("mongoose");
 
 async function populateDB(isTest) {
   const suffix = isTest ? testNameSuffix : exampleNameSuffix;
+  await tryToaddUnivTeachAndGroup();
   await addTeachers(suffix);
   await addGroups(suffix);
   await addStudents(suffix);

@@ -26,7 +26,7 @@ export default function Navbar() {
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <Link class="navbar-brand fs-4" to="/">
-          Scratch Course
+          Kurs Scratcha
         </Link>
         <button
           class="navbar-toggler"

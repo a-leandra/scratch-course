@@ -10,7 +10,7 @@ const teachers = [
   {
     name: "Dominika",
     surname: "Wojska",
-    email: "wojska@gmail.com",
+    email: "admin@gmail.com",
     password: "pass",
     group: null,
     task: 1,
@@ -32,15 +32,15 @@ const teachers = [
 const groups = [
   {
     name: "A",
-    email: "wojska@gmail.com",
+    email: "admin@gmail.com",
   },
   {
     name: "B",
-    email: "wojska@gmail.com",
+    email: "admin@gmail.com",
   },
   {
     name: "C",
-    email: "wojska@gmail.com",
+    email: "admin@gmail.com",
   },
 ];
 

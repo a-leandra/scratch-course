@@ -4,6 +4,8 @@ const {
   tryToUpdateUsersVar,
   tryToFindAllStudentsOfTeacher,
   tryToAddStudentToGroup,
+  tryToGetHomework,
+  tryToGetLastTask,
 } = require("../crud/userTeachCrud");
 
 const addUserRequest = async (req, res) => {
@@ -64,10 +66,32 @@ const addStudentToGroup = async (req, res) => {
   }
 };
 
+const getHomework = async (req, res) => {
+  const { email } = req.params;
+  try {
+    let homework = await tryToGetHomework(email);
+    res.status(200).json(homework);
+  } catch (error) {
+    res.status(error.code).json({ message: error.message });
+  }
+};
+
+const getLastTaskDone = async (req, res) => {
+  const { email } = req.params;
+  try {
+    let task = await tryToGetLastTask(email);
+    res.status(200).json(task);
+  } catch (error) {
+    res.status(error.code).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addUserRequest,
   removeUserRequest,
   updateUsersVarRequest,
   getStudentsOfTeacher,
   addStudentToGroup,
+  getHomework,
+  getLastTaskDone,
 };

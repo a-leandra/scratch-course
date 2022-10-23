@@ -2,6 +2,7 @@ import groupSearchReducer from "../components/TeacherPanel/reducers/groupSearch"
 import studentSearchReducer from "../components/TeacherPanel/reducers/studentSearch";
 import userState from "./userState";
 import pageState from "./pageState";
+import mapState from "./mapState";
 
 import {
   userLoginReducer,
@@ -19,6 +20,7 @@ const reducers = {
   userRegister: userRegisterReducer,
   teacherUserRegister: teacherUserRegisterReducer,
   userUpdate: userUpdateReducer,
+  mapState: mapState,
 };
 
 export default reducers;

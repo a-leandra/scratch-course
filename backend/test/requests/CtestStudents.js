@@ -47,6 +47,29 @@ describe("student's requests", function () {
     assert(res.status === 200);
     await assertUserNotInGroup(students.at(-1).email);
   });
+  it("get homework of first student", async () => {
+    const res = await tester.get(
+      message(basicRoute + "/homework/" + students.at(0).email, null)
+    );
+    assert(res.status === 200);
+    assert(res.data === 4);
+  });
+  it("update student progress of first student", async () => {
+    const body = {
+      email: students.at(0).email,
+      valueName: "task",
+      value: 6,
+    };
+    const res = await tester.put(message(basicRoute + "/update", body));
+    assert(res.status === 200);
+  });
+  it("get last task done by first student", async () => {
+    const res = await tester.get(
+      message(basicRoute + "/task/" + students.at(0).email, null)
+    );
+    assert(res.status === 200);
+    assert(res.data === 6);
+  });
 });
 
 const addStudent = async (data) => {

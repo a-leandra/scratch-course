@@ -3,6 +3,8 @@ const {
   getStudentsOfTeacher,
   addStudentToGroup,
   updateUsersVarRequest,
+  getHomework,
+  getLastTaskDone,
 } = require("../controllers/requests/userTeachRequests");
 const {
   registerUser,
@@ -15,8 +17,11 @@ const userPrefix = "/users";
 const userRouter = require("express").Router();
 
 userRouter.get(userPrefix + "/:email", getStudentsOfTeacher);
+userRouter.get(userPrefix + "/homework/:email", getHomework);
+userRouter.get(userPrefix + "/task/:email", getLastTaskDone);
 userRouter.delete(userPrefix + "/:email", removeUserRequest);
 userRouter.put(userPrefix + "/addToGroup", addStudentToGroup);
+userRouter.put(userPrefix + "/update", updateUsersVarRequest);
 
 userRouter.route(userPrefix).post(registerUser);
 userRouter.route(userPrefix + "/login").post(authUser);

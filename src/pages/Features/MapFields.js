@@ -13,9 +13,9 @@ export default function MapFields() {
   const dispatch = useDispatch();
   const coordinates = useSelector((state) => state.mapState.coordinates);
 
-  useEffect(async () => {
+  useEffect(() => {
     dispatch(fetchLastTask(setMapLevels));
-  }, []);
+  }, [setMapLevels]);
 
   coordinates.forEach((element) => {
     if (element.current) {

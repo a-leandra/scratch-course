@@ -24,4 +24,6 @@ exports.mochaHooks = {
   will take long to drop when a lot of data is in database to go throught,
   since it looks for test examples.
   Use only with separate claster in a future.
+
+  TODO: Split tests, so they are not depended.
 */

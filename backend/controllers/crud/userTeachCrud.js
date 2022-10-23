@@ -64,6 +64,20 @@ const tryToFindAllStudentsOfTeacher = async (email) => {
   }
   return results;
 };
+
+const tryToGetHomework = async (email) => {
+  const student = await User.findOne({ email: email }).populate({
+    path: "group",
+    populate: { path: "homeworkTask" },
+  });
+  return student.group.homeworkTask.number;
+};
+
+const tryToGetLastTask = async (email) => {
+  const student = await User.findOne({ email: email });
+  return student.task;
+};
+
 /* 
     Currently finding students will take long to process*.
     
@@ -80,8 +94,6 @@ const tryToFindAllStudentsOfTeacher = async (email) => {
         which may be useuful in case of future changes.
 
     *It is not a problem as long as there are not many users.
-    
-    Bogna
 */
 
 module.exports = {
@@ -90,4 +102,6 @@ module.exports = {
   tryToUpdateUsersVar,
   tryToFindAllStudentsOfTeacher,
   tryToAddStudentToGroup,
+  tryToGetHomework,
+  tryToGetLastTask,
 };

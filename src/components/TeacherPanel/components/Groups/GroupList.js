@@ -4,7 +4,7 @@ import AddNewGroup from "./AddNewGroup";
 import SearchBar from "../../../Layouts/SearchBar";
 import Group from "./Group";
 import { fetchGroups } from "../../actions/teacherPanelReq";
-const axios = require("axios");
+
 const {
   setKeyAndFilter,
   setGroups,

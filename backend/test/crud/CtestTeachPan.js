@@ -3,6 +3,7 @@ const { dataSets } = require("../../db/dbData");
 const Group = require("../../models/groupModel");
 const User = require("../../models/userModel");
 const assert = require("assert");
+const { group } = require("console");
 
 const teachers = dataSets.get("teachers").set;
 const students = dataSets.get("students").set;
@@ -23,6 +24,22 @@ describe("functionality of teacher's panel", function () {
     ).map((student) => student.name);
     const expectedNames = students.map((student) => student.name);
     assert(foundNames.toString() === expectedNames.toString());
+  });
+  it("get homework of first student", async () => {
+    let result = await userTeachCrude.tryToGetHomework(students[0].email);
+    let group = await Group.findOne({ name: groups.at(0).name }).populate(
+      "homeworkTask"
+    );
+    assert(result === group.homeworkTask.number);
+  });
+  it("update student progress of first student", async () => {
+    await userTeachCrude.tryToUpdateUsersVar(students[0].email, { task: 2 });
+    let res = await User.findOne({ email: students[0].email });
+    assert(res.task === 2);
+  });
+  it("get last task done by first student", async () => {
+    let result = await userTeachCrude.tryToGetLastTask(students[0].email);
+    assert(result === 2);
   });
 });
 

@@ -18,11 +18,12 @@ export const mapState = createSlice({
   },
   reducers: {
     setMapLevels: (state, action) => {
-      let email = bcrypt.hashSync(action.payload.email, 10);
+      //let email = bcrypt.hashSync(action.payload.email, 10);
+      console.log(action.payload.index)
       state.coordinates.forEach((c, i) => {
         c.active = i <= action.payload.index;
         c.current = i === action.payload.index;
-        c.link = "http://localhost:8602/?" + i + "?" + email;
+        c.link = "http://localhost:8602/?" + i + "?" + action.payload.email;
       });
     },
   },

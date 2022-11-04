@@ -19,7 +19,7 @@ export const mapState = createSlice({
   reducers: {
     setMapLevels: (state, action) => {
       //let email = bcrypt.hashSync(action.payload.email, 10);
-      console.log(action.payload.index)
+      //console.log(action.payload.index)
       state.coordinates.forEach((c, i) => {
         c.active = i <= action.payload.index;
         c.current = i === action.payload.index;

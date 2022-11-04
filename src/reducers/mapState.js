@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import bcrypt from "bcryptjs";
 
 export const mapState = createSlice({
   name: "mapState",
@@ -18,7 +17,6 @@ export const mapState = createSlice({
   },
   reducers: {
     setMapLevels: (state, action) => {
-      //let email = bcrypt.hashSync(action.payload.email, 10);
       //console.log(action.payload.index)
       state.coordinates.forEach((c, i) => {
         c.active = i <= action.payload.index;

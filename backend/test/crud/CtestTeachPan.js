@@ -4,6 +4,7 @@ const Group = require("../../models/groupModel");
 const User = require("../../models/userModel");
 const assert = require("assert");
 const { group } = require("console");
+const bcrypt = require("bcryptjs");
 
 const teachers = dataSets.get("teachers").set;
 const students = dataSets.get("students").set;
@@ -33,12 +34,16 @@ describe("functionality of teacher's panel", function () {
     assert(result === group.homeworkTask.number);
   });
   it("update student progress of first student", async () => {
-    await userTeachCrude.tryToUpdateUsersVar(students[0].email, { task: 2 });
+    let salt = await bcrypt.genSalt(10);
+    let emailHashed = await bcrypt.hash(students[0].email, salt);
+    await userTeachCrude.tryToUpdateUsersVar(emailHashed, { task: 2 });
     let res = await User.findOne({ email: students[0].email });
     assert(res.task === 2);
   });
   it("get last task done by first student", async () => {
-    let result = await userTeachCrude.tryToGetLastTask(students[0].email);
+    let salt = await bcrypt.genSalt(10);
+    let emailHashed = await bcrypt.hash(students[0].email, salt);
+    let result = await userTeachCrude.tryToGetLastTask(emailHashed);
     assert(result === 2);
   });
 });

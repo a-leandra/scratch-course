@@ -39,7 +39,7 @@ function TeacherRegisterForm() {
       setMessage(null);
       setIsTeacher(true);
       dispatch(
-        teacherRegister(name, surname, email, task, isTeacher, password)
+        teacherRegister(name, surname, email, 8, isTeacher, password) // teacher should have all task available <0,8>
       );
     }
   };

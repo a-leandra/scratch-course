@@ -30,7 +30,7 @@ const userSchema = mongoose.Schema(
     task: {
       type: Number,
       required: false,
-      default: 1,
+      default: 0,
     },
     isTeacher: {
       type: Boolean,

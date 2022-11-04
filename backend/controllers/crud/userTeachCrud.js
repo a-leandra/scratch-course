@@ -21,6 +21,7 @@ const tryToRemoveUser = async (email) => {
 };
 
 const tryToUpdateUsersVar = async (email, newVariable) => {
+  email = await tryToFindEmailIfHashed(email);
   const result = await User.updateOne({ email: email }, newVariable);
   if (result.acknowledged === false || result.modifiedCount === 0) {
     throw Object.assign(new Error("E-mail " + email + " not found."), {
@@ -74,9 +75,26 @@ const tryToGetHomework = async (email) => {
 };
 
 const tryToGetLastTask = async (email) => {
+  email = await tryToFindEmailIfHashed(email);
   const student = await User.findOne({ email: email });
   return student.task;
 };
+
+const bcrypt = require("bcryptjs");
+
+const tryToFindEmailIfHashed = async(sendEmail) => {
+    let user = await User.findOne({email: sendEmail});
+    if(user === null) {
+      let users = await User.find();
+      for(var u of users) {
+        let result = await bcrypt.compare(u.email, sendEmail);
+        if(result) {
+          return u.email;
+        }
+      }
+  }
+  return sendEmail;
+}
 
 /* 
     Currently finding students will take long to process*.

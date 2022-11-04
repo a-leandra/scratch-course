@@ -12,6 +12,9 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_REGISTER_LOGOUT,
+  TEACHER_USER_REGISTER_LOGOUT,
+  USER_UPDATE_LOGOUT,
 } from "../static/constants/userConstants";
 import axios from "axios";
 
@@ -41,8 +44,10 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   localStorage.removeItem("userInfo");
-  //localStorage.clear();
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_REGISTER_LOGOUT });
+  dispatch({ type: TEACHER_USER_REGISTER_LOGOUT});
+  dispatch( {type: USER_UPDATE_LOGOUT });
 };
 
 export const register =

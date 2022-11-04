@@ -24,8 +24,9 @@ function TeacherRegisterForm() {
   const { loading, error, userInfo } = teacherUserRegister;
 
   useEffect(() => {
-    if (typeof userInfo !== "undefined" && userInfo !== null) {
-      navigate("/panel-nauczyciela");
+    console.log(typeof userInfo);
+    if (userInfo) {
+      navigate("/");
     }
   }, [userInfo]);
 

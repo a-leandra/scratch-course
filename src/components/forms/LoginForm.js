@@ -21,8 +21,8 @@ function LoginForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (typeof userInfo !== "undefined" && userInfo !== null) {
-      navigate("/mapa-poziomow");
+    if (userInfo) {
+      navigate("/");
     }
   }, [userInfo]);
 

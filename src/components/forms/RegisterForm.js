@@ -25,8 +25,8 @@ function RegisterForm() {
   const { loading, error, userInfo } = userRegister;
 
   useEffect(() => {
-    if (typeof userInfo !== "undefined" && userInfo !== null) {
-      navigate("/mapa-poziomow");
+    if (userInfo) {
+      navigate("/");
     }
   }, [userInfo]);
 

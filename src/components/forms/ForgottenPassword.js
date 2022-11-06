@@ -3,15 +3,14 @@ import { Form, Button } from "react-bootstrap";
 import Loading from "../../components/Layouts/Loading";
 import ErrorMessage from "../Layouts/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../actions/userActions";
+import { forgottenPassword } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";
 import "./forms_styles.css";
 
-function LoginForm() {
+function ForgottenPassword() {
   //const [details, setDetails] = useState({ name: "", email: "", password: "" });
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
 
@@ -19,6 +18,7 @@ function LoginForm() {
   const { loading, error, userInfo } = userLogin;
 
   const navigate = useNavigate();
+  const redirectUrl = "http://localhost:3000/resetowanie-hasla";
 
   useEffect(() => {
     if (userInfo) {
@@ -28,19 +28,14 @@ function LoginForm() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
-  };
-
-  const registerHandler = (e) => {
-    e.preventDefault();
-    navigate("/zarejestruj");
+    dispatch(forgottenPassword(email, redirectUrl, navigate));
   };
 
   return (
     <div className="ui raised very padded text container segment">
       <Form onSubmit={submitHandler}>
         <div className="form-inner">
-          <h1 className="heading">Zaloguj się</h1>
+          <h1 className="heading">Zresetuj hasło</h1>
           {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
           {loading && <Loading />}
           <div className="form-group">
@@ -57,40 +52,13 @@ function LoginForm() {
               }}
             ></Form.Control>
           </div>
-          <div className="form-group">
-            <Form.Label htmlFor="password">Hasło</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              id="password"
-              value={password}
-              placeholder="Wprowadź hasło"
-              onChange={(e) => setPassword(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
-            ></Form.Control>
-          </div>
           <Button type="submit" variant="primary">
-            Zaloguj się
+            Wyślij link
           </Button>
-          <Button
-            type="register"
-            onClick={registerHandler}
-            variant="dark"
-            style={{ marginLeft: "20px" }}
-          >
-            Zarejestruj się
-          </Button>
-          <div className="form-group">
-            <div className="form-text">
-              <a href="/zapomniane-haslo">Zapomniałeś hasło?</a>
-            </div>
-          </div>
         </div>
       </Form>
     </div>
   );
 }
 
-export default LoginForm;
+export default ForgottenPassword;

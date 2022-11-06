@@ -10,6 +10,7 @@ const {
   registerUser,
   authUser,
   updateUserProfile,
+  requestPasswordReset,
 } = require("../controllers/requests/userRegLogRequests");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -23,6 +24,9 @@ userRouter.delete(userPrefix + "/:email", removeUserRequest);
 userRouter.put(userPrefix + "/addToGroup", addStudentToGroup);
 userRouter.put(userPrefix + "/update", updateUsersVarRequest);
 
+userRouter
+  .route(userPrefix + "/requestPasswordReset")
+  .post(requestPasswordReset);
 userRouter.route(userPrefix).post(registerUser);
 userRouter.route(userPrefix + "/login").post(authUser);
 userRouter.route(userPrefix + "/profil").post(protect, updateUserProfile);

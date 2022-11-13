@@ -5,9 +5,11 @@ import {
   USER_LOGOUT,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
+  USER_REGISTER_PENDING,
   USER_REGISTER_SUCCESS,
   TEACHER_USER_REGISTER_FAIL,
   TEACHER_USER_REGISTER_REQUEST,
+  TEACHER_USER_REGISTER_PENDING,
   TEACHER_USER_REGISTER_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
@@ -58,7 +60,7 @@ export const logout = () => async (dispatch) => {
 };
 
 export const register =
-  (name, surname, email, group, password) => async (dispatch) => {
+  (name, surname, email, group, password, navigate) => async (dispatch) => {
     try {
       dispatch({ type: USER_REGISTER_REQUEST });
 
@@ -74,10 +76,8 @@ export const register =
         requestConfig
       );
 
-      dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      dispatch({ type: USER_REGISTER_PENDING, payload: data });
+      navigate(`/email-wyslany/${email}/${false}`);
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
@@ -90,7 +90,8 @@ export const register =
   };
 
 export const teacherRegister =
-  (name, surname, email, task, isTeacher, password) => async (dispatch) => {
+  (name, surname, email, task, isTeacher, password, navigate) =>
+  async (dispatch) => {
     try {
       dispatch({ type: TEACHER_USER_REGISTER_REQUEST });
 
@@ -107,10 +108,8 @@ export const teacherRegister =
         requestConfig
       );
 
-      dispatch({ type: TEACHER_USER_REGISTER_SUCCESS, payload: data });
-      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      dispatch({ type: TEACHER_USER_REGISTER_PENDING, payload: data });
+      navigate(`/email-wyslany/${email}/${false}`);
     } catch (error) {
       dispatch({
         type: TEACHER_USER_REGISTER_FAIL,

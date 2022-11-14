@@ -63,6 +63,12 @@ form .form-inner .form-group {
   font-size: 12px;
 }
 
+form .form-inner .form-group .form-text {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}
+
 form .form-inner .form-group input {
   display: block;
   width: 100%;

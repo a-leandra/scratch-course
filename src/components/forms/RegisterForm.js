@@ -37,7 +37,7 @@ function RegisterForm() {
       setMessage("Passwords do not match");
     } else {
       setMessage(null);
-      dispatch(register(name, surname, email, group, password));
+      dispatch(register(name, surname, email, group, password, navigate));
     }
   };
 

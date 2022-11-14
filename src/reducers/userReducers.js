@@ -5,16 +5,18 @@ import {
   USER_LOGOUT,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
+  USER_REGISTER_PENDING,
   USER_REGISTER_SUCCESS,
   TEACHER_USER_REGISTER_FAIL,
   TEACHER_USER_REGISTER_REQUEST,
+  TEACHER_USER_REGISTER_PENDING,
   TEACHER_USER_REGISTER_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_REGISTER_LOGOUT,
   TEACHER_USER_REGISTER_LOGOUT,
-  USER_UPDATE_LOGOUT
+  USER_UPDATE_LOGOUT,
 } from "../static/constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -36,6 +38,8 @@ export const userRegisterReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_REGISTER_REQUEST:
       return { loading: true };
+    case USER_REGISTER_PENDING:
+      return { loading: false };
     case USER_REGISTER_SUCCESS:
       return { loading: false, userInfo: action.payload };
     case USER_REGISTER_FAIL:
@@ -51,6 +55,8 @@ export const teacherUserRegisterReducer = (state = {}, action) => {
   switch (action.type) {
     case TEACHER_USER_REGISTER_REQUEST:
       return { loading: true };
+    case TEACHER_USER_REGISTER_PENDING:
+      return { loading: false };
     case TEACHER_USER_REGISTER_SUCCESS:
       return {
         loading: false,

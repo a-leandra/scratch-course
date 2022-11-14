@@ -14,6 +14,9 @@ import MainPage from "./pages/Information/MainPage";
 import LoginForm from "./components/Forms/LoginForm";
 import RegisterForm from "./components/Forms/RegisterForm";
 import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
+import ForgottenPassword from "./components/Forms/ForgottenPassword";
+import EmailSent from "./components/Forms/EmailSent";
+import PasswordReset from "./components/Forms/PasswordReset";
 
 const App = () => {
   const history = createMemoryHistory({ reducer: {} });
@@ -30,6 +33,17 @@ const App = () => {
             path="zarejestruj-nauczyciela"
             element={<TeacherRegisterForm />}
           />
+          <Route path="/zapomniane-haslo" element={<ForgottenPassword />} />
+          <Route path="/email-wyslany" element={<EmailSent />} />
+          <Route
+            path="/email-wyslany/:userEmail/:reset"
+            element={<EmailSent />}
+          />
+          <Route
+            path="/resetowanie-hasla/:userEmail/:reset"
+            element={<PasswordReset />}
+          />
+
           <Route path="/o-nas" element={<About />} />
           <Route path="/kontakt" element={<Contact />} />
           <Route path="/polityka-prywatnosci" element={<Privacy />} />

@@ -15,6 +15,7 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_RESET_PASSWORD_REQUEST,
+  USER_RESET_PASSWORD_PENDING,
   USER_RESET_PASSWORD_SUCCESS,
   USER_RESET_PASSWORD_FAIL,
   USER_FORGOTTEN_PASSWORD_REQUEST,
@@ -189,7 +190,7 @@ export const resetPassword =
         requestConfig
       );
 
-      dispatch({ type: USER_FORGOTTEN_PASSWORD_PENDING, payload: data });
+      dispatch({ type: USER_RESET_PASSWORD_PENDING, payload: data });
 
       navigate(`/email-wyslany`);
     } catch (error) {

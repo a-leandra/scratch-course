@@ -68,9 +68,6 @@ function RegisterForm() {
               value={name}
               placeholder="Wprowadź imię"
               onChange={(e) => setName(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             />
           </div>
           <div className="form-group">
@@ -82,9 +79,6 @@ function RegisterForm() {
               value={surname}
               placeholder="Wprowadź nazwisko"
               onChange={(e) => setSurname(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             />
           </div>
           <div className="form-group">
@@ -96,9 +90,6 @@ function RegisterForm() {
               value={email}
               placeholder="Wprowadź e-mail"
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             />
           </div>
           <div className="form-group">
@@ -110,9 +101,6 @@ function RegisterForm() {
               value={password}
               placeholder="Wprowadź hasło"
               onChange={(e) => setPassword(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             />
           </div>
           <div className="form-group">
@@ -124,9 +112,6 @@ function RegisterForm() {
               value={confirmpassword}
               placeholder="Powtórz hasło"
               onChange={(e) => setConfirmPassword(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             />
           </div>
           <div className="form-group">
@@ -140,9 +125,6 @@ function RegisterForm() {
               value={group}
               placeholder="Wprowadź kod grupy"
               onChange={(e) => setGroup(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             />
           </div>
           <div style={{ display: "flex", flexDirection: "Row" }}>

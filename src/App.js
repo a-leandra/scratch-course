@@ -35,12 +35,13 @@ const App = () => {
           />
           <Route path="/zapomniane-haslo" element={<ForgottenPassword />} />
           <Route path="/email-wyslany" element={<EmailSent />} />
+          <Route path="/email-wyslany/:userEmail" element={<EmailSent />} />
           <Route
             path="/email-wyslany/:userEmail/:reset"
             element={<EmailSent />}
           />
           <Route
-            path="/resetowanie-hasla/:userEmail/:reset"
+            path="/resetowanie-hasla/:userId/:resetString"
             element={<PasswordReset />}
           />
 

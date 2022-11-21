@@ -13,6 +13,7 @@ const {
   requestPasswordReset,
   verifyEmail,
   verifiedAccount,
+  resetPassword,
 } = require("../controllers/requests/userRegLogRequests");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -29,6 +30,7 @@ userRouter.put(userPrefix + "/update", updateUsersVarRequest);
 userRouter
   .route(userPrefix + "/requestPasswordReset")
   .post(requestPasswordReset);
+userRouter.route(userPrefix + "/resetPassword").post(resetPassword);
 userRouter.route(userPrefix).post(registerUser);
 userRouter.route(userPrefix + "/login").post(authUser);
 userRouter.route(userPrefix + "/profil").post(protect, updateUserProfile);

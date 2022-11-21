@@ -8,15 +8,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./forms_styles.css";
 
 function EmailSent() {
+  const navigate = useNavigate();
+
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
 
-  const navigate = useNavigate();
   const { userEmail, reset } = useParams();
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/mapa-poziomow");
     }
   }, [userInfo]);
 

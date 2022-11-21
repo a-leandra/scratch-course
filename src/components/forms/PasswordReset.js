@@ -8,8 +8,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./forms_styles.css";
 
 function PasswordReset() {
-  //const [details, setDetails] = useState({ name: "", email: "", password: "" });
-
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
@@ -20,7 +18,7 @@ function PasswordReset() {
   const { loading, error, userInfo } = userLogin;
 
   const navigate = useNavigate();
-  const { userEmail, reset } = useParams();
+  const { userId, resetString } = useParams();
 
   useEffect(() => {
     if (userInfo) {
@@ -35,7 +33,7 @@ function PasswordReset() {
       setMessage("Passwords do not match");
     } else {
       setMessage(null);
-      dispatch(resetPassword(userEmail, password, navigate));
+      dispatch(resetPassword(userId, resetString, password, navigate));
     }
   };
 
@@ -55,9 +53,6 @@ function PasswordReset() {
               value={password}
               placeholder="Wprowadź hasło"
               onChange={(e) => setPassword(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             />
           </div>
           <div className="form-group">
@@ -69,9 +64,6 @@ function PasswordReset() {
               value={confirmpassword}
               placeholder="Powtórz hasło"
               onChange={(e) => setConfirmPassword(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             />
           </div>
           <Button type="submit" variant="primary">

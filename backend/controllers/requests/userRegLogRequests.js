@@ -141,7 +141,6 @@ const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
       try {
         transporter.sendMail(mailOptions);
         // verification email sent
-        res.status(202);
         res.status(202).json({
           userId: _id,
           uniqueString: hashedUniqueString,
@@ -312,59 +311,181 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 const requestPasswordReset = asyncHandler(async (req, res) => {
   const { email, redirectUrl } = req.body;
 
-  const user = await User.findOne({ email });
-
-  if (user) {
-    sendResetEmail(email, redirectUrl, res);
-  } else {
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      if (user.verified) {
+        sendResetEmail(user, redirectUrl, res);
+      } else {
+        res.status(400);
+        throw new Error(
+          "Konto podanego użytkownika nie zostało jeszcze aktywowane. Sprawdź swoją skrzynkę pocztową"
+        );
+      }
+    } else {
+      res.status(400);
+      throw new Error("Użytkownik z podanym adresem e-mail nie istnieje");
+    }
+  } catch (error) {
+    console.log(error);
     res.status(400);
-    throw new Error("Error occured. Please try again");
+    throw new Error("Wystąpił błąd podczas wyszukiwania użytkownika");
   }
 });
 
-const sendResetEmail = (email, redirectUrl, res) => {
-  const resetString = "s0//P4$$w0rD";
+const sendResetEmail = asyncHandler(
+  async ({ _id, email }, redirectUrl, res) => {
+    const resetString = uuidv4() + _id;
 
-  // Deleting all exisitng reset records
-  try {
-    PasswordReset.deleteMany({ userEmail: email });
-    const mailOptions = {
-      from: process.env.AUTH_EMAIL,
-      to: email,
-      subject: "Zmiana hasła",
-      html: `<p>Wystąpiłeś(-aś) ostatnio z prośbą o zmianę hasła.</p>
-      <p>Aby zmienić hasło <a href=${
-        redirectUrl + "/" + email + "/" + resetString
-      }kliknij tutaj</a>.</p>
-      <p>Ważność linku wygaśnie za 60 minut, więc prosimy o natychmiastowe działania. Dziękujemy za korzystanie z Kursu Scratcha!</p>`,
-    };
-
-    //Hashing the reset string
-    const salt = bcrypt.genSalt(10);
-    let hashedValue = bcrypt.hash(resetString, salt);
-    const newPasswordReset = new PasswordReset({
-      email: email,
-      resetString: hashedValue,
-      createdAt: Date.now(),
-      expiresAt: Date.now() + 3600000,
-    });
-    newPasswordReset.save();
+    // Deleting all exisitng reset records
     try {
-      transporter.sendEmail(mailOptions);
-    } catch (error) {
-      res.status(400);
-      throw new Error("Error occured. Please try again");
-    }
+      await PasswordReset.deleteMany({ userId: _id });
 
-    res.json({
-      status: "PENDING",
-      message: "Password reset email sent",
-    });
+      // hashing the unique string
+      const salt = await bcrypt.genSalt(10);
+      try {
+        let hashedResetString = await bcrypt.hash(resetString, salt);
+
+        const mailOptions = {
+          from: process.env.AUTH_EMAIL,
+          to: email,
+          subject: "Zmiana hasła",
+          html: `<p>Wystąpiłeś(-aś) ostatnio z prośbą o zmianę hasła.</p>
+      <p>Aby zmienić hasło <a href=${
+        redirectUrl + "/" + _id + "/" + hashedResetString
+      }>kliknij tutaj</a>.</p>
+      <p>Ważność linku wygaśnie za 60 minut, więc prosimy o natychmiastowe działania. Dziękujemy za korzystanie z Kursu Scratcha!</p>`,
+        };
+
+        try {
+          // setting values inside the PasswordReset
+          const newPasswordReset = await PasswordReset.create({
+            userId: _id,
+            resetString: hashedResetString,
+            createdAt: Date.now(),
+            expiresAt: Date.now() + 3600000,
+          });
+
+          try {
+            transporter.sendMail(mailOptions);
+            // reset password email sent
+            res.status(202).json({
+              userId: _id,
+              resetString: hashedResetString,
+            });
+          } catch (error) {
+            console.log(error);
+            res.status(400);
+            throw new Error("Wystąpił błąd podczas przesyłania maila");
+          }
+        } catch (error) {
+          console.log(error);
+          res.status(400);
+          throw new Error(
+            "Wystąpił błąd podczas tworzenia rekordu resetowania hasła"
+          );
+        }
+      } catch (error) {
+        console.log(error);
+        res.status(400);
+        throw new Error(
+          "Wystąpił błąd podczas haszowania rekordów resetowania hasła"
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(400);
+      throw new Error(
+        "Wystąpił błąd podczas usuwania rekordów resetowania hasła"
+      );
+    }
+  }
+);
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const { userId, resetString, newPassword } = req.body;
+
+  console.log(userId);
+
+  try {
+    const passwordReset = await PasswordReset.findOne({ userId });
+    if (passwordReset) {
+      const expirationDate = passwordReset.expiresAt;
+      const hashedResetString = passwordReset.resetString;
+      if (expirationDate < Date.now()) {
+        try {
+          await passwordReset.deleteOne({ _id: userId });
+          res.status(400);
+          throw new Error(
+            "Ważność linku wygasła. Ponów próbę zresetowania hasła"
+          );
+        } catch (error) {
+          res.status(400);
+          throw new Error(
+            "Wystąpił błąd podczas czyszczenia rekordu resetowania hasła"
+          );
+        }
+      } else {
+        try {
+          let comparison = bcrypt.compare(resetString, hashedResetString);
+          if (comparison) {
+            try {
+              const user = await User.findById(userId);
+
+              if (user) {
+                if (newPassword) {
+                  user.password = newPassword;
+                }
+
+                const updatedUser = await user.save();
+
+                res.status(201).json({
+                  _id: userId,
+                  token: generateToken(updatedUser._id),
+                });
+              } else {
+                res.status(404);
+                throw new Error("User not found!");
+              }
+              try {
+                await PasswordReset.deleteOne({
+                  userId,
+                });
+                res.status(202).json({
+                  userId: userId,
+                });
+              } catch (error) {
+                res.status(400);
+                throw new Error(
+                  "Wystąpił błąd podczas kończenia pomyślnego resetowania hasła"
+                );
+              }
+            } catch (error) {
+              res.status(400);
+              throw new Error("Wystąpił błąd podczas zapisywania nowego hasła");
+            }
+          } else {
+            res.status(400);
+            throw new Error(
+              "Przekazano niepoprawne parametry. Sprawdź swoją skrzynkę pocztową"
+            );
+          }
+        } catch (error) {
+          res.status(400);
+          throw new Error("Wystąpił błąd podczas porównywania rekordu kodu");
+        }
+      }
+    } else {
+      res.status(400);
+      throw new Error("Podany rekord resetowania hasła nie został znaleziony");
+    }
   } catch (error) {
     res.status(400);
-    throw new Error("Error occured. Please try again");
+    throw new Error(
+      "Wyszukiwanie podanego rekordu resetowania hasła niepowiodło się"
+    );
   }
-};
+});
 
 module.exports = {
   registerUser,
@@ -373,4 +494,5 @@ module.exports = {
   updateUserProfile,
   verifyEmail,
   verifiedAccount,
+  resetPassword,
 };

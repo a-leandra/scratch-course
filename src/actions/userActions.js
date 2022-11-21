@@ -179,13 +179,13 @@ export const forgottenPassword =
   };
 
 export const resetPassword =
-  (email, password, navigate) => async (dispatch) => {
+  (userId, resetString, newPassword, navigate) => async (dispatch) => {
     try {
       dispatch({ type: USER_RESET_PASSWORD_REQUEST });
 
       const { data } = await axios.post(
         "/users/resetPassword",
-        { email, password },
+        { userId, resetString, newPassword },
         requestConfig
       );
 

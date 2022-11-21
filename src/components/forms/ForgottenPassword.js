@@ -8,21 +8,19 @@ import { useNavigate } from "react-router-dom";
 import "./forms_styles.css";
 
 function ForgottenPassword() {
-  //const [details, setDetails] = useState({ name: "", email: "", password: "" });
-
   const [email, setEmail] = useState("");
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { userInfo } = userLogin;
 
-  const navigate = useNavigate();
   const redirectUrl = "http://localhost:3000/resetowanie-hasla";
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/mapa-poziomow");
     }
   }, [userInfo]);
 
@@ -36,8 +34,6 @@ function ForgottenPassword() {
       <Form onSubmit={submitHandler}>
         <div className="form-inner">
           <h1 className="heading">Zresetuj hasło</h1>
-          {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-          {loading && <Loading />}
           <div className="form-group">
             <Form.Label htmlFor="email">E-mail</Form.Label>
             <Form.Control
@@ -47,9 +43,6 @@ function ForgottenPassword() {
               value={email}
               placeholder="Wprowadź swój adres e-mail"
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             ></Form.Control>
           </div>
           <Button type="submit" variant="primary">

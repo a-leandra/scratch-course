@@ -15,14 +15,17 @@ function PasswordReset() {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { userInfo } = userLogin;
+
+  const userResetPassword = useSelector((state) => state.userResetPassword);
+  const { loading, error } = userResetPassword;
 
   const navigate = useNavigate();
   const { userId, resetString } = useParams();
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/mapa-poziomow");
     }
   }, [userInfo]);
 
@@ -43,6 +46,7 @@ function PasswordReset() {
         <div className="form-inner">
           <h1 className="heading">Zresetuj swoje hasło</h1>
           {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+          {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
           {loading && <Loading />}
           <div className="form-group">
             <Form.Label htmlFor="password">Hasło</Form.Label>

@@ -150,42 +150,6 @@ const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
   }
 });
 
-const verifyEmail = asyncHandler(async (req, res) => {
-  let { userId, uniqueString } = req.params;
-  const userVerification = await UserVerification.findOne({ userId });
-  if (userVerification) {
-    const expirationDate = userVerification.expiresAt;
-    const hashedUniqueString = userVerification.uniqueString;
-
-    if (expirationDate < Date.now()) {
-      // record has expired so it needs to be deleted
-      UserVerification.deleteOne({ userId });
-      User.deleteOne({ _id: userId });
-      let message = "Ważność linku wygasła. Zarejestruj się jeszcze raz";
-      res.redirect(`/users/verified?error=true&message=${message}`);
-    } else {
-      let comparison = bcrypt.compare(uniqueString, hashedUniqueString);
-      if (comparison) {
-        const user = await User.findOne({ _id: userId });
-        user.verified = true;
-        const updatedUser = await user.save();
-        const userVerification = await UserVerification.deleteOne({
-          userId,
-        });
-        res.sendFile(path.join(__dirname, "./../../views/verified.html"));
-      } else {
-        let message =
-          "Przekazano niepoprawne parametry. Sprawdź swoją skrzynkę pocztową";
-        res.redirect(`/users/verified?error=true&message=${message}`);
-      }
-    }
-  }
-});
-
-const verifiedAccount = asyncHandler(async (req, res) => {
-  res.sendFile(path.join(__dirname, "./../../views/verified.html"));
-});
-
 const activateAccount = asyncHandler(async (req, res) => {
   const { userId, uniqueString } = req.body;
 
@@ -428,8 +392,6 @@ module.exports = {
   authUser,
   requestPasswordReset,
   updateUserProfile,
-  verifyEmail,
-  verifiedAccount,
   resetPassword,
   activateAccount,
 };

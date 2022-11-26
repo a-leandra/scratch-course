@@ -10,6 +10,8 @@ import {
   teacherUserRegisterReducer,
   userUpdateReducer,
   userResetPasswordReducer,
+  userForgottenPasswordReducer,
+  userActivateAccountReducer,
 } from "./userReducers";
 
 const reducers = {
@@ -23,6 +25,8 @@ const reducers = {
   userUpdate: userUpdateReducer,
   mapState: mapState,
   userResetPassword: userResetPasswordReducer,
+  userForgottenPassword: userForgottenPasswordReducer,
+  userActivateAccount: userActivateAccountReducer,
 };
 
 export default reducers;

@@ -3,25 +3,22 @@ import { Form, Button } from "react-bootstrap";
 import Loading from "../../components/Layouts/Loading";
 import ErrorMessage from "../Layouts/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { forgottenPassword } from "../../actions/userActions";
-import { useNavigate } from "react-router-dom";
+import { resetPassword } from "../../actions/userActions";
+import { useNavigate, useParams } from "react-router-dom";
 import "./forms_styles.css";
+import { activateAccount } from "../../actions/userActions";
 
-function ForgottenPassword() {
-  const [email, setEmail] = useState("");
-
-  const navigate = useNavigate();
+function ActivateAccount() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userForgottenPassword = useSelector(
-    (state) => state.userForgottenPassword
-  );
-  const { loading, error } = userForgottenPassword;
+  const userActivateAccount = useSelector((state) => state.userActivateAccount);
+  const { loading, error } = userActivateAccount;
 
-  const redirectUrl = "http://localhost:3000/resetowanie-hasla";
+  const { userId, uniqueString } = useParams();
 
   useEffect(() => {
     if (userInfo) {
@@ -31,29 +28,22 @@ function ForgottenPassword() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(forgottenPassword(email, redirectUrl, navigate));
+    dispatch(activateAccount(userId, uniqueString, navigate));
   };
 
   return (
     <div className="ui raised very padded text container segment">
       <Form onSubmit={submitHandler}>
         <div className="form-inner">
-          <h1 className="heading">Zresetuj hasło</h1>
+          <h1 className="heading">Aktywacja konta</h1>
           {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
           {loading && <Loading />}
-          <div className="form-group">
-            <Form.Label htmlFor="email">E-mail</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              id="email"
-              value={email}
-              placeholder="Wprowadź swój adres e-mail"
-              onChange={(e) => setEmail(e.target.value)}
-            ></Form.Control>
+          <div className="form-text">
+            Aby aktywować konto prosimy o kliknięcie w przycisk poniżej.
           </div>
+          <p />
           <Button type="submit" variant="primary">
-            Wyślij link
+            Aktywuj konto
           </Button>
         </div>
       </Form>
@@ -61,4 +51,4 @@ function ForgottenPassword() {
   );
 }
 
-export default ForgottenPassword;
+export default ActivateAccount;

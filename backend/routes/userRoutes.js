@@ -13,6 +13,8 @@ const {
   requestPasswordReset,
   verifyEmail,
   verifiedAccount,
+  resetPassword,
+  activateAccount,
 } = require("../controllers/requests/userRegLogRequests");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -29,11 +31,13 @@ userRouter.put(userPrefix + "/update", updateUsersVarRequest);
 userRouter
   .route(userPrefix + "/requestPasswordReset")
   .post(requestPasswordReset);
+userRouter.route(userPrefix + "/activateAccount").post(activateAccount);
+userRouter.route(userPrefix + "/resetPassword").post(resetPassword);
 userRouter.route(userPrefix).post(registerUser);
 userRouter.route(userPrefix + "/login").post(authUser);
 userRouter.route(userPrefix + "/profil").post(protect, updateUserProfile);
 userRouter.route(userPrefix + "/removeFromGroup").post(updateUsersVarRequest);
-userRouter.route(userPrefix + "/verify/:userId/:uniqueString").get(verifyEmail);
-userRouter.route(userPrefix + "/verified/:error/:message").get(verifiedAccount);
+//userRouter.route(userPrefix + "/verify/:userId/:uniqueString").get(verifyEmail);
+//userRouter.route(userPrefix + "/verified/:error/:message").get(verifiedAccount);
 
 module.exports = { userRouter, userPrefix };

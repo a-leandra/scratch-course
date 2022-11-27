@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 
 const passwordResetSchema = mongoose.Schema(
   {
-    email: {
+    userId: {
       type: String,
       required: true,
-      unique: true,
     },
     resetString: {
       type: String,
+      required: true,
     },
     createdAt: {
       type: Date,

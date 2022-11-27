@@ -26,7 +26,13 @@ export default function Navbar() {
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <Link class="navbar-brand fs-4" to="/">
-          Kurs Scratcha
+          <img
+            src="https://svgshare.com/i/o1h.svg"
+            width="30px"
+            height="30px"
+            title="Happy Scratch"
+          />
+          <font color="orange">&nbsp;Kurs Scratcha</font>
         </Link>
         <button
           class="navbar-toggler"

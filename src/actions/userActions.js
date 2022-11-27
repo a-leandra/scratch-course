@@ -15,6 +15,7 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_RESET_PASSWORD_REQUEST,
+  USER_RESET_PASSWORD_PENDING,
   USER_RESET_PASSWORD_SUCCESS,
   USER_RESET_PASSWORD_FAIL,
   USER_FORGOTTEN_PASSWORD_REQUEST,
@@ -23,6 +24,10 @@ import {
   USER_REGISTER_LOGOUT,
   TEACHER_USER_REGISTER_LOGOUT,
   USER_UPDATE_LOGOUT,
+  USER_ACTIVATE_ACCOUNT_REQUEST,
+  USER_ACTIVATE_ACCOUNT_PENDING,
+  USER_ACTIVATE_ACCOUNT_SUCCESS,
+  USER_ACTIVATE_ACCOUNT_FAIL,
 } from "../static/constants/userConstants";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -77,7 +82,7 @@ export const register =
       );
 
       dispatch({ type: USER_REGISTER_PENDING, payload: data });
-      navigate(`/email-wyslany/${email}/${false}`);
+      navigate(`/email-wyslany/${email}`);
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
@@ -109,7 +114,7 @@ export const teacherRegister =
       );
 
       dispatch({ type: TEACHER_USER_REGISTER_PENDING, payload: data });
-      navigate(`/email-wyslany/${email}/${false}`);
+      navigate(`/email-wyslany/${email}`);
     } catch (error) {
       dispatch({
         type: TEACHER_USER_REGISTER_FAIL,
@@ -179,22 +184,47 @@ export const forgottenPassword =
   };
 
 export const resetPassword =
-  (email, password, navigate) => async (dispatch) => {
+  (userId, resetString, newPassword, navigate) => async (dispatch) => {
     try {
       dispatch({ type: USER_RESET_PASSWORD_REQUEST });
 
       const { data } = await axios.post(
         "/users/resetPassword",
-        { email, password },
+        { userId, resetString, newPassword },
         requestConfig
       );
 
-      dispatch({ type: USER_FORGOTTEN_PASSWORD_PENDING, payload: data });
+      dispatch({ type: USER_RESET_PASSWORD_PENDING, payload: data });
 
       navigate(`/email-wyslany`);
     } catch (error) {
       dispatch({
         type: USER_RESET_PASSWORD_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const activateAccount =
+  (userId, uniqueString, navigate) => async (dispatch) => {
+    try {
+      dispatch({ type: USER_ACTIVATE_ACCOUNT_REQUEST });
+
+      const { data } = await axios.post(
+        "/users/activateAccount",
+        { userId, uniqueString },
+        requestConfig
+      );
+
+      dispatch({ type: USER_ACTIVATE_ACCOUNT_PENDING, payload: data });
+
+      navigate(`/email-wyslany/aktywuj`);
+    } catch (error) {
+      dispatch({
+        type: USER_ACTIVATE_ACCOUNT_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

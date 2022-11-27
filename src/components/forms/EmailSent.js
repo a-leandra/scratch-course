@@ -8,15 +8,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./forms_styles.css";
 
 function EmailSent() {
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
-
   const navigate = useNavigate();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const { userEmail, reset } = useParams();
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/mapa-poziomow");
     }
   }, [userInfo]);
 
@@ -35,6 +36,19 @@ function EmailSent() {
             linkiem do zresetowania hasła. Sprawdź skrzynkę pocztową i zresetuj
             hasło.
           </div>
+        </div>
+      );
+    } else if (userEmail === "aktywuj") {
+      return (
+        <div className="form-inner">
+          <h1 className="heading">Aktywacja konta</h1>
+          <div className="form-text">
+            Twoje konto zostało pomyślnie aktywowane. Możesz się teraz
+            zalogować.
+          </div>
+          <Button type="login" onClick={loginHandler} variant="primary">
+            Zaloguj się
+          </Button>
         </div>
       );
     } else if (!reset && userEmail) {
@@ -66,8 +80,6 @@ function EmailSent() {
 
   return (
     <div className="ui raised very padded text container segment">
-      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-      {loading && <Loading />}
       {renderElement(reset, userEmail)}
     </div>
   );

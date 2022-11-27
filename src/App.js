@@ -17,6 +17,8 @@ import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
 import ForgottenPassword from "./components/Forms/ForgottenPassword";
 import EmailSent from "./components/Forms/EmailSent";
 import PasswordReset from "./components/Forms/PasswordReset";
+import ActivateAccount from "./components/Forms/ActivateAccount";
+import PageNotFound from "./components/Forms/PageNotFound";
 
 const App = () => {
   const history = createMemoryHistory({ reducer: {} });
@@ -35,13 +37,18 @@ const App = () => {
           />
           <Route path="/zapomniane-haslo" element={<ForgottenPassword />} />
           <Route path="/email-wyslany" element={<EmailSent />} />
+          <Route path="/email-wyslany/:userEmail" element={<EmailSent />} />
           <Route
             path="/email-wyslany/:userEmail/:reset"
             element={<EmailSent />}
           />
           <Route
-            path="/resetowanie-hasla/:userEmail/:reset"
+            path="/resetowanie-hasla/:userId/:resetString"
             element={<PasswordReset />}
+          />
+          <Route
+            path="/aktywacja-konta/:userId/:uniqueString"
+            element={<ActivateAccount />}
           />
 
           <Route path="/o-nas" element={<About />} />
@@ -50,6 +57,7 @@ const App = () => {
           <Route path="/mapa-poziomow" element={<LevelMap />} />
           <Route path="/panel-nauczyciela" element={<TeacherPanel />} />
           <Route path="/profil" element={<Profile />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>

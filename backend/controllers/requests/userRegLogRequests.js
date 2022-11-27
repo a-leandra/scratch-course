@@ -26,7 +26,6 @@ transporter.verify((error, success) => {
     console.log(error);
   } else {
     console.log("[SUCCESS] Nodemailer transporter ready!");
-    console.log(success);
   }
 });
 
@@ -57,8 +56,6 @@ const registerUser = asyncHandler(async (req, res) => {
   if (group === "") {
     groupExists = await Group.findOne({ code: 0 });
   }
-
-  groupExists = await Group.findOne({ code: 1004 });
 
   if (groupExists) {
     const user = await User.create({
@@ -109,68 +106,52 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
-  const currentUrl = "http://localhost:5000";
-
+  const redirectUrl = "http://localhost:3000/aktywacja-konta";
   const uniqueString = uuidv4() + _id;
 
-  const mailOptions = {
-    from: process.env.AUTH_EMAIL,
-    to: email,
-    subject: "Aktywacja konta do Kursu Scratcha",
-    html: `<p>Dziękujemy za rejestrację w serwisie Kurs Scratcha. Twoje konto jest jeszcze nieaktywne. Aby je aktywować prosimy o kliknięcie w przycisk poniżej.</p>
-      <p>Aby aktywować konto <a href=${
-        currentUrl + "/users/verify/" + _id + "/" + uniqueString
-      }>kliknij tutaj</a></p>
-      <p>Ważność linku wygaśnie za 6 godzin, więc prosimy o natychmiastowe działania. Dziękujemy za korzystanie z Kursu Scratcha!</p>`,
-  };
-
-  // hashing the unique string
-  const salt = await bcrypt.genSalt(10);
   try {
+    // hashing the unique string
+    const salt = await bcrypt.genSalt(10);
     let hashedUniqueString = await bcrypt.hash(uniqueString, salt);
 
-    try {
-      // setting values inside the userVerification
-      const newVerification = await UserVerification.create({
-        userId: _id,
-        uniqueString: hashedUniqueString,
-        createdAt: Date.now(),
-        expiresAt: Date.now() + 21600000,
-      });
+    //making sure there's no "/" and "\" characters in the string
+    hashedUniqueString = hashedUniqueString.replace("/", "");
+    hashedUniqueString = hashedUniqueString.replace("\\", "");
 
-      try {
-        transporter.sendMail(mailOptions);
-        // verification email sent
-        res.status(202);
-        res.status(202).json({
-          userId: _id,
-          uniqueString: hashedUniqueString,
-        });
-      } catch (error) {
-        console.log(error);
-        res.status(400);
-        throw new Error(
-          "Error while sending the verification email. Please try again"
-        );
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(400);
-      throw new Error(
-        "Error occured while saving the email verification data. Please try again"
-      );
-    }
+    const mailOptions = {
+      from: process.env.AUTH_EMAIL,
+      to: email,
+      subject: "Aktywacja konta do Kursu Scratcha",
+      html: `<p>Dziękujemy za rejestrację w serwisie Kurs Scratcha. Twoje konto jest jeszcze nieaktywne. Aby je aktywować prosimy o kliknięcie w przycisk poniżej.</p>
+              <p>Aby aktywować konto <a href=${
+                redirectUrl + "/" + _id + "/" + hashedUniqueString
+              }>kliknij tutaj</a></p>
+              <p>Ważność linku wygaśnie za 6 godzin, więc prosimy o natychmiastowe działania. Dziękujemy za korzystanie z Kursu Scratcha!</p>`,
+    };
+
+    // setting values inside the userVerification
+    const newVerification = await UserVerification.create({
+      userId: _id,
+      uniqueString: hashedUniqueString,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 21600000,
+    });
+
+    transporter.sendMail(mailOptions);
+    // verification email sent
+    res.status(202).json({
+      userId: _id,
+      uniqueString: hashedUniqueString,
+    });
   } catch (error) {
     console.log(error);
     res.status(400);
-    throw new Error(
-      "Error occured while hashing the email data. Please try again"
-    );
+    throw new Error(error);
   }
 });
 
-const verifyEmail = asyncHandler(async (req, res) => {
-  let { userId, uniqueString } = req.params;
+const activateAccount = asyncHandler(async (req, res) => {
+  const { userId, uniqueString } = req.body;
 
   try {
     const userVerification = await UserVerification.findOne({ userId });
@@ -179,76 +160,41 @@ const verifyEmail = asyncHandler(async (req, res) => {
       const hashedUniqueString = userVerification.uniqueString;
 
       if (expirationDate < Date.now()) {
-        // record has expired so it needs to be deleted
-        try {
-          UserVerification.deleteOne({ userId });
-          try {
-            User.deleteOne({ _id: userId });
-            let message = "Ważność linku wygasła. Zarejestruj się jeszcze raz";
-            res.redirect(`/users/verified?error=true&message=${message}`);
-          } catch (error) {
-            let message =
-              "Wystąpił błąd podczas czyszczenia rekordu użytkownika";
-            res.redirect(`/users/verified?error=true&message=${message}`);
-          }
-        } catch (error) {
-          console.log(error);
-          let message =
-            "Wystąpił błąd podczas czyszczenia rekordu weryfikacji użytkownika";
-          res.redirect(`/users/verified?error=true&message=${message}`);
-        }
+        await UserVerification.deleteOne({ userId });
+        await User.deleteOne({ _id: userId });
+        res.status(404);
+        throw new Error("Ważność linku wygasła. Zarejestruj się jeszcze raz");
       } else {
-        try {
-          let comparison = bcrypt.compare(uniqueString, hashedUniqueString);
-          if (comparison) {
-            try {
-              const user = await User.findOne({ _id: userId });
-              user.verified = true;
-              const updatedUser = await user.save();
-              try {
-                const userVerification = await UserVerification.deleteOne({
-                  userId,
-                });
-                res.sendFile(
-                  path.join(__dirname, "./../../views/verified.html")
-                );
-              } catch (error) {
-                console.log(error);
-                let message =
-                  "Wystąpił błąd podczas kończenia pomyślnej weryfikacji użytkownika";
-                res.redirect(`/users/verified?error=true&message=${message}`);
-              }
-            } catch (error) {
-              console.log(error);
-              let message =
-                "Wystąpił błąd podczas aktualizacji rekordu weryfikacji użytkownika";
-              res.redirect(`/users/verified?error=true&message=${message}`);
-            }
-          } else {
-            let message =
-              "Przekazano niepoprawne parametry. Sprawdź swoją skrzynkę pocztową";
-            res.redirect(`/users/verified?error=true&message=${message}`);
-          }
-        } catch (error) {
-          let message = "Wystąpił błąd podczas porównywania rekordu kodu";
-          res.redirect(`/users/verified?error=true&message=${message}`);
+        let comparison = bcrypt.compare(uniqueString, hashedUniqueString);
+        if (comparison) {
+          const user = await User.findOne({ _id: userId });
+          user.verified = true;
+          const updatedUser = await user.save();
+          const userVerification = await UserVerification.deleteOne({
+            userId,
+          });
+          res.status(201).json({
+            _id: userId,
+            token: generateToken(updatedUser._id),
+          });
+        } else {
+          res.status(404);
+          throw new Error(
+            "Przekazano niepoprawne parametry. Sprawdź swoją skrzynkę pocztową"
+          );
         }
       }
     } else {
-      let message =
-        "Rekord uzytkownika nie istnieje lub zostal juz zweryfikowany. Zarejestruj sie lub zaloguj na swoje konto";
-      res.redirect(`/users/verified?error=true&message=${message}`);
+      res.status(404);
+      throw new Error(
+        "Rekord uzytkownika nie istnieje lub zostal juz zweryfikowany. Zarejestruj sie lub zaloguj na swoje konto"
+      );
     }
   } catch (error) {
     console.log(error);
-    let message =
-      "Wystąpił błąd podczas sprawdzania rekordu weryfikacji użytkownika";
-    res.redirect(`/users/verified?error=true&message=${message}`);
+    res.status(400);
+    throw new Error(error);
   }
-});
-
-const verifiedAccount = asyncHandler(async (req, res) => {
-  res.sendFile(path.join(__dirname, "./../../views/verified.html"));
 });
 
 const authUser = asyncHandler(async (req, res) => {
@@ -256,14 +202,13 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  // checking if user is verified
-  if (!user.verified) {
-    res.status(404);
-    throw new Error(
-      "Konto nie zostało zweryfikowane. Sprawdź swoją skrzynkę pocztową"
-    );
-  } else {
-    if (user && (await user.matchPassword(password))) {
+  if (user && (await user.matchPassword(password))) {
+    if (!user.verified) {
+      res.status(404);
+      throw new Error(
+        "Konto nie zostało zweryfikowane. Sprawdź swoją skrzynkę pocztową"
+      );
+    } else {
       res.status(201).json({
         _id: user.id,
         name: user.name,
@@ -275,10 +220,12 @@ const authUser = asyncHandler(async (req, res) => {
         picture: user.picture,
         token: generateToken(user._id),
       });
-    } else {
-      res.status(400);
-      throw new Error("Error occured. Please try again");
     }
+  } else {
+    res.status(400);
+    throw new Error(
+      "Nie znaleziono użytkownika o takim adresie e-mail lub podano nieprawidłowe hasło"
+    );
   }
 });
 
@@ -305,72 +252,146 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("User not found!");
+    throw new Error("Nie znaleziono podanego użytkownika!");
   }
 });
 
 const requestPasswordReset = asyncHandler(async (req, res) => {
   const { email, redirectUrl } = req.body;
 
-  const user = await User.findOne({ email });
-
-  if (user) {
-    sendResetEmail(email, redirectUrl, res);
-  } else {
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      if (user.verified) {
+        sendResetEmail(user, redirectUrl, res);
+      } else {
+        res.status(400);
+        throw new Error(
+          "Konto podanego użytkownika nie zostało jeszcze aktywowane. Sprawdź swoją skrzynkę pocztową"
+        );
+      }
+    } else {
+      res.status(400);
+      throw new Error("Użytkownik z podanym adresem e-mail nie istnieje");
+    }
+  } catch (error) {
+    console.log(error);
     res.status(400);
-    throw new Error("Error occured. Please try again");
+    throw new Error(error);
   }
 });
 
-const sendResetEmail = (email, redirectUrl, res) => {
-  const resetString = "s0//P4$$w0rD";
+const sendResetEmail = asyncHandler(
+  async ({ _id, email }, redirectUrl, res) => {
+    const resetString = uuidv4() + _id;
 
-  // Deleting all exisitng reset records
-  try {
-    PasswordReset.deleteMany({ userEmail: email });
-    const mailOptions = {
-      from: process.env.AUTH_EMAIL,
-      to: email,
-      subject: "Zmiana hasła",
-      html: `<p>Wystąpiłeś(-aś) ostatnio z prośbą o zmianę hasła.</p>
-      <p>Aby zmienić hasło <a href=${
-        redirectUrl + "/" + email + "/" + resetString
-      }kliknij tutaj</a>.</p>
-      <p>Ważność linku wygaśnie za 60 minut, więc prosimy o natychmiastowe działania. Dziękujemy za korzystanie z Kursu Scratcha!</p>`,
-    };
-
-    //Hashing the reset string
-    const salt = bcrypt.genSalt(10);
-    let hashedValue = bcrypt.hash(resetString, salt);
-    const newPasswordReset = new PasswordReset({
-      email: email,
-      resetString: hashedValue,
-      createdAt: Date.now(),
-      expiresAt: Date.now() + 3600000,
-    });
-    newPasswordReset.save();
+    // Deleting all exisitng reset records
     try {
-      transporter.sendEmail(mailOptions);
-    } catch (error) {
-      res.status(400);
-      throw new Error("Error occured. Please try again");
-    }
+      await PasswordReset.deleteMany({ userId: _id });
 
-    res.json({
-      status: "PENDING",
-      message: "Password reset email sent",
-    });
+      // hashing the unique string
+      const salt = await bcrypt.genSalt(10);
+      let hashedResetString = await bcrypt.hash(resetString, salt);
+
+      //making sure there's no "/" and "\" characters in the string
+      hashedResetString = hashedResetString.replace("/", "");
+      hashedResetString = hashedResetString.replace("\\", "");
+
+      const mailOptions = {
+        from: process.env.AUTH_EMAIL,
+        to: email,
+        subject: "Zmiana hasła",
+        html: `<p>Wystąpiłeś(-aś) ostatnio z prośbą o zmianę hasła.</p>
+                <p>Aby zmienić hasło <a href=${
+                  redirectUrl + "/" + _id + "/" + hashedResetString
+                }>kliknij tutaj</a>.</p>
+                <p>Ważność linku wygaśnie za 60 minut, więc prosimy o natychmiastowe działania. Dziękujemy za korzystanie z Kursu Scratcha!</p>`,
+      };
+
+      // setting values inside the PasswordReset
+      const newPasswordReset = await PasswordReset.create({
+        userId: _id,
+        resetString: hashedResetString,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 3600000,
+      });
+
+      transporter.sendMail(mailOptions);
+      // reset password email sent
+      res.status(202).json({
+        userId: _id,
+        resetString: hashedResetString,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(400);
+      throw new Error(error);
+    }
+  }
+);
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const { userId, resetString, newPassword } = req.body;
+
+  try {
+    const passwordReset = await PasswordReset.findOne({ userId });
+    if (passwordReset) {
+      const expirationDate = passwordReset.expiresAt;
+      const hashedResetString = passwordReset.resetString;
+      if (expirationDate < Date.now()) {
+        await passwordReset.deleteOne({ _id: userId });
+        res.status(400);
+        throw new Error(
+          "Ważność linku wygasła. Ponów próbę zresetowania hasła"
+        );
+      } else {
+        let comparison = bcrypt.compare(resetString, hashedResetString);
+        if (comparison) {
+          const user = await User.findById(userId);
+
+          if (user) {
+            if (newPassword) {
+              user.password = newPassword;
+            }
+
+            const updatedUser = await user.save();
+
+            res.status(201).json({
+              _id: userId,
+              token: generateToken(updatedUser._id),
+            });
+          } else {
+            res.status(404);
+            throw new Error("Nie znaleziono podanego użytkownika!");
+          }
+          await PasswordReset.deleteOne({
+            userId,
+          });
+          res.status(202).json({
+            userId: userId,
+          });
+        } else {
+          res.status(400);
+          throw new Error(
+            "Przekazano niepoprawne parametry. Sprawdź swoją skrzynkę pocztową"
+          );
+        }
+      }
+    } else {
+      res.status(400);
+      throw new Error("Podany rekord resetowania hasła nie został znaleziony");
+    }
   } catch (error) {
     res.status(400);
-    throw new Error("Error occured. Please try again");
+    throw new Error(error);
   }
-};
+});
 
 module.exports = {
   registerUser,
   authUser,
   requestPasswordReset,
   updateUserProfile,
-  verifyEmail,
-  verifiedAccount,
+  resetPassword,
+  activateAccount,
 };

@@ -52,9 +52,6 @@ function LoginForm() {
               value={email}
               placeholder="Wprowadź swój adres e-mail"
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             ></Form.Control>
           </div>
           <div className="form-group">
@@ -66,9 +63,6 @@ function LoginForm() {
               value={password}
               placeholder="Wprowadź hasło"
               onChange={(e) => setPassword(e.target.value)}
-              style={{
-                minWidth: "30vw",
-              }}
             ></Form.Control>
           </div>
           <Button type="submit" variant="primary">

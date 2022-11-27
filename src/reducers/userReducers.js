@@ -17,6 +17,18 @@ import {
   USER_REGISTER_LOGOUT,
   TEACHER_USER_REGISTER_LOGOUT,
   USER_UPDATE_LOGOUT,
+  USER_RESET_PASSWORD_REQUEST,
+  USER_RESET_PASSWORD_PENDING,
+  USER_RESET_PASSWORD_SUCCESS,
+  USER_RESET_PASSWORD_FAIL,
+  USER_FORGOTTEN_PASSWORD_REQUEST,
+  USER_FORGOTTEN_PASSWORD_PENDING,
+  USER_FORGOTTEN_PASSWORD_SUCCESS,
+  USER_FORGOTTEN_PASSWORD_FAIL,
+  USER_ACTIVATE_ACCOUNT_REQUEST,
+  USER_ACTIVATE_ACCOUNT_PENDING,
+  USER_ACTIVATE_ACCOUNT_SUCCESS,
+  USER_ACTIVATE_ACCOUNT_FAIL,
 } from "../static/constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -84,6 +96,51 @@ export const userUpdateReducer = (state = {}, action) => {
       return { loading: false, error: action.payload, success: false };
     case USER_UPDATE_LOGOUT:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const userForgottenPasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_FORGOTTEN_PASSWORD_REQUEST:
+      return { loading: true };
+    case USER_FORGOTTEN_PASSWORD_PENDING:
+      return { loading: false };
+    case USER_FORGOTTEN_PASSWORD_SUCCESS:
+      return { loading: false, userInfo: action.payload, success: true };
+    case USER_FORGOTTEN_PASSWORD_FAIL:
+      return { loading: false, error: action.payload, success: false };
+    default:
+      return state;
+  }
+};
+
+export const userResetPasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_RESET_PASSWORD_REQUEST:
+      return { loading: true };
+    case USER_RESET_PASSWORD_PENDING:
+      return { loading: false };
+    case USER_RESET_PASSWORD_SUCCESS:
+      return { loading: false, userInfo: action.payload, success: true };
+    case USER_RESET_PASSWORD_FAIL:
+      return { loading: false, error: action.payload, success: false };
+    default:
+      return state;
+  }
+};
+
+export const userActivateAccountReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_ACTIVATE_ACCOUNT_REQUEST:
+      return { loading: true };
+    case USER_ACTIVATE_ACCOUNT_PENDING:
+      return { loading: false };
+    case USER_ACTIVATE_ACCOUNT_SUCCESS:
+      return { loading: false, userInfo: action.payload, success: true };
+    case USER_ACTIVATE_ACCOUNT_FAIL:
+      return { loading: false, error: action.payload, success: false };
     default:
       return state;
   }

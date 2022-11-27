@@ -19,6 +19,10 @@ button {
   justify-content: center;
 }
 
+.page-not-found {
+  text-align: center;
+}
+
 form {
   display: block;
   position: relative;

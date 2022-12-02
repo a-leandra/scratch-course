@@ -37,7 +37,5 @@ userRouter.route(userPrefix).post(registerUser);
 userRouter.route(userPrefix + "/login").post(authUser);
 userRouter.route(userPrefix + "/profil").post(protect, updateUserProfile);
 userRouter.route(userPrefix + "/removeFromGroup").post(updateUsersVarRequest);
-//userRouter.route(userPrefix + "/verify/:userId/:uniqueString").get(verifyEmail);
-//userRouter.route(userPrefix + "/verified/:error/:message").get(verifiedAccount);
 
 module.exports = { userRouter, userPrefix };

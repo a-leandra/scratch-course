@@ -27,8 +27,7 @@ export default function Navbar() {
       <div class="container-fluid">
         <Link class="navbar-brand fs-4" to="/">
           <img
-            src="https://svgshare.com/i/o1h.svg"
-            width="30px"
+            src="https://i.postimg.cc/Qtb40KFf/happy-scratch-1.png"
             height="30px"
             title="Happy Scratch"
           />

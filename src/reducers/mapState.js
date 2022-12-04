@@ -5,14 +5,13 @@ export const mapState = createSlice({
   initialState: {
     coordinates: [
       { x: 15, y: 55.5, active: true, current: false, link: "" },
-      { x: 35, y: 51.5, active: false, current: true, link: "" },
-      { x: 50, y: 61.5, active: false, current: false, link: "" },
-      { x: 70, y: 62, active: false, current: false, link: "" },
-      { x: 90, y: 60, active: false, current: false, link: "" },
-      { x: 80, y: 36, active: false, current: false, link: "" },
-      { x: 60, y: 38, active: false, current: false, link: "" },
-      { x: 37, y: 31.5, active: false, current: false, link: "" },
-      { x: 17, y: 12.5, active: false, current: false, link: "" },
+      { x: 38, y: 51.5, active: false, current: false, link: "" },
+      { x: 56, y: 62.5, active: false, current: false, link: "" },
+      { x: 80, y: 66, active: false, current: false, link: "" },
+      { x: 88, y: 44, active: false, current: false, link: "" },
+      { x: 64, y: 39, active: false, current: false, link: "" },
+      { x: 40, y: 33, active: false, current: false, link: "" },
+      { x: 18, y: 13.5, active: false, current: false, link: "" },
     ],
   },
   reducers: {

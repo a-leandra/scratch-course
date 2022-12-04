@@ -10,8 +10,6 @@ const Profile = ({ changeView }) => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmpassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
@@ -36,20 +34,7 @@ const Profile = ({ changeView }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmpassword) {
-      setMessage("Passwords do not match");
-    } else {
-      dispatch(update({ name, surname, email, password }));
-    }
-  };
-
-  const loginHandler = (e) => {
-    e.preventDefault();
-    changeView("login");
-  };
-  const teacherRegisterHandler = (e) => {
-    e.preventDefault();
-    changeView("teacherRegister");
+    dispatch(update({ name, surname, email }));
   };
 
   return (
@@ -59,7 +44,9 @@ const Profile = ({ changeView }) => {
         <Form onSubmit={submitHandler}>
           {loading && <Loading />}
           {success && (
-            <ErrorMessage variant="success">Updated Succcessfully</ErrorMessage>
+            <ErrorMessage variant="success">
+              Pomyślnie zaktualizowano profil
+            </ErrorMessage>
           )}
           {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
           {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
@@ -97,37 +84,9 @@ const Profile = ({ changeView }) => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="form-group">
-              <Form.Label htmlFor="password">Hasło</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                id="password"
-                value={password}
-                placeholder="Wprowadź hasło"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <Form.Label htmlFor="confirmpassword">Zatwierdź hasło</Form.Label>
-              <Form.Control
-                type="password"
-                name="confirmpassword"
-                id="confirmpassword"
-                value={confirmpassword}
-                placeholder="Powtórz hasło"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-
             <Button type="submit" variant="primary">
               Zapisz
             </Button>
-            {/*<input
-              type="teacherRegisterView"
-              value="Usuń konto"
-              onClick={teacherRegisterHandler}
-          />*/}
           </div>
         </Form>
       </div>

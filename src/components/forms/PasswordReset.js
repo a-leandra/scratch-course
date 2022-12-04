@@ -29,14 +29,40 @@ function PasswordReset() {
     }
   }, [userInfo]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
+    const uppercaseRegExp = /(?=.*?[A-Z])/;
+    const lowercaseRegExp = /(?=.*?[a-z])/;
+    const digitsRegExp = /(?=.*?[0-9])/;
+    const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/;
+    const minLengthRegExp = /.{8,}/;
+    const passwordLength = password.length;
+    const uppercasePassword = uppercaseRegExp.test(password);
+    const lowercasePassword = lowercaseRegExp.test(password);
+    const digitsPassword = digitsRegExp.test(password);
+    const specialCharPassword = specialCharRegExp.test(password);
+    const minLengthPassword = minLengthRegExp.test(password);
+
     if (password !== confirmpassword) {
-      setMessage("Passwords do not match");
+      setMessage("Wprowadzone hasła muszą być takie same");
     } else {
-      setMessage(null);
-      dispatch(resetPassword(userId, resetString, password, navigate));
+      if (passwordLength === 0) {
+        setMessage("Hasło nie może być puste");
+      } else if (!uppercasePassword) {
+        setMessage("Hasło musi zawierać przynajmniej jedną wielką literę");
+      } else if (!lowercasePassword) {
+        setMessage("Hasło musi zawierać przynajmniej jedną małą literę");
+      } else if (!digitsPassword) {
+        setMessage("Hasło musi zawierać przynajmniej jedną cyfrę");
+      } else if (!specialCharPassword) {
+        setMessage("Hasło musi zawierać przynajmniej jeden symbol specjalny");
+      } else if (!minLengthPassword) {
+        setMessage("Hasło musi zawierać przynajmniej 8 znaków");
+      } else {
+        setMessage(null);
+        dispatch(resetPassword(userId, resetString, password, navigate));
+      }
     }
   };
 

@@ -22,7 +22,11 @@ function LoginForm() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      if (userInfo.isTeacher) {
+        navigate("/panel-nauczyciela");
+      } else {
+        navigate("/mapa-poziomow");
+      }
     }
   }, [userInfo]);
 

@@ -11,14 +11,14 @@ import Contact from "./pages/Information/Contact";
 import Privacy from "./pages/Information/Privacy";
 import { createMemoryHistory } from "history";
 import MainPage from "./pages/Information/MainPage";
-import LoginForm from "./components/Forms/LoginForm";
-import RegisterForm from "./components/Forms/RegisterForm";
-import TeacherRegisterForm from "./components/Forms/TeacherRegisterForm";
-import ForgottenPassword from "./components/Forms/ForgottenPassword";
-import EmailSent from "./components/Forms/EmailSent";
-import PasswordReset from "./components/Forms/PasswordReset";
-import ActivateAccount from "./components/Forms/ActivateAccount";
-import PageNotFound from "./components/Forms/PageNotFound";
+import LoginForm from "./components/forms/LoginForm";
+import RegisterForm from "./components/forms/RegisterForm";
+import TeacherRegisterForm from "./components/forms/TeacherRegisterForm";
+import ForgottenPassword from "./components/forms/ForgottenPassword";
+import EmailSent from "./components/forms/EmailSent";
+import PasswordReset from "./components/forms/PasswordReset";
+import ActivateAccount from "./components/forms/ActivateAccount";
+import PageNotFound from "./components/forms/PageNotFound";
 
 const App = () => {
   const history = createMemoryHistory({ reducer: {} });

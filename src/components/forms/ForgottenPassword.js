@@ -25,7 +25,11 @@ function ForgottenPassword() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/mapa-poziomow");
+      if (userInfo.isTeacher) {
+        navigate("/panel-nauczyciela");
+      } else {
+        navigate("/mapa-poziomow");
+      }
     }
   }, [userInfo]);
 

@@ -24,23 +24,60 @@ function TeacherRegisterForm() {
   const { loading, error, userInfo } = teacherUserRegister;
 
   useEffect(() => {
-    console.log(typeof userInfo);
     if (userInfo) {
-      navigate("/");
+      if (userInfo.isTeacher) {
+        navigate("/panel-nauczyciela");
+      } else {
+        navigate("/mapa-poziomow");
+      }
     }
   }, [userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    const uppercaseRegExp = /(?=.*?[A-Z])/;
+    const lowercaseRegExp = /(?=.*?[a-z])/;
+    const digitsRegExp = /(?=.*?[0-9])/;
+    const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/;
+    const minLengthRegExp = /.{8,}/;
+    const passwordLength = password.length;
+    const uppercasePassword = uppercaseRegExp.test(password);
+    const lowercasePassword = lowercaseRegExp.test(password);
+    const digitsPassword = digitsRegExp.test(password);
+    const specialCharPassword = specialCharRegExp.test(password);
+    const minLengthPassword = minLengthRegExp.test(password);
+
     if (password !== confirmpassword) {
-      setMessage("Passwords do not match");
+      setMessage("Wprowadzone hasła muszą być takie same");
     } else {
-      setMessage(null);
-      setIsTeacher(true);
-      dispatch(
-        teacherRegister(name, surname, email, 8, isTeacher, password, navigate) // teacher should have all task available <0,8>
-      );
+      if (passwordLength === 0) {
+        setMessage("Hasło nie może być puste");
+      } else if (!uppercasePassword) {
+        setMessage("Hasło musi zawierać przynajmniej jedną wielką literę");
+      } else if (!lowercasePassword) {
+        setMessage("Hasło musi zawierać przynajmniej jedną małą literę");
+      } else if (!digitsPassword) {
+        setMessage("Hasło musi zawierać przynajmniej jedną cyfrę");
+      } else if (!specialCharPassword) {
+        setMessage("Hasło musi zawierać przynajmniej jeden symbol specjalny");
+      } else if (!minLengthPassword) {
+        setMessage("Hasło musi zawierać przynajmniej 8 znaków");
+      } else {
+        setMessage(null);
+        setIsTeacher(true);
+        dispatch(
+          teacherRegister(
+            name,
+            surname,
+            email,
+            8,
+            isTeacher,
+            password,
+            navigate
+          ) // teacher should have all task available <0,8>
+        );
+      }
     }
   };
 

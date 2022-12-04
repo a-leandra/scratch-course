@@ -37,7 +37,7 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_REQUEST });
 
     const { data } = await axios.post(
-      "https://scratchcourse-backend.onrender.com/users/login",
+      "/api/users/login",
       { email, password },
       requestConfig
     );

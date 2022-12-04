@@ -116,8 +116,8 @@ const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
     let hashedUniqueString = await bcrypt.hash(uniqueString, salt);
 
     //making sure there's no "/" and "\" characters in the string
-    hashedUniqueString = hashedUniqueString.replace("/", "a");
-    hashedUniqueString = hashedUniqueString.replace("\\", "b");
+    hashedUniqueString = hashedResetString.split("/").join("");
+    hashedUniqueString = hashedResetString.split("\\").join("");
 
     const mailOptions = {
       from: process.env.AUTH_EMAIL,
@@ -295,8 +295,8 @@ const sendResetEmail = asyncHandler(
       let hashedResetString = await bcrypt.hash(resetString, salt);
 
       //making sure there's no "/" and "\" characters in the string
-      hashedResetString = hashedResetString.replace("/", "a");
-      hashedResetString = hashedResetString.replace("\\", "b");
+      hashedResetString = hashedResetString.split("/").join("");
+      hashedResetString = hashedResetString.split("\\").join("");
 
       const mailOptions = {
         from: process.env.AUTH_EMAIL,

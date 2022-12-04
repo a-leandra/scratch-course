@@ -47,14 +47,15 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(404);
-    throw new Error("User with such email address already exists");
+    throw new Error("Użytkownik z podanym adresem e-mail już istnieje");
   }
 
   // check if such group exists in the database
   groupExists = await Group.findOne({ code: group });
 
+  // setting a default group for users who didn't provide a code
   if (group === "") {
-    groupExists = await Group.findOne({ code: 0 });
+    groupExists = await Group.findOne({ code: 1001 });
   }
 
   if (groupExists) {
@@ -75,7 +76,7 @@ const registerUser = asyncHandler(async (req, res) => {
       sendVerificationEmail(user, res);
     } else {
       res.status(404);
-      throw new Error("Error occured. Please try again");
+      throw new Error("Wystąpił błąd. Spróbuj ponownie");
     }
   } else {
     if (isTeacher) {
@@ -96,11 +97,11 @@ const registerUser = asyncHandler(async (req, res) => {
         sendVerificationEmail(user, res);
       } else {
         res.status(404);
-        throw new Error("Error occured. Please try again");
+        throw new Error("Wystąpił błąd. Spróbuj ponownie");
       }
     } else {
       res.status(404);
-      throw new Error("Group with such code doesn't exist");
+      throw new Error("Grupa o podanym kodzie nie istnieje");
     }
   }
 });
@@ -115,8 +116,8 @@ const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
     let hashedUniqueString = await bcrypt.hash(uniqueString, salt);
 
     //making sure there's no "/" and "\" characters in the string
-    hashedUniqueString = hashedUniqueString.replace("/", "");
-    hashedUniqueString = hashedUniqueString.replace("\\", "");
+    hashedUniqueString = hashedUniqueString.replace("/", "a");
+    hashedUniqueString = hashedUniqueString.replace("\\", "b");
 
     const mailOptions = {
       from: process.env.AUTH_EMAIL,
@@ -210,14 +211,10 @@ const authUser = asyncHandler(async (req, res) => {
       );
     } else {
       res.status(201).json({
-        _id: user.id,
         name: user.name,
         surname: user.surname,
         email: user.email,
-        group: user.group,
-        task: user.task,
         isTeacher: user.isTeacher,
-        picture: user.picture,
         token: generateToken(user._id),
       });
     }
@@ -237,17 +234,21 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.surname = req.body.surname || user.surname;
     user.email = req.body.email || user.email;
 
-    if (req.body.password) {
-      user.password = req.body.password;
+    // check if user with such email already exists in the database
+    const userExists = await User.findOne({ email: req.body.email });
+
+    if (userExists) {
+      res.status(404);
+      throw new Error("Użytkownik z podanym adresem e-mail już istnieje");
     }
 
     const updatedUser = await user.save();
 
     res.status(201).json({
-      _id: updateUserProfile._id,
       name: updatedUser.name,
       surname: updatedUser.surname,
       email: updatedUser.email,
+      isTeacher: updatedUser.isTeacher,
       token: generateToken(updatedUser._id),
     });
   } else {
@@ -294,8 +295,8 @@ const sendResetEmail = asyncHandler(
       let hashedResetString = await bcrypt.hash(resetString, salt);
 
       //making sure there's no "/" and "\" characters in the string
-      hashedResetString = hashedResetString.replace("/", "");
-      hashedResetString = hashedResetString.replace("\\", "");
+      hashedResetString = hashedResetString.replace("/", "a");
+      hashedResetString = hashedResetString.replace("\\", "b");
 
       const mailOptions = {
         from: process.env.AUTH_EMAIL,

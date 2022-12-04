@@ -3,6 +3,7 @@ import "./main_page_style.css";
 import video from "../../static/assets/Scratch.mp4";
 import { useDispatch } from "react-redux";
 import { setNavbarOff } from "../../reducers/pageState";
+import { NavLink, Link, useMatch, useResolvedPath } from "react-router-dom";
 
 export default function MainPage() {
   const dispatch = useDispatch();
@@ -49,9 +50,9 @@ export default function MainPage() {
           <h4>Rozpocznij swoją przygodę z programowaniem już dziś :)</h4>
         </div>
 
-        <a href="./zaloguj" className="startBtn">
+        <Link class="btn btn-primary" to="/zaloguj" className="startBtn">
           ZACZYNAMY
-        </a>
+        </Link>
       </header>
     </div>
   );

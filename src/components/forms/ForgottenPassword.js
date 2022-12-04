@@ -21,7 +21,7 @@ function ForgottenPassword() {
   );
   const { loading, error } = userForgottenPassword;
 
-  const redirectUrl = "http://localhost:3000/resetowanie-hasla";
+  const redirectUrl = "https://638d16dc1c52d86d38600aed--deft-centaur-0ce107.netlify.app/resetowanie-hasla";
 
   useEffect(() => {
     if (userInfo) {

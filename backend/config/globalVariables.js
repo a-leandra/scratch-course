@@ -10,7 +10,7 @@ const port = {
   spare: 9000,
 };
 
-const defaultServerUrl = "http://localhost:" + port.default;
+const defaultServerUrl = "https://scratchcourse-backend.onrender.com/";
 
 const jwtSecret = "secret1234";
 

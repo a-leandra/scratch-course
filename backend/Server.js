@@ -30,7 +30,7 @@ class Server {
   }
 
   getServerUrl() {
-    return "http://localhost:" + this.#httpServer.address().port;
+    return "https://scratchcourse-backend.onrender.com/";
   }
 
   async prepareServer() {

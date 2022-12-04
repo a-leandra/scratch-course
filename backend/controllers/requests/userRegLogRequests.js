@@ -107,7 +107,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
-  const redirectUrl = "http://localhost:3000/aktywacja-konta";
+  const redirectUrl = "https://638d16dc1c52d86d38600aed--deft-centaur-0ce107.netlify.app/aktywacja-konta";
   const uniqueString = uuidv4() + _id;
 
   try {
@@ -116,8 +116,8 @@ const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
     let hashedUniqueString = await bcrypt.hash(uniqueString, salt);
 
     //making sure there's no "/" and "\" characters in the string
-    hashedUniqueString = hashedResetString.split("/").join("");
-    hashedUniqueString = hashedResetString.split("\\").join("");
+    hashedUniqueString = hashedUniqueString.split("/").join("");
+    hashedUniqueString = hashedUniqueString.split("\\").join("");
 
     const mailOptions = {
       from: process.env.AUTH_EMAIL,

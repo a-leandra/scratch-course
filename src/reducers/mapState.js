@@ -20,7 +20,7 @@ export const mapState = createSlice({
       state.coordinates.forEach((c, i) => {
         c.active = i <= action.payload.index;
         c.current = i === action.payload.index;
-        c.link = "http://localhost:8602/?" + i + "?" + action.payload.email;
+        c.link = "https://638d0d72113ea7650fb5e14d--gilded-dasik-c46422.netlify.app/?" + i + "?" + action.payload.email;
       });
     },
   },

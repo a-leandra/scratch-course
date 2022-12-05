@@ -2,6 +2,7 @@ import React from "react";
 import "../../index.css";
 import MapFields from "./MapFields";
 import mapa_poziomy from "../../static/assets/mapa_poziomy.png";
+import puchar from "../../static/assets/puchar.png";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,7 @@ export default function MapComponent() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  const currentLevel = useSelector((state) => state.mapState.currentLevel);
 
   useEffect(() => {
     if (!userInfo) {
@@ -31,6 +33,18 @@ export default function MapComponent() {
         }}
       />
       <MapFields />
+      <img
+        src={puchar}
+        style={{
+          position: "absolute",
+          left: 14 + "vw",
+          top: 2 + "vw",
+          width: "110px",
+          height: "180px",
+          zIndex:1000,
+          visibility: currentLevel === 8 ? 'visible' : "hidden"
+        }}
+      />
     </div>
   );
 }

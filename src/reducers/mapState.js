@@ -20,7 +20,7 @@ export const mapState = createSlice({
       state.coordinates.forEach((c, i) => {
         c.active = i <= action.payload.index;
         c.current = i === action.payload.index;
-        c.link = "https://scratch-gui.netlify.app/?" + i + "?" + action.payload.email;
+        c.link = c.active ? "https://scratch-gui.netlify.app/?" + i + "?" + action.payload.email : "";
       });
     },
   },

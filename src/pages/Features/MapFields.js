@@ -20,7 +20,7 @@ export default function MapFields() {
   coordinates.forEach((element) => {
     if (element.current) {
       fields.push(
-        <a href="https://scratch-gui.netlify.app/?1">
+        <a href={element.link}>
           <img
             src={fieldCurrent}
             alt="field"

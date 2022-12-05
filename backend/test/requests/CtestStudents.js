@@ -13,7 +13,7 @@ const teachers = dataSets.get("teachers").set;
 
 describe("student's requests", function () {
   this.timeout(5000);
-  const basicRoute = defRoute + "/users";
+  const basicRoute = defRoute + "/api/users";
   it("add students", async () => {
     const group = await Group.findOne({
       name: groups.at(0).name,
@@ -65,7 +65,7 @@ describe("student's requests", function () {
   });
   it("get last task done by first student", async () => {
     const res = await tester.get(
-      message(basicRoute + "/task/" + students.at(0).email, null)
+      message(basicRoute + "/api/task/" + students.at(0).email, null)
     );
     assert(res.status === 200);
     assert(res.data === 6);

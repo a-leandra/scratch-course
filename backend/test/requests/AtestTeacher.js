@@ -10,7 +10,7 @@ const teachers = dataSets.get("teachers").set;
 const suffix = testNameSuffix;
 
 describe("teacher's requests", () => {
-  const basicRoute = defRoute + "/users";
+  const basicRoute = defRoute + "/api/users";
   it("add teachers", async () => {
     for (const teacher of teachers) {
       const res = await requestAddTeacher(basicRoute, teacher);

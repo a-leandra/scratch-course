@@ -1,4 +1,4 @@
-const Server = require("./server.js");
+const Server = require("./Server.js");
 const { databaseUri } = require("./config/globalVariables");
 const server = new Server(databaseUri.development);
 const { clearDB, populateDB, isDBPopulated } = require("./db/dbHelpers");

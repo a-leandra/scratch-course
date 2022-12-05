@@ -19,7 +19,7 @@ import {
 export const fetchGroups = (setGroups) => async (dispatch) => {
   try {
     const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
-    const response = await axios.get("/groups/" + userEmail);
+    const response = await axios.get("/api/groups/" + userEmail);
     dispatch(setGroups(response.data));
   } catch (error) {
     //console.log(error);
@@ -29,7 +29,7 @@ export const fetchGroups = (setGroups) => async (dispatch) => {
 export const fetchStudents = (setStudents) => async (dispatch) => {
   try {
     const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
-    const response = await axios.get("/users/" + userEmail);
+    const response = await axios.get("/api/users/" + userEmail);
     dispatch(setStudents(response.data));
   } catch (error) {
     //console.log(error);
@@ -51,7 +51,7 @@ export const removeStudentFromGroup = async (param) => {
     valueName: "group",
     value: null,
   };
-  await axios.post("/users/removeFromGroup", body);
+  await axios.post("/api/users/removeFromGroup", body);
 };
 
 export const removeOldGroup = async (code) => {

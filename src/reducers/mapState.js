@@ -13,6 +13,7 @@ export const mapState = createSlice({
       { x: 40, y: 33, active: false, current: false, link: "" },
       { x: 18, y: 13.5, active: false, current: false, link: "" },
     ],
+    currentLevel: 0
   },
   reducers: {
     setMapLevels: (state, action) => {
@@ -22,6 +23,7 @@ export const mapState = createSlice({
         c.current = i === action.payload.index;
         c.link = "http://localhost:8602/?" + i + "?" + action.payload.email;
       });
+      state.currentLevel = action.payload.index;
     },
   },
 });

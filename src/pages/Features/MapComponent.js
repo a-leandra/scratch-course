@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import MapFields from "./MapFields";
 import mapa_poziomy from "./static/assets/mapa_poziomy.png";
+import puchar from "./static/assets/puchar.png";
 
 export default function MapComponent() {
   const coordinates = [
@@ -29,6 +30,17 @@ export default function MapComponent() {
         }}
       />
       <MapFields coordinates={coordinates} />
+      <img
+        src={puchar}
+        style={{
+          position: "absolute",
+          left: 17 + "vw",
+          top: 13 + "vw",
+          width: "80px",
+          height: "120px",
+          zIndex:1000
+        }}
+      />
     </div>
   );
 }

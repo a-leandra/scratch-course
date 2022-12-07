@@ -26,7 +26,7 @@ const Homework = () => {
       >
         <div className="inline fields">
           <label>Praca domowa:</label>
-          {[...Array.from({ length: 10 }, (_, i) => i + 1)].map((j, _) => (
+          {[...Array.from({ length: 8 }, (_, i) => i + 1)].map((j, _) => (
             <div className="field" key={j}>
               <div className="ui radio checkbox">
                 <input

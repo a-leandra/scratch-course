@@ -37,7 +37,7 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_REQUEST });
 
     const { data } = await axios.post(
-      "/users/login",
+      "/api/users/login",
       { email, password },
       requestConfig
     );
@@ -70,7 +70,7 @@ export const register =
       dispatch({ type: USER_REGISTER_REQUEST });
 
       const { data } = await axios.post(
-        "/users",
+        "/api/users",
         {
           name,
           surname,
@@ -101,7 +101,7 @@ export const teacherRegister =
       dispatch({ type: TEACHER_USER_REGISTER_REQUEST });
 
       const { data } = await axios.post(
-        "/users",
+        "/api/users",
         {
           name,
           surname,
@@ -141,7 +141,7 @@ export const update = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post("/users/profil", user, requestAuthConfig);
+    const { data } = await axios.post("/api/users/profil", user, requestAuthConfig);
 
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
@@ -164,7 +164,7 @@ export const forgottenPassword =
       dispatch({ type: USER_FORGOTTEN_PASSWORD_REQUEST });
 
       const { data } = await axios.post(
-        "/users/requestPasswordReset",
+        "/api/users/requestPasswordReset",
         { email, redirectUrl },
         requestConfig
       );
@@ -189,7 +189,7 @@ export const resetPassword =
       dispatch({ type: USER_RESET_PASSWORD_REQUEST });
 
       const { data } = await axios.post(
-        "/users/resetPassword",
+        "/api/users/resetPassword",
         { userId, resetString, newPassword },
         requestConfig
       );
@@ -214,7 +214,7 @@ export const activateAccount =
       dispatch({ type: USER_ACTIVATE_ACCOUNT_REQUEST });
 
       const { data } = await axios.post(
-        "/users/activateAccount",
+        "/api/users/activateAccount",
         { userId, uniqueString },
         requestConfig
       );

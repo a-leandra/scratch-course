@@ -7,42 +7,42 @@ headers = {X-From = "Netlify"}
 
 [[redirects]]
 from = "/api/users/" 
-to = "https://scratchcourse-backend.onrender.com/users"
+to = "https://scratchcourse-backend.onrender.com/api/users"
 force = true
 status = 202
 headers = {X-From = "Netlify"}
 
 [[redirects]]
 from = "/api/users/profil" 
-to = "https://scratchcourse-backend.onrender.com/users/profil"
+to = "https://scratchcourse-backend.onrender.com/api/users/profil"
 force = true
 status = 200
 headers = {X-From = "Netlify"}
 
 [[redirects]]
 from = "/api/users/task/:email" 
-to = "https://scratchcourse-backend.onrender.com/users/task/:email"
+to = "https://scratchcourse-backend.onrender.com/api/users/task/:email"
 force = true
 status = 200
 headers = {X-From = "Netlify"}
 
 [[redirects]]
 from = "/api/users/requestPasswordReset" 
-to = "https://scratchcourse-backend.onrender.com/users/requestPasswordReset"
+to = "https://scratchcourse-backend.onrender.com/api/users/requestPasswordReset"
 force = true
 status = 200
 headers = {X-From = "Netlify"}
 
 [[redirects]]
 from = "/api/users/activateAccount" 
-to = "https://scratchcourse-backend.onrender.com/users/activateAccount"
+to = "https://scratchcourse-backend.onrender.com/api/users/activateAccount"
 force = true
 status = 200
 headers = {X-From = "Netlify"}
 
 [[redirects]]
 from = "/api/users/resetPassword" 
-to = "https://scratchcourse-backend.onrender.com/users/resetPassword"
+to = "https://scratchcourse-backend.onrender.com/api/users/resetPassword"
 force = true
 status = 200
 headers = {X-From = "Netlify"}
@@ -63,7 +63,7 @@ headers = {X-From = "Netlify"}
 
 [[redirects]]
 from = "/api/users/:email" 
-to = "https://scratchcourse-backend.onrender.com/users/:email"
+to = "https://scratchcourse-backend.onrender.com/api/users/:email"
 force = true
 status = 200
 headers = {X-From = "Netlify"}

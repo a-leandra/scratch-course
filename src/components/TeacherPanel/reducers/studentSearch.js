@@ -27,7 +27,7 @@ const countEvgProgress = (students) => {
   } else {
     return (
       students
-        .map((student) => (student.progress - 1) * 10)
+        .map((student) => (student.progress) * 10)
         .reduce((a, b) => a + b, 0) / students.length
     );
   }

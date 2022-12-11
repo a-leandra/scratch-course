@@ -27,7 +27,7 @@ const Student = ({ student, noAvatar }) => {
       >
         <img className="ui avatar image" src={noAvatar} alt="avatar" />
         <div className="header">
-          {student.name} {student.surname} {(student.progress - 1) * 10}%
+          {student.name} {student.surname} {(student.progress) * 10}%
         </div>
         <div onClick={(event) => removeStudentWrapper(event, student)}>
           <i className="close icon"></i>

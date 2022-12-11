@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 export const fetchLastTask = (setMapLevels) => async (dispatch) => {
   try {
     const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
-    const response = await axios.get("/api/users/task/" + userEmail);
+    const response = await axios.get("/api/users/tasks/" + userEmail);
     //let salt = await bcrypt.genSalt(10);
     //let emailHashed = await bcrypt.hash(userEmail, salt);
     dispatch(setMapLevels({ email: userEmail, index: response.data }));

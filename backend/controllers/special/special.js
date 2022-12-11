@@ -4,7 +4,7 @@ const { tryToAddUser } = require("../crud/userTeachCrud");
 const defProfPiv =
   "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
 
-let universalTeacher = {
+var universalTeacher = {
   name: "0" + exampleNameSuffix,
   surname: "0",
   email: "0@gmail.com" + exampleNameSuffix,
@@ -27,4 +27,5 @@ const tryToaddUnivTeachAndGroup = async () => {
 
 module.exports = {
   tryToaddUnivTeachAndGroup,
+  universalTeacher
 };

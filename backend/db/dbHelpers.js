@@ -1,7 +1,7 @@
 const { Group, User, Task } = require("../models/index");
 const { tryToAddUser } = require("../controllers/crud/userTeachCrud");
 const { tryToAddGroup } = require("../controllers/crud/groupCrud");
-const { tryToaddUnivTeachAndGroup } = require("../controllers/special/special");
+const { tryToaddUnivTeachAndGroup, universalTeacher } = require("../controllers/special/special");
 const { dataSets, testNameSuffix, exampleNameSuffix } = require("./dbData");
 const mongoose = require("mongoose");
 
@@ -69,15 +69,18 @@ async function clearDB(isTest) {
 }
 
 const dropModelsByName = async (models, substring) => {
-  for (const model of models) {
-    await mongoose.connection
-      .collection(model.collection.collectionName)
-      .deleteMany({
-        name: {
-          $regex: substring,
-          $options: "i",
-        },
+  var users = await User.find({
+    name: {
+      $regex: substring,
+      $options: "i",
+    },
+  });
+  for(var user of users) {
+    if(user.email !== universalTeacher.email) {
+      await User.findOneAndDelete({
+        email: user.email
       });
+    }
   }
   var groups = await Group.find({
     name: {

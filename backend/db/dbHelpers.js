@@ -29,6 +29,7 @@ const addTeachers = async (suffix) => {
   for (const teacher of dataSets.get("teachers").set) {
     teacher.name += suffix;
     teacher.email += suffix;
+    teacher.verified = true;
     await tryToAddUser(teacher);
   }
 };
@@ -47,6 +48,7 @@ const addStudents = async (suffix) => {
   for (const student of dataSets.get("students").set) {
     student.name += suffix;
     student.email += suffix;
+    student.verified = true;
     student.group = groups[Math.floor(Math.random() * n)];
     await tryToAddUser(student);
   }

@@ -18,7 +18,7 @@ const {
 } = require("../controllers/requests/userRegLogRequests");
 const { protect } = require("../middlewares/authMiddleware");
 
-const userPrefix = "/users";
+const userPrefix = "/api/users";
 const userRouter = require("express").Router();
 
 userRouter.get(userPrefix + "/:email", getStudentsOfTeacher);

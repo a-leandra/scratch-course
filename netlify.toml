@@ -1,6 +1,6 @@
 [[redirects]]
 from = "/api/users/login"
-to = "https://scratchcourse-backend.onrender.com/users/login"
+to = "https://scratchcourse-backend.onrender.com/api/users/login"
 force = true
 status = 200
 headers = {X-From = "Netlify"}

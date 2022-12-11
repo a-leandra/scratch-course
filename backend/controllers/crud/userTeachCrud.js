@@ -54,13 +54,15 @@ const tryToFindAllStudentsOfTeacher = async (email) => {
       group: group,
     });
     for (const student of students) {
-      results.push({
-        name: student.name,
-        surname: student.surname,
-        progress: student.task,
-        group: group.code,
-        email: student.email,
-      });
+      if(student.verified) {
+        results.push({
+          name: student.name,
+          surname: student.surname,
+          progress: student.task,
+          group: group.code,
+          email: student.email,
+        });
+      }
     }
   }
   return results;

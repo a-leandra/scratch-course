@@ -23,7 +23,7 @@ const userRouter = require("express").Router();
 
 userRouter.get(userPrefix + "/:email", getStudentsOfTeacher);
 userRouter.get(userPrefix + "/homework/:email", getHomework);
-userRouter.get(userPrefix + "/api/task/:email", getLastTaskDone);
+userRouter.get(userPrefix + "/task/:email", getLastTaskDone);
 userRouter.delete(userPrefix + "/:email", removeUserRequest);
 userRouter.put(userPrefix + "/addToGroup", addStudentToGroup);
 userRouter.put(userPrefix + "/update", updateUsersVarRequest);

@@ -21,7 +21,7 @@ headers = {X-From = "Netlify"}
 
 [[redirects]]
 from = "/api/users/task/:email" 
-to = "https://scratchcourse-backend.onrender.com/api/users/task/:email"
+to = "https://scratchcourse-backend.onrender.com/api/users/tasks/:email"
 force = true
 status = 200
 headers = {X-From = "Netlify"}

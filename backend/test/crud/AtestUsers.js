@@ -37,6 +37,7 @@ const addAllUsers = async () => {
   for (const user of users) {
     user.name += suffix;
     user.email += suffix;
+    user.verified = true;
     await userTeachCrude.tryToAddUser(user);
   }
 };

@@ -6,10 +6,25 @@ const post = async (message) => {
   });
 };
 
+const postWithCorrectHeader = async(url, msg) => {
+  const requestConfig = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  const res = await axios.post(
+    url,
+    msg,
+    requestConfig
+  );
+  return res;
+};
+
 const postWithAuthorization = async (message, token) => {
   let config = {
     headers: {
-      authorization: "Bearer " + token,
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   };
   return await axios
@@ -41,4 +56,4 @@ const message = (route, body) => {
   return { route: route, body: body };
 };
 
-module.exports = { post, postWithAuthorization, put, get, deleteReq, message };
+module.exports = { post, postWithAuthorization, put, get, deleteReq, message, postWithCorrectHeader };

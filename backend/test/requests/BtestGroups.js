@@ -3,7 +3,7 @@ const tester = require("./RouteTester");
 const Group = require("../../models/groupModel");
 const { message } = require("./RouteTester");
 const { dataSets, testNameSuffix } = require("../../db/dbData");
-const defRoute = require("../../config/globalVariables").defaultServerUrl;
+const defRoute = require("../../config/globalVariables").testServerUrl;
 
 const suffix = testNameSuffix;
 const groups = dataSets.get("groups").set;

@@ -2,9 +2,10 @@ const assert = require("assert");
 const tester = require("./RouteTester");
 const User = require("../../models/userModel");
 const Group = require("../../models/groupModel");
+const userVerificationModel = require("../../models/userVerificationModel");
 const { message } = require("./RouteTester");
 const { dataSets, testNameSuffix } = require("../../db/dbData");
-const defRoute = require("../../config/globalVariables").defaultServerUrl;
+const defRoute = require("../../config/globalVariables").testServerUrl;
 
 const suffix = testNameSuffix;
 const groups = dataSets.get("groups").set;
@@ -13,7 +14,7 @@ const teachers = dataSets.get("teachers").set;
 
 describe("student's requests", function () {
   this.timeout(5000);
-  const basicRoute = defRoute + "/api/users";
+  const basicRoute = defRoute + "api/users";
   it("add students", async () => {
     const group = await Group.findOne({
       name: groups.at(0).name,
@@ -24,10 +25,23 @@ describe("student's requests", function () {
         student: student,
         group: group.code,
       });
-      assert(res.status === 201);
+      assert(res.status === 202);
       assert((await User.findOne({ email: student.email })) !== null);
     }
   });
+  it("verify students", async () => {
+    const group = await Group.findOne({
+      name: groups.at(0).name,
+    });
+    for (const student of students) {
+      var tInstance = await User.findOne({ email: student.email });
+      var verInstance = await userVerificationModel.findOne({userId: tInstance._id});
+      const res = await tester.postWithCorrectHeader(defRoute + "api/users/activateAccount", {  userId: tInstance._id, uniqueString: verInstance.uniqueString});
+      assert(res.status === 201);
+      assert((await User.findOne({ email: student.email })).verified);
+    }
+  });
+  
   it("get students of the first teacher", async () => {
     const res = await tester.get(
       message(basicRoute + "/" + teachers.at(0).email, null)

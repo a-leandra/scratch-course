@@ -1,5 +1,5 @@
 [[redirects]]
-from = "/api/users/login" 
+from = "/api/users/login"
 to = "https://scratchcourse-backend.onrender.com/users/login"
 force = true
 status = 200

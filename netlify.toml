@@ -20,7 +20,7 @@ status = 200
 headers = {X-From = "Netlify"}
 
 [[redirects]]
-from = "/api/users/task/:email" 
+from = "/api/users/tasks/:email" 
 to = "https://scratchcourse-backend.onrender.com/api/users/tasks/:email"
 force = true
 status = 200

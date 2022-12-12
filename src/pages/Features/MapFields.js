@@ -1,28 +1,33 @@
 import React, { useEffect } from "react";
 import field from "../../static/assets/field.png";
 import fieldCurrent from "../../static/assets/fieldCurrent.png";
+import activeM from "../../static/assets/activeM.png";
+import currentM from "../../static/assets/currentM.png";
+import fieldM from "../../static/assets/fieldM.png";
 import fieldActive from "../../static/assets/fieldActive.png";
 import { useDispatch, useSelector } from "react-redux";
 import "./map_style.css";
-import { fetchLastTask } from "../../actions/req";
-const { setMapLevels } = require("../../reducers/mapState");
+import { fetchLastTask, fetchHomework } from "../../actions/req";
+const { setMapLevels, setHomework } = require("../../reducers/mapState");
 
 export default function MapFields() {
   const fields = [];
 
   const dispatch = useDispatch();
   const coordinates = useSelector((state) => state.mapState.coordinates);
+  const homework = useSelector((state) => state.mapState.homework);
 
   useEffect(() => {
+    dispatch(fetchHomework(setHomework));
     dispatch(fetchLastTask(setMapLevels));
-  }, [setMapLevels]);
+  }, [setMapLevels, setHomework]);
 
-  coordinates.forEach((element) => {
+  coordinates.forEach((element, index) => {
     if (element.current) {
       fields.push(
         <a href={element.link}>
           <img
-            src={fieldCurrent}
+            src={index !== homework ? fieldCurrent : currentM}
             alt="field"
             className="field"
             style={{
@@ -37,7 +42,7 @@ export default function MapFields() {
       fields.push(
         <a href={element.link}>
           <img
-            src={fieldActive}
+            src={index !== homework ? fieldActive: activeM}
             alt="field"
             className="field"
             style={{
@@ -49,10 +54,12 @@ export default function MapFields() {
         </a>
       );
     } else {
+      console.log(index);
+      console.log(homework);
       fields.push(
         <a href={element.link}>
           <img
-            src={field}
+            src={index !== homework ? field : fieldM}
             alt="field"
             className="field"
             style={{

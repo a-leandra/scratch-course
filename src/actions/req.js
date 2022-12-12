@@ -12,3 +12,14 @@ export const fetchLastTask = (setMapLevels) => async (dispatch) => {
     //console.log(error);
   }
 };
+
+export const fetchHomework = (setHomework) => async (dispatch) => {
+  const isTeacher = JSON.parse(localStorage.getItem("userInfo")).isTeacher;
+  const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
+  if(!isTeacher) {
+    const response = await axios.get("/api/users/homework/" + userEmail);
+    if(response.data !== null && response.data !== undefined) {
+      dispatch(setHomework(response.data));
+    }
+  }
+}

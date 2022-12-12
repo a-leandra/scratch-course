@@ -13,7 +13,8 @@ export const mapState = createSlice({
       { x: 40, y: 33, active: false, current: false, link: "" },
       { x: 18, y: 13.5, active: false, current: false, link: "" },
     ],
-    currentLevel: 0
+    currentLevel: 0,
+    homework: -1
   },
   reducers: {
     setMapLevels: (state, action) => {
@@ -25,9 +26,12 @@ export const mapState = createSlice({
       });
       state.currentLevel = action.payload.index;
     },
+    setHomework: (state, action) => {
+      state.homework = action.payload;
+    },
   },
 });
 
-export const { setMapLevels } = mapState.actions;
+export const { setMapLevels, setHomework } = mapState.actions;
 
 export default mapState.reducer;

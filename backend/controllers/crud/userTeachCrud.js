@@ -73,6 +73,9 @@ const tryToGetHomework = async (email) => {
     path: "group",
     populate: { path: "homeworkTask" },
   });
+  if(student.group.homeworkTask === null || student.group.homeworkTask === undefined) {
+    return -1;
+  }
   return student.group.homeworkTask.number;
 };
 

@@ -54,8 +54,8 @@ export default function MapFields() {
         </a>
       );
     } else {
-      console.log(index);
-      console.log(homework);
+      //console.log(index);
+      //console.log(homework);
       fields.push(
         <a href={element.link}>
           <img

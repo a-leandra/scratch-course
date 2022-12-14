@@ -15,11 +15,11 @@ export default function MapFields() {
 
   const dispatch = useDispatch();
   const coordinates = useSelector((state) => state.mapState.coordinates);
-  const homework = useSelector((state) => state.mapState.homework);
+  const homework = -1; //useSelector((state) => state.mapState.homework);
 
   useEffect(() => {
     dispatch(fetchHomework(setHomework));
-    dispatch(fetchLastTask(setMapLevels));
+    //dispatch(fetchLastTask(setMapLevels));
   }, [setMapLevels, setHomework]);
 
   coordinates.forEach((element, index) => {

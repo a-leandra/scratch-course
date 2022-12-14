@@ -46,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    res.status(404);
+    res.status(409);
     throw new Error("Użytkownik z podanym adresem e-mail już istnieje");
   }
 
@@ -75,7 +75,7 @@ const registerUser = asyncHandler(async (req, res) => {
       // before we send the response we need to send a verification email to the user
       sendVerificationEmail(user, res);
     } else {
-      res.status(404);
+      res.status(500);
       throw new Error("Wystąpił błąd. Spróbuj ponownie");
     }
   } else {
@@ -96,11 +96,11 @@ const registerUser = asyncHandler(async (req, res) => {
         // before we send the response we need to send a verification email to the user
         sendVerificationEmail(user, res);
       } else {
-        res.status(404);
+        res.status(500);
         throw new Error("Wystąpił błąd. Spróbuj ponownie");
       }
     } else {
-      res.status(404);
+      res.status(400);
       throw new Error("Grupa o podanym kodzie nie istnieje");
     }
   }
@@ -131,7 +131,7 @@ const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
     };
 
     // setting values inside the userVerification
-    const newVerification = await UserVerification.create({
+    await UserVerification.create({
       userId: _id,
       uniqueString: hashedUniqueString,
       createdAt: Date.now(),
@@ -146,7 +146,7 @@ const sendVerificationEmail = asyncHandler(async ({ _id, email }, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(400);
+    res.status(500);
     throw new Error(error);
   }
 });
@@ -163,7 +163,7 @@ const activateAccount = asyncHandler(async (req, res) => {
       if (expirationDate < Date.now()) {
         await UserVerification.deleteOne({ userId });
         await User.deleteOne({ _id: userId });
-        res.status(404);
+        res.status(400);
         throw new Error("Ważność linku wygasła. Zarejestruj się jeszcze raz");
       } else {
         let comparison = bcrypt.compare(uniqueString, hashedUniqueString);
@@ -174,26 +174,26 @@ const activateAccount = asyncHandler(async (req, res) => {
           const userVerification = await UserVerification.deleteOne({
             userId,
           });
-          res.status(201).json({
+          res.status(200).json({
             _id: userId,
             token: generateToken(updatedUser._id),
           });
         } else {
-          res.status(404);
+          res.status(400);
           throw new Error(
             "Przekazano niepoprawne parametry. Sprawdź swoją skrzynkę pocztową"
           );
         }
       }
     } else {
-      res.status(404);
+      res.status(400);
       throw new Error(
         "Rekord uzytkownika nie istnieje lub zostal juz zweryfikowany. Zarejestruj sie lub zaloguj na swoje konto"
       );
     }
   } catch (error) {
     console.log(error);
-    res.status(400);
+    res.status(500);
     throw new Error(error);
   }
 });
@@ -205,12 +205,12 @@ const authUser = asyncHandler(async (req, res) => {
 
   if (user && (await user.matchPassword(password))) {
     if (!user.verified) {
-      res.status(404);
+      res.status(401);
       throw new Error(
         "Konto nie zostało zweryfikowane. Sprawdź swoją skrzynkę pocztową"
       );
     } else {
-      res.status(201).json({
+      res.status(200).json({
         name: user.name,
         surname: user.surname,
         email: user.email,
@@ -219,7 +219,7 @@ const authUser = asyncHandler(async (req, res) => {
       });
     }
   } else {
-    res.status(400);
+    res.status(401);
     throw new Error(
       "Nie znaleziono użytkownika o takim adresie e-mail lub podano nieprawidłowe hasło"
     );
@@ -238,13 +238,13 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     const userExists = await User.findOne({ email: req.body.email });
 
     if (userExists && req.user._id.toString() !== userExists._id.toString()) {
-      res.status(404);
+      res.status(409);
       throw new Error("Użytkownik z podanym adresem e-mail już istnieje");
     }
 
     const updatedUser = await user.save();
 
-    res.status(201).json({
+    res.status(200).json({
       name: updatedUser.name,
       surname: updatedUser.surname,
       email: updatedUser.email,
@@ -252,7 +252,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       token: generateToken(updatedUser._id),
     });
   } else {
-    res.status(404);
+    res.status(401);
     throw new Error("Nie znaleziono podanego użytkownika!");
   }
 });
@@ -266,7 +266,7 @@ const requestPasswordReset = asyncHandler(async (req, res) => {
       if (user.verified) {
         sendResetEmail(user, redirectUrl, res);
       } else {
-        res.status(400);
+        res.status(401);
         throw new Error(
           "Konto podanego użytkownika nie zostało jeszcze aktywowane. Sprawdź swoją skrzynkę pocztową"
         );
@@ -277,7 +277,7 @@ const requestPasswordReset = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400);
+    res.status(500);
     throw new Error(error);
   }
 });
@@ -325,7 +325,7 @@ const sendResetEmail = asyncHandler(
       });
     } catch (error) {
       console.log(error);
-      res.status(400);
+      res.status(500);
       throw new Error(error);
     }
   }
@@ -357,19 +357,16 @@ const resetPassword = asyncHandler(async (req, res) => {
 
             const updatedUser = await user.save();
 
-            res.status(201).json({
+            res.status(200).json({
               _id: userId,
               token: generateToken(updatedUser._id),
             });
           } else {
-            res.status(404);
+            res.status(400);
             throw new Error("Nie znaleziono podanego użytkownika!");
           }
           await PasswordReset.deleteOne({
             userId,
-          });
-          res.status(202).json({
-            userId: userId,
           });
         } else {
           res.status(400);
@@ -383,7 +380,7 @@ const resetPassword = asyncHandler(async (req, res) => {
       throw new Error("Podany rekord resetowania hasła nie został znaleziony");
     }
   } catch (error) {
-    res.status(400);
+    res.status(500);
     throw new Error(error);
   }
 });

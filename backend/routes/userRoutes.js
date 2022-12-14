@@ -27,6 +27,7 @@ userRouter.get(userPrefix + "/task/:email", getLastTaskDone);
 userRouter.delete(userPrefix + "/:email", removeUserRequest);
 userRouter.put(userPrefix + "/addToGroup", addStudentToGroup);
 userRouter.put(userPrefix + "/update", updateUsersVarRequest);
+userRouter.route(userPrefix + "/removeFromGroup").post(updateUsersVarRequest);
 
 userRouter
   .route(userPrefix + "/requestPasswordReset")
@@ -36,6 +37,5 @@ userRouter.route(userPrefix + "/resetPassword").post(resetPassword);
 userRouter.route(userPrefix).post(registerUser);
 userRouter.route(userPrefix + "/login").post(authUser);
 userRouter.route(userPrefix + "/profil").post(protect, updateUserProfile);
-userRouter.route(userPrefix + "/removeFromGroup").post(updateUsersVarRequest);
 
 module.exports = { userRouter, userPrefix };

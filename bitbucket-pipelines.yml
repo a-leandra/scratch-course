@@ -8,4 +8,8 @@ pipelines:
         script:
           - git clone git@bitbucket.org:scratchcourse/scratchcourse.git
           - cd scratchcourse
-          - git push --mirror git@github.com:a-leandra/scratch-course.git
+          - git remote add upstream git@github.com:a-leandra/scratch-course.git
+          - git push upstream main
+          - git push --tags upstream
+          - git remote set-url origin git@github.com:a-leandra/scratch-course.git
+          - git push --mirror

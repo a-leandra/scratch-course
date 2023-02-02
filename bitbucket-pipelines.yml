@@ -7,5 +7,5 @@ pipelines:
           enabled: false
         script:
           - git clone git@bitbucket.org:scratchcourse/scratchcourse.git
-          - cd scratch-course
+          - cd scratchcourse
           - git push --mirror git@github.com:a-leandra/scratch-course.git
